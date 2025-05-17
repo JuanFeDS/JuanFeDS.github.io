@@ -1,8 +1,59 @@
 ---
 permalink: /about/
-title: "About"
+title: "Sobre mí"
+layout: single
+author_profile: true
 ---
 
-Tempor velit sint sunt ipsum tempor enim ad qui ullamco. Est dolore anim ad velit duis dolore minim sunt aliquip amet commodo labore. Ut eu pariatur aute ea aute excepteur laborum. Esse ea esse excepteur minim mollit qui cillum excepteur ex dolore magna. Labore deserunt fugiat incididunt incididunt sint ea. Consequat dolore aute laboris quis proident quis non et est consectetur ex eiusmod sit culpa.
 
-Cupidatat ea do et in excepteur in. Ad nostrud ut est esse eu duis ea sunt eiusmod. Aliquip tempor veniam sint elit fugiat. Velit incididunt laboris amet incididunt labore dolore irure velit excepteur commodo deserunt laborum. Consectetur eu fugiat veniam veniam Lorem labore magna eiusmod. Ea occaecat reprehenderit pariatur consectetur minim labore ut aliquip.
+¡Hola! 👋 Soy **JuanFe**, científico e ingeniero de datos de Colombia , curioso por naturaleza y apasionado por aprender 📚, construir 🛠️ y compartir 🔄.
+
+Empecé mi camino en el mundo de los datos hace algunos años, y desde entonces no he parado de explorar. Hoy formo parte del equipo de **Mercado Libre** 🛒, donde combino ciencia de datos e ingeniería para resolver problemas reales a gran escala.
+
+---
+
+### 🚀 ¿Qué hago?
+
+- 🔍 Analizo datos para descubrir patrones, comportamientos y oportunidades.
+- 🧪 Construyo modelos para tomar decisiones más inteligentes.
+- 🛠️ Diseño procesos de datos robustos, eficientes y confiables.
+- 💬 Y cuando puedo… ¡lo comparto con el mundo!
+
+---
+
+### 🧠 ¿Por qué este blog?
+
+Este espacio es como mi *cuaderno de viaje* ✍️ en la industria de los datos: aquí guardo aprendizajes, experiencias, ideas, dudas (sí, también eso 🤔), y todo lo que voy descubriendo en el camino.
+
+Mi objetivo es simple: **aprender compartiendo**. Si algo de lo que encuentres aquí te inspira, te ayuda o te da una idea nueva, ya valió la pena 💡.
+
+---
+
+### 🎯 ¿A dónde voy?
+
+Estoy decidido a convertirme en el **mejor científico de datos de Colombia** (y bueno... tal vez de Latinoamérica, aún lo estoy pensando 🌎😅).
+
+Me interesa todo lo que tenga que ver con:
+- Ciencia de datos 🧪
+- Ingeniería de datos 🏗️
+- Inteligencia Artificial 🤖
+- Visualización 📊
+- Storytelling con datos 🗣️
+- Comunidad 💬
+
+---
+
+### 📫 ¿Hablamos?
+
+Puedes escribirme a [jmartinezbernal02@gmail.com](mailto:jmartinezbernal02@gmail.com), o encontrarme en redes:
+
+- 🐦 [Twitter/X](https://x.com/JuanFeAngel98)
+- 💻 [GitHub](https://github.com/JuanFeDS)
+- 📸 [Instagram](https://www.instagram.com/juanfem98/)
+- 💼 [LinkedIn](https://www.linkedin.com/in/juanfe-martínez/)
+
+---
+
+¡Gracias por pasar por aquí! 🙌  
+Espero que encuentres algo útil, interesante o al menos divertido.  
+¡Nos leemos!
