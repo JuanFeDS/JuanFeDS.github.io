@@ -1,5 +1,8 @@
 ---
 title: "Post: Modified Date"
+excerpt: "Un resumen breve para mostrar en la portada."
+header:
+  overlay_image: /assets/images/imagen-del-post.jpg
 last_modified_at: 2016-03-09T16:20:02-05:00
 categories:
   - Blog

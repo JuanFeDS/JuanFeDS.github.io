@@ -1,6 +1,9 @@
 ---
 title: "Welcome to Jekyll!"
 date: 2019-04-18T15:34:30-04:00
+excerpt: "Un resumen breve para mostrar en la portada."
+header:
+  overlay_image: /assets/images/imagen-del-post.jpg
 categories:
   - blog
 tags:

@@ -1,5 +1,8 @@
 ---
 title: "Post: Notice"
+excerpt: "Un resumen breve para mostrar en la portada."
+header:
+  overlay_image: /assets/images/imagen-del-post.jpg
 categories:
   - Blog
 tags:

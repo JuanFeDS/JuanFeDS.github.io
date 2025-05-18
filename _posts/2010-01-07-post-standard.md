@@ -1,5 +1,8 @@
 ---
 title: "Post: Standard"
+excerpt: "Un resumen breve para mostrar en la portada."
+header:
+  overlay_image: /assets/images/imagen-del-post.jpg
 excerpt_separator: "<!--more-->"
 categories:
   - Blog
