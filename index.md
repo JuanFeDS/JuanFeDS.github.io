@@ -19,25 +19,24 @@ Aquí encontrarás historias técnicas, consejos prácticos y un poco de inspira
 
 ### 📝 Últimos posts
 
-{% assign post_features = "" | split: "" %}
-
-{% for post in site.posts limit:3 %}
-  {% assign feature = "" | split: "" %}
-  {% assign image = post.header.overlay_image | default: "/assets/images/icono_blog.png" %}
-
-  {% capture feature_item %}
-    {
-      "image_path": "{{ image }}",
-      "title": "{{ post.title }}",
-      "excerpt": "{{ post.excerpt | strip_html | truncate: 100 }}",
-      "url": "{{ post.url }}",
-      "btn_label": "Leer más",
-      "btn_class": "btn--primary"
-    }
-  {% endcapture %}
-
-  {% assign post_features = post_features | push: feature_item %}
-{% endfor %}
-
-{% include feature_row id="ultimos-posts" type="left" features=post_features %}
+<div class="feature__wrapper">
+  {% for post in site.posts limit:3 %}
+    <div class="feature__item">
+      <div class="archive__item">
+        <div class="archive__item-teaser">
+          <img src="{{ post.header.overlay_image | default: '/assets/images/icono_blog.png' }}" alt="{{ post.title }}">
+        </div>
+        <div class="archive__item-body">
+          <h2 class="archive__item-title">
+            <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+          </h2>
+          <div class="archive__item-excerpt">
+            {{ post.excerpt | markdownify | strip_html | truncate: 120 }}
+          </div>
+          <a href="{{ post.url | relative_url }}" class="btn btn--primary">Leer más</a>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</div>
 
