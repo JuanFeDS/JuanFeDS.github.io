@@ -1,9 +1,9 @@
 main:
-  - title: "Home"
+  - title: "Inicio"
     url: /
+  - title: "Proyectos"
+    url: /blog/
   - title: "Blog"
     url: /blog/
-  - title: "Categories"
-    url: /categories/
-  - title: "About"
+  - title: "Acerca de"
     url: /about/
