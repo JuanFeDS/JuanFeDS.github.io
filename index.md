@@ -1,5 +1,5 @@
 ---
-layout: splash
+layout: single
 title: "🧪 JuanFeDS"
 permalink: /
 header:
@@ -12,7 +12,5 @@ author_profile: true
 ---
 
 ¡Hola! 👋  
-Aquí iré compartiendo lo que voy aprendiendo en el camino.  
+[Aquí.](/blog/) iré compartiendo lo que voy aprendiendo en el camino.  
 Encontrarás ideas, aprendizajes y algunas historias técnicas (o no tanto). 🚀
-
-👉 ¿Te interesa lo que escribo? [Explora el blog aquí.](/blog/)
