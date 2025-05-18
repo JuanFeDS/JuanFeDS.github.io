@@ -6,10 +6,9 @@ author_profile: true
 ---
 
 
-¡Hola! 👋 Soy **JuanFe**, científico e ingeniero de datos de Colombia , curioso por naturaleza y apasionado por aprender 📚, construir 🛠️ y compartir 🔄.
+¡Hola! 👋 Soy **JuanFe**, científico e ingeniero de datos de Colombia, curioso por naturaleza y apasionado por aprender 📚, construir 🛠️ y compartir 🔄.
 
-Empecé mi camino en el mundo de los datos hace algunos años, y desde entonces no he parado de explorar. Hoy formo parte del equipo de **Mercado Libre** 🛒, donde combino ciencia de datos e ingeniería para resolver problemas reales a gran escala.
-
+📍 Empecé mi camino en el mundo de los datos hace algunos años, y desde entonces no he parado de explorar. He tenido la fortuna de trabajar en WOM 📱 como Data Scientist, donde contribuí a construir soluciones enfocadas en el valor del cliente dentro del mundo de las telecomunicaciones. Hoy soy parte del equipo de Mercado Libre 🛒, donde combino ciencia de datos e ingeniería para resolver problemas reales a gran escala.
 ---
 
 ### 🚀 ¿Qué hago?
@@ -43,16 +42,6 @@ Me interesa todo lo que tenga que ver con:
 
 ---
 
-### 📫 ¿Hablamos?
-
-Puedes escribirme a [jmartinezbernal02@gmail.com](mailto:jmartinezbernal02@gmail.com), o encontrarme en redes:
-
-- 🐦 [Twitter/X](https://x.com/JuanFeAngel98)
-- 💻 [GitHub](https://github.com/JuanFeDS)
-- 📸 [Instagram](https://www.instagram.com/juanfem98/)
-- 💼 [LinkedIn](https://www.linkedin.com/in/juanfe-martínez/)
-
----
 
 ¡Gracias por pasar por aquí! 🙌  
 Espero que encuentres algo útil, interesante o al menos divertido.  
