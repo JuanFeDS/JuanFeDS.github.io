@@ -11,8 +11,6 @@ Aquí comparto algunos de los proyectos en los que he trabajado: modelos predict
 
 Cada uno ha sido una oportunidad para aprender, fallar, mejorar y volver a intentar. ¡Échales un vistazo!
 
-<h1>Mis proyectos</h1>
-
 <ul class="projects-grid">
   {% for project in site.projects %}
     <li class="project-card">
