@@ -28,7 +28,7 @@ Aquí encontrarás historias técnicas, consejos prácticos y un poco de inspira
     border: 1px solid #ddd;
     border-radius: 8px;
     padding: 1rem;
-    background: #fff;
+    background:rgb(27, 31, 37);
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     transition: box-shadow 0.3s ease;
   }
