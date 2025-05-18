@@ -82,3 +82,8 @@ defaults:
 category_archive:
   type: liquid
   path: /categories/
+
+collections:
+  projects:
+    output: true
+    permalink: /proyectos/:name/
