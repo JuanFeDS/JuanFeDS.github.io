@@ -20,6 +20,7 @@ Aquí encontrarás historias técnicas, consejos prácticos y un poco de inspira
 ### 📝 Últimos posts
 
 {% for post in site.posts limit:3 %}
+  {% assign img = post.header.overlay_image | default: "/assets/images/icono_blog.png" %}
   {% include feature_row 
     title=post.title 
     excerpt=post.excerpt 
@@ -28,3 +29,4 @@ Aquí encontrarás historias técnicas, consejos prácticos y un poco de inspira
     btn_class="btn--primary"
   %}
 {% endfor %}
+
