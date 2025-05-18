@@ -18,6 +18,7 @@ timezone: America/Bogota
 
 include:
   - _pages
+  - _includes
 
 # Plugins (previously gems:)
 plugins:
@@ -31,11 +32,8 @@ plugins:
 author:
   name   : "JuanFe Martínez B."
   avatar : "/assets/images/bio-photo.jpg"
-  bio    : "My awesome biography constrained to a sentence or two goes here."
+  bio    : "Notas y reflexiones desde la trinchera de los datos."
   links:
-    - label: "Website"
-      icon: "fas fa-fw fa-link"
-      url: "https://"
     - label: "Twitter"
       icon: "fab fa-fw fa-twitter-square"
       url: "https://x.com/JuanFeAngel98"
