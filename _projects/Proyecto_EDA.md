@@ -2,10 +2,10 @@
 title: "Predicción de Rotación de Clientes"
 excerpt: "Caso de estudio: cómo usamos Machine Learning para predecir la pérdida de clientes en una telco."
 date: 2024-10-01
-image: /assets/images/churn-cover.jpg
+image: /assets/images/background.jpg
 layout: single
 header:
-  overlay_image: /assets/images/churn-cover.jpg
+  overlay_image: /assets/images/background.jpg
   overlay_filter: 0.3
   caption: "Proyecto de ciencia de datos aplicado a churn"
   actions:
