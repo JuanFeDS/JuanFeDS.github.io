@@ -17,38 +17,6 @@ author_profile: true
 
 Aquí encontrarás historias técnicas, consejos prácticos y un poco de inspiración para todos los que, como yo, creen que los datos pueden transformar el mundo. 🌎✨ ¡Explora, aprende y acompáñame en este viaje! 🚀🔥
 
-<style>
-  .post-cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.5rem;
-    margin-top: 2rem;
-  }
-  .post-card {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 1rem;
-    background:rgb(27, 31, 37);
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    transition: box-shadow 0.3s ease;
-  }
-  .post-card:hover {
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  }
-  .post-card h3 {
-    margin-top: 0;
-    margin-bottom: 0.5rem;
-  }
-  .post-card p {
-    margin-bottom: 0.5rem;
-    color:rgb(214, 214, 214);
-  }
-  .post-card a {
-    text-decoration: none;
-    color: #fff;
-  }
-</style>
-
 <h2>📝 Últimos artículos</h2>
 
 <div class="post-cards">
