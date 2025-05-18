@@ -1,0 +1,64 @@
+.feature__wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px; /* espacio entre cards */
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.feature__item {
+  background: #1e1e1e; /* ejemplo para dark skin */
+  border-radius: 8px;
+  overflow: hidden;
+  width: 320px; /* ancho fijo */
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+.archive__item-teaser {
+  width: 100%;
+  height: 180px; /* alto fijo para imagen */
+  overflow: hidden;
+}
+
+.archive__item-teaser img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* recorta para llenar el contenedor */
+  display: block;
+}
+
+.archive__item-body {
+  padding: 16px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.archive__item-title {
+  margin: 0 0 10px 0;
+  font-size: 1.25rem;
+}
+
+.archive__item-excerpt {
+  flex-grow: 1;
+  color: #ccc;
+  font-size: 0.9rem;
+  margin-bottom: 15px;
+}
+
+.btn.btn--primary {
+  align-self: flex-start;
+  padding: 8px 16px;
+  border-radius: 4px;
+  text-decoration: none;
+  background-color: #007acc;
+  color: white;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.btn.btn--primary:hover {
+  background-color: #005f99;
+}

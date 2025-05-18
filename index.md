@@ -20,21 +20,19 @@ Aquí encontrarás historias técnicas, consejos prácticos y un poco de inspira
 ### 📝 Últimos posts
 
 <div class="feature__wrapper">
-  {% for post in site.posts limit:3 %}
+  {% for post in site.posts limit:2 %}
     <div class="feature__item">
-      <div class="archive__item">
-        <div class="archive__item-teaser">
-          <img src="{{ post.header.overlay_image | default: '/assets/images/icono_blog.png' }}" alt="{{ post.title }}">
+      <div class="archive__item-teaser">
+        <img src="{{ post.header.overlay_image | default: '/assets/images/icono_blog.png' }}" alt="{{ post.title }}">
+      </div>
+      <div class="archive__item-body">
+        <h2 class="archive__item-title">
+          <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+        </h2>
+        <div class="archive__item-excerpt">
+          {{ post.excerpt | markdownify | strip_html | truncate: 120 }}
         </div>
-        <div class="archive__item-body">
-          <h2 class="archive__item-title">
-            <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
-          </h2>
-          <div class="archive__item-excerpt">
-            {{ post.excerpt | markdownify | strip_html | truncate: 120 }}
-          </div>
-          <a href="{{ post.url | relative_url }}" class="btn btn--primary">Leer más</a>
-        </div>
+        <a href="{{ post.url | relative_url }}" class="btn btn--primary">Leer más</a>
       </div>
     </div>
   {% endfor %}
