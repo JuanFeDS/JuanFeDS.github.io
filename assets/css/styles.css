@@ -1,7 +1,6 @@
 .feature__wrapper {
   display: flex;
   flex-wrap: wrap;
-  gap: 20px; /* espacio entre cards */
   justify-content: center;
   margin-top: 20px;
 }
@@ -10,7 +9,8 @@
   background: #1e1e1e; /* ejemplo para dark skin */
   border-radius: 8px;
   overflow: hidden;
-  width: 320px; /* ancho fijo */
+  width: 250px; /* ancho fijo */
+  height: 180px;
   display: flex;
   flex-direction: column;
   box-shadow: 0 4px 8px rgba(0,0,0,0.3);

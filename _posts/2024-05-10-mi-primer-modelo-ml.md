@@ -11,7 +11,6 @@ excerpt: >
 header:
   overlay_filter: "0.3"
   caption: "Primer modelo en producción"
-canonical_url
 ---
 
 Este fue uno de mis primeros acercamientos serios al mundo de los modelos predictivos. Empecé con una regresión lineal para predecir precios de productos, enfrentándome a problemas como **overfitting**, **datos faltantes** y **selección de variables**.
