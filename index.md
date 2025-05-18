@@ -41,11 +41,11 @@ Aquí encontrarás historias técnicas, consejos prácticos y un poco de inspira
   }
   .post-card p {
     margin-bottom: 0.5rem;
-    color: #666;
+    color:rgb(214, 214, 214);
   }
   .post-card a {
     text-decoration: none;
-    color: #007acc;
+    color: #fff;
   }
 </style>
 
