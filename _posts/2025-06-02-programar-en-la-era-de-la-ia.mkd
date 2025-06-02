@@ -1,8 +1,7 @@
 ---
 title: "🚀 Programar en la era de la IA: del código tradicional a la creatividad ilimitada"
-date: 2024-05-10
+date: 2025-06-02
 categories:
-  - posts
   - inteligencia-artificial
   - windsurf
   - programacion
