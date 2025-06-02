@@ -15,7 +15,7 @@ header:
 
 🚀 Estos últimos días estuve probando **Windsurf**, un nuevo IDE potenciado con inteligencia artificial, en varios proyectos —laborales y personales. La conclusión es clara: estamos frente a un **cambio de paradigma en el desarrollo de software** 🧠💻.
 
-![laptop](/assets/images/posts/laptop.jpg "")
+![laptop](assets/images/posts/laptop.jpg "")
 
 Como científico de datos, he tenido que desarrollar habilidades multidisciplinarias por la propia naturaleza de este campo. Una de las más relevantes —y que históricamente ha tenido un peso enorme— es la programación. El código ha sido, durante años, la forma en la que tangibilizamos las soluciones que proponemos y, por lo tanto, desarrollar este skill era importante si querías ser un buen científico de datos.
 
