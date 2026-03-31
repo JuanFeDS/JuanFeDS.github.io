@@ -8,10 +8,10 @@
 }
 
 .post-card {
-  border: 1px solid #ddd;
+  border: 1px solid rgba(255,255,255,0.1);
   border-radius: 8px;
   padding: 1rem;
-  background:rgb(27, 31, 37);
+  background: var(--card-background, rgb(27, 31, 37));
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
   transition: box-shadow 0.3s ease;
 }
@@ -46,8 +46,8 @@
 }
 
 .project-card {
-  background:rgb(27, 31, 37);
-  border: 1px solid #ddd;
+  background: var(--card-background, rgb(27, 31, 37));
+  border: 1px solid rgba(255,255,255,0.1);
   border-radius: 8px;
   box-shadow: 0 2px 6px rgb(0 0 0 / 0.1);
   padding: 1rem;
@@ -77,7 +77,7 @@
 
 .project-excerpt {
   flex-grow: 1;
-  color: #555;
+  color: #bbb;
   margin-bottom: 0.75rem;
 }
 
