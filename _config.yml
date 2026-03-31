@@ -1,11 +1,23 @@
-title: 🧪JuanFeDS
+title: JuanFeDS
+url: "https://juanfeds.github.io"
 email: jmartinezbernal02@gmail.com
-description: Notas y reflexiones desde la trinchera de los datos.
+description: "Blog de ciencia e ingeniería de datos. Aprendizajes, proyectos y reflexiones desde la industria, por JuanFe Martínez."
 twitter_username: JuanFeAngel98
 github_username: JuanFeDS
 minimal_mistakes_skin: dark
 search: true
 excerpt_separator: "<!--more-->"
+locale: "es-CO"
+og_image: "/assets/images/bio-photo.jpg"
+twitter:
+  username: "JuanFeAngel98"
+
+# Analytics
+analytics:
+  provider: "google-gtag"
+  google:
+    tracking_id: "G-3HSPJB7QMZ"
+    anonymize_ip: false
 
 # Build settings
 markdown: kramdown
@@ -13,7 +25,7 @@ remote_theme: mmistakes/minimal-mistakes
 # Outputting
 permalink: /blog/:title/
 # paginate: 7 # amount of posts to show
-paginate_path: /page:num/
+# paginate_path: /page:num/
 timezone: America/Bogota
 
 include:
@@ -25,7 +37,6 @@ plugins:
   - jekyll-paginate
   - jekyll-sitemap
   - jekyll-gist
-  - jekyll-feed
   - jemoji
   - jekyll-include-cache
 
@@ -68,7 +79,6 @@ defaults:
       layout: single
       author_profile: true
       read_time: true
-      comments: true
       share: true
       related: true
   # _pages
