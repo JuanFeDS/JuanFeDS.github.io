@@ -1,0 +1,70 @@
+---
+const links = [
+  { href: "/projects", label: "Proyectos" },
+  { href: "/blog", label: "Blog" },
+  { href: "/about", label: "Sobre mí" },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<nav
+  class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4"
+  style="background: color-mix(in srgb, var(--color-bg) 70%, transparent); backdrop-filter: blur(16px); border-bottom: 1px solid var(--color-border);"
+>
+  <a
+    href="/"
+    class="font-display text-lg font-bold tracking-tight"
+    style="font-family: var(--font-display); color: var(--color-text);"
+  >
+    JuanFe<span style="color: var(--color-aurora-purple);">.</span>
+  </a>
+
+  <ul class="flex items-center gap-6">
+    {links.map(({ href, label }) => (
+      <li>
+        <a
+          href={href}
+          class="text-sm font-medium transition-colors"
+          style={`color: ${currentPath.startsWith(href) ? "var(--color-aurora-purple)" : "var(--color-text-muted)"};`}
+        >
+          {label}
+        </a>
+      </li>
+    ))}
+  </ul>
+
+  <button
+    id="theme-toggle"
+    aria-label="Toggle dark mode"
+    class="flex h-9 w-9 items-center justify-center rounded-full transition-colors"
+    style="background: var(--color-surface-2); border: 1px solid var(--color-border); color: var(--color-text-muted); cursor: pointer;"
+  >
+    <svg id="icon-sun" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden">
+      <circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+    </svg>
+    <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+    </svg>
+  </button>
+</nav>
+
+<script is:inline>
+  const toggle = document.getElementById("theme-toggle");
+  const sun = document.getElementById("icon-sun");
+  const moon = document.getElementById("icon-moon");
+
+  function updateIcons() {
+    const isDark = document.documentElement.classList.contains("dark");
+    sun.classList.toggle("hidden", !isDark);
+    moon.classList.toggle("hidden", isDark);
+  }
+
+  updateIcons();
+
+  toggle.addEventListener("click", () => {
+    const isDark = document.documentElement.classList.toggle("dark");
+    localStorage.setItem("theme", isDark ? "dark" : "light");
+    updateIcons();
+  });
+</script>

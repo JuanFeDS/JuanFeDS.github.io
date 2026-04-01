@@ -1,0 +1,58 @@
+---
+import PageLayout from "./PageLayout.astro";
+
+interface Props {
+  title: string;
+  description?: string;
+  date: string;
+  tags?: string[];
+}
+
+const { title, description, date, tags = [] } = Astro.props;
+
+const formattedDate = new Date(date).toLocaleDateString("es-ES", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});
+---
+
+<PageLayout title={title} description={description}>
+  <div class="mx-auto max-w-3xl px-6 py-16">
+    <header class="mb-12">
+      {tags.length > 0 && (
+        <div class="mb-4 flex flex-wrap gap-2">
+          {tags.map((tag) => (
+            <span
+              class="rounded-full px-3 py-1 text-xs font-medium"
+              style="background: color-mix(in srgb, var(--color-aurora-purple) 12%, transparent); color: var(--color-aurora-purple); border: 1px solid color-mix(in srgb, var(--color-aurora-purple) 25%, transparent);"
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
+      )}
+      <h1
+        class="text-4xl font-bold leading-tight md:text-5xl"
+        style="font-family: var(--font-display); color: var(--color-text);"
+      >
+        {title}
+      </h1>
+      {description && (
+        <p class="mt-4 text-xl" style="color: var(--color-text-muted);">{description}</p>
+      )}
+      <time
+        datetime={date}
+        class="mt-6 block text-sm"
+        style="color: var(--color-text-muted);"
+      >
+        {formattedDate}
+      </time>
+      <hr class="mt-8" style="border-color: var(--color-border);" />
+    </header>
+
+    <div class="prose">
+      <slot />
+    </div>
+  </div>
+</PageLayout>
