@@ -1,0 +1,75 @@
+{
+  "_info": "Template de proyecto — The Scientist Complexity Framework",
+
+  "title": "",
+  "description": "",
+  "date": "YYYY-MM-DD",
+
+  "domain": "<data-engineering | machine-learning | ai | analytics | web | mobile>",
+
+  "level": "<1 | 2 | 3 | 4 | 5>",
+  "level_name": "<Standalone Script | Static App | Basic Backend | Distributed System | Complex Platform>",
+
+  "_level_guide": {
+    "1": "Scripts, notebooks, ETLs simples — sin deploy, ejecución manual o programada",
+    "2": "Webs sin backend, dashboards estáticos — hosting simple (Vercel, Netlify)",
+    "3": "APIs, CRUD apps, base de datos, autenticación simple",
+    "4": "Backend + frontend separados, microservicios, colas, workers, integraciones externas",
+    "5": "Multi-tenant, escalabilidad real, observabilidad, CI/CD sólido, Docker/Kubernetes"
+  },
+
+  "flags": ["<ai-ml | multiplatform | advanced-security | realtime | data-intensive | cloud-native | payments | high-concurrency>"],
+
+  "_flags_guide": {
+    "ai-ml": "Usa modelos, inferencia o pipelines de ML/IA",
+    "multiplatform": "Web + mobile",
+    "advanced-security": "OAuth, roles, permisos avanzados",
+    "realtime": "WebSockets, streaming",
+    "data-intensive": "Big data, pipelines complejos",
+    "cloud-native": "Infra como código, autoscaling",
+    "payments": "Pagos o monetización",
+    "high-concurrency": "Alta concurrencia"
+  },
+
+  "stack": [""],
+
+  "complexity_breakdown": {
+    "architecture": "<0 | 1 | 2 | 3>",
+    "data": "<0 | 1 | 2 | 3>",
+    "infrastructure": "<0 | 1 | 2 | 3>",
+    "ai": "<0 | 1 | 2 | 3>"
+  },
+
+  "_complexity_guide": {
+    "architecture": {
+      "0": "Script lineal, sin arquitectura",
+      "1": "Estructura simple (scripts organizados / app sencilla)",
+      "2": "Backend estructurado (API, capas, DB)",
+      "3": "Sistema distribuido (servicios, colas, desacoplamiento)"
+    },
+    "data": {
+      "0": "Sin datos relevantes",
+      "1": "Datos simples (CRUD, datasets pequeños)",
+      "2": "Transformaciones / pipelines moderados",
+      "3": "Data pipelines complejos, volumen alto o múltiples fuentes"
+    },
+    "infrastructure": {
+      "0": "Sin deploy (local)",
+      "1": "Deploy simple (Vercel, Heroku, scripts)",
+      "2": "Cloud con configuración (Docker, servicios gestionados)",
+      "3": "Infra compleja (CI/CD, autoscaling, múltiples entornos)"
+    },
+    "ai": {
+      "0": "Sin IA",
+      "1": "Uso básico (modelo preentrenado o notebook)",
+      "2": "Modelo integrado en lógica (API, predicciones)",
+      "3": "Sistema ML completo (pipeline, entrenamiento, serving)"
+    }
+  },
+
+  "summary": "",
+  "image": "",
+  "github": "",
+  "demo": "",
+  "draft": true
+}
