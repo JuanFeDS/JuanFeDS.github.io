@@ -6,12 +6,47 @@ import Nav from "../components/Nav.astro";
 const posts = (await getCollection("blog"))
   .filter((p) => !p.data.draft)
   .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
-  .slice(0, 2);
+  .slice(0, 4);
 
 const projects = (await getCollection("projects"))
   .filter((p) => !p.data.draft)
   .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
   .slice(0, 3);
+
+const allProjects = (await getCollection("projects")).filter((p) => !p.data.draft);
+const n = allProjects.length || 1;
+
+const dimDefs = [
+  { key: "architecture",   emoji: "🧱", label: "Arch",  angle: -Math.PI / 2 },
+  { key: "data",           emoji: "📊", label: "Data",  angle: 0 },
+  { key: "infrastructure", emoji: "⚙️", label: "Infra", angle: Math.PI / 2 },
+  { key: "ai",             emoji: "🤖", label: "AI",    angle: Math.PI },
+];
+
+const dimAvgs = dimDefs.map(({ key, emoji, label, angle }) => ({
+  emoji, label, angle,
+  avg: +(allProjects.reduce((s, p) => s + (p.data.complexity_breakdown as Record<string, number>)[key], 0) / n).toFixed(2),
+}));
+
+const avgLevel = +(allProjects.reduce((s, p) => s + p.data.level, 0) / n).toFixed(1);
+
+// Radar SVG geometry
+const CX = 80, CY = 76, R = 40;
+const radarPt = (v: number, a: number) => ({
+  x: +(CX + (v / 3) * R * Math.cos(a)).toFixed(2),
+  y: +(CY + (v / 3) * R * Math.sin(a)).toFixed(2),
+});
+
+const gridRings = [1, 2, 3].map((g) =>
+  dimAvgs.map(({ angle }) => { const p = radarPt(g, angle); return `${p.x},${p.y}`; }).join(" ")
+);
+const dataPolygon   = dimAvgs.map(({ avg, angle }) => { const p = radarPt(avg, angle); return `${p.x},${p.y}`; }).join(" ");
+const dataCircles   = dimAvgs.map(({ avg, angle }) => radarPt(avg, angle));
+const axisEndpoints = dimAvgs.map(({ angle }) => radarPt(3, angle));
+const labelPos      = dimAvgs.map(({ angle }) => ({
+  x: +(CX + (R + 18) * Math.cos(angle)).toFixed(1),
+  y: +(CY + (R + 18) * Math.sin(angle)).toFixed(1),
+}));
 ---
 
 <BaseLayout title="JuanFe Martínez — Data Scientist & Engineer">
@@ -25,72 +60,163 @@ const projects = (await getCollection("projects"))
 
         <!-- Hero card — full width -->
         <div
-          class="col-span-12 md:col-span-8 rounded-3xl p-8 md:p-12"
+          class="col-span-12 md:col-span-8 rounded-3xl p-8 md:p-12 mt-0 md:-mt-10 md:grid md:grid-cols-[auto_1fr] md:gap-x-8"
           style="background: var(--color-surface); border: 1px solid var(--color-border);"
         >
-          <p class="mb-3 text-sm font-medium" style="color: var(--color-aurora-purple);">
-            Data Scientist & Data Engineer · Mercado Libre
-          </p>
-          <h1
-            class="text-5xl font-bold leading-tight md:text-6xl lg:text-7xl"
-            style="font-family: var(--font-display); color: var(--color-text);"
-          >
-            Hola, soy<br />
-            <span
-              style="background: linear-gradient(135deg, var(--color-aurora-purple), var(--color-aurora-teal)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"
+          <!-- Badge (fila 1, ancho completo) -->
+          <div class="md:col-span-2 md:row-start-1">
+            <p class="mb-0 text-sm font-medium" style="color: var(--color-aurora-purple);">
+              Data Scientist & Data Engineer · Mercado Libre
+            </p>
+          </div>
+
+          <!-- Avatar (col 1, fila 2, desktop only) -->
+          <div class="hidden md:flex md:items-center md:justify-center md:col-start-1 md:row-start-2 md:pt-6">
+            <div
+              class="p-0.5 rounded-full"
+              style="background: linear-gradient(135deg, var(--color-aurora-purple), var(--color-aurora-teal));"
             >
-              JuanFe
-            </span>
-          </h1>
-          <p class="mt-6 max-w-lg text-lg" style="color: var(--color-text-muted);">
-            Curioso por naturaleza, apasionado por aprender, construir y compartir.
-            Combino ciencia de datos e ingeniería para resolver problemas reales a gran escala.
-          </p>
-          <div class="mt-8 flex flex-wrap gap-3">
-            <a
-              href="/projects"
-              class="rounded-full px-6 py-2.5 text-sm font-semibold text-white transition-opacity hover:opacity-90"
-              style="background: linear-gradient(135deg, var(--color-aurora-purple), var(--color-aurora-blue));"
+              <div class="w-40 h-40 rounded-full overflow-hidden" style="background: var(--color-surface-2);">
+                <img
+                  src="/avatar.jpg"
+                  alt="JuanFe Martínez"
+                  class="w-full h-full object-cover object-top"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- H1 (col 2, fila 2) -->
+          <div class="mt-3 md:mt-0 md:col-start-2 md:row-start-2 md:pt-3">
+            <h1
+              class="text-5xl font-bold leading-tight md:text-6xl lg:text-7xl"
+              style="font-family: var(--font-display); color: var(--color-text);"
             >
-              Ver proyectos
-            </a>
-            <a
-              href="/about"
-              class="rounded-full px-6 py-2.5 text-sm font-semibold transition-colors"
-              style="background: var(--color-surface-2); border: 1px solid var(--color-border); color: var(--color-text);"
-            >
-              Sobre mí
-            </a>
+              Hola, soy<br />
+              <span
+                style="background: linear-gradient(135deg, var(--color-aurora-purple), var(--color-aurora-teal)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"
+              >
+                JuanFe
+              </span>
+            </h1>
+          </div>
+
+          <!-- Description + buttons (fila 3, ancho completo) -->
+          <div class="mt-6 md:col-span-2 md:row-start-3">
+            <p class="text-lg" style="color: var(--color-text-muted);">
+              Curioso por naturaleza, apasionado por aprender, construir y compartir.
+              Combino ciencia de datos e ingeniería para resolver problemas reales a gran escala.
+            </p>
+            <div class="mt-8 flex flex-wrap gap-3">
+              <a
+                href="/projects"
+                class="rounded-full px-6 py-2.5 text-sm font-semibold text-white transition-opacity hover:opacity-90"
+                style="background: linear-gradient(135deg, var(--color-aurora-purple), var(--color-aurora-blue));"
+              >
+                Ver proyectos
+              </a>
+              <a
+                href="/about"
+                class="rounded-full px-6 py-2.5 text-sm font-semibold transition-colors"
+                style="background: var(--color-surface-2); border: 1px solid var(--color-border); color: var(--color-text);"
+              >
+                Sobre mí
+              </a>
+            </div>
           </div>
         </div>
 
-        <!-- Photo card -->
+        <!-- Complexity Profile card -->
         <div
-          class="col-span-12 md:col-span-4 rounded-3xl overflow-hidden flex flex-col justify-between"
-          style="background: var(--color-surface); border: 1px solid var(--color-border); min-height: 320px;"
+          class="col-span-12 md:col-span-4 rounded-3xl overflow-hidden flex flex-col mt-0 md:-mt-10"
+          style="background: var(--color-surface); border: 1px solid var(--color-border);"
         >
-          <div class="flex-1 overflow-hidden">
-            <img
-              src="/avatar.jpg"
-              alt="JuanFe Martínez"
-              class="w-full h-full object-cover object-top"
-              style="min-height: 240px;"
+          <!-- Header -->
+          <div class="relative px-6 pt-5 pb-2">
+            <div
+              class="absolute inset-0 opacity-20 pointer-events-none"
+              style="background: radial-gradient(ellipse at 70% 0%, var(--color-aurora-teal) 0%, transparent 70%);"
             />
-          </div>
-          <div class="p-5 flex items-center justify-between">
-            <div class="flex items-center gap-2">
-              <span class="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
-              <span class="text-sm" style="color: var(--color-text-muted);">Disponible para proyectos</span>
+            <div class="relative flex items-center justify-between">
+              <span class="text-xs font-semibold uppercase tracking-widest" style="color: var(--color-text-muted);">Complexity Profile</span>
+              <a href="/blog/the-scientist-complexity-framework" class="text-xs transition-opacity hover:opacity-70" style="color: var(--color-aurora-purple);">¿Qué es esto? →</a>
             </div>
-            <a
-              href="https://linkedin.com/in/juanfe-martinez"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="text-sm font-medium transition-opacity hover:opacity-70"
-              style="color: var(--color-aurora-purple);"
-            >
-              →
-            </a>
+          </div>
+
+          <!-- Radar chart -->
+          <div class="flex-1 flex items-center justify-center px-2 py-1">
+            <svg viewBox="0 0 160 164" class="w-full max-w-[260px]" aria-hidden="true">
+              <!-- Grid rings -->
+              {gridRings.map((pts, i) => (
+                <polygon
+                  points={pts}
+                  fill="none"
+                  stroke-width={i === 2 ? "0.8" : "0.5"}
+                  style={`stroke: var(--color-border); opacity: ${i === 2 ? 0.8 : 0.4};`}
+                />
+              ))}
+
+              <!-- Axis lines -->
+              {axisEndpoints.map((end) => (
+                <line
+                  x1={CX} y1={CY} x2={end.x} y2={end.y}
+                  stroke-width="0.5"
+                  style="stroke: var(--color-border); opacity: 0.5;"
+                />
+              ))}
+
+              <!-- Data polygon -->
+              <polygon
+                points={dataPolygon}
+                stroke-width="1.5"
+                stroke-linejoin="round"
+                style="fill: color-mix(in srgb, var(--color-aurora-purple) 20%, transparent); stroke: var(--color-aurora-purple);"
+              />
+
+              <!-- Data points -->
+              {dataCircles.map((p) => (
+                <circle cx={p.x} cy={p.y} r="3" style="fill: var(--color-aurora-purple);" />
+              ))}
+
+              <!-- Emoji + title labels -->
+              {dimAvgs.map(({ emoji, label }, i) => (
+                <>
+                  <text
+                    x={labelPos[i].x}
+                    y={labelPos[i].y}
+                    text-anchor="middle"
+                    dominant-baseline="middle"
+                    font-size="12"
+                  >{emoji}</text>
+                  <text
+                    x={labelPos[i].x}
+                    y={+labelPos[i].y + 13}
+                    text-anchor="middle"
+                    dominant-baseline="middle"
+                    font-size="8.5"
+                    font-weight="600"
+                    letter-spacing="0.04em"
+                    style="fill: var(--color-text-muted); text-transform: uppercase;"
+                  >{label}</text>
+                </>
+              ))}
+            </svg>
+          </div>
+
+          <!-- Dim scores -->
+          <div class="grid grid-cols-4 divide-x" style="border-top: 1px solid var(--color-border);">
+            {dimAvgs.map(({ label, avg }) => (
+              <div class="py-3 flex flex-col items-center gap-0.5">
+                <span class="text-sm font-bold leading-none" style="font-family: var(--font-display); color: var(--color-text);">{avg}</span>
+                <span class="text-[10px]" style="color: var(--color-text-muted);">{label}</span>
+              </div>
+            ))}
+          </div>
+
+          <!-- Footer -->
+          <div class="px-5 py-3 flex items-center justify-between" style="border-top: 1px solid var(--color-border);">
+            <span class="text-xs" style="color: var(--color-text-muted);">{n} proyecto{n !== 1 ? "s" : ""}</span>
+            <span class="text-xs font-semibold" style="color: var(--color-aurora-purple);">Nivel medio {avgLevel}</span>
           </div>
         </div>
 
@@ -143,18 +269,38 @@ const projects = (await getCollection("projects"))
         <!-- Blog card -->
         {posts.length > 0 && (
           <div
-            class="col-span-12 md:col-span-6 rounded-3xl p-6"
+            class="col-span-12 rounded-3xl p-6"
             style="background: linear-gradient(135deg, color-mix(in srgb, var(--color-aurora-purple) 8%, var(--color-surface)), var(--color-surface)); border: 1px solid var(--color-border);"
           >
-            <div class="mb-4 flex items-center justify-between">
+            <div class="mb-5 flex items-center justify-between">
               <p class="text-xs font-semibold uppercase tracking-widest" style="color: var(--color-text-muted);">Últimas entradas</p>
               <a href="/blog" class="text-xs" style="color: var(--color-aurora-purple);">Ver blog →</a>
             </div>
-            <div class="flex flex-col gap-3">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
               {posts.map((post) => (
-                <a href={`/blog/${post.id}`} class="group block">
-                  <p class="font-semibold transition-colors group-hover:underline" style="font-family: var(--font-display); color: var(--color-text);">{post.data.title}</p>
-                  <p class="text-xs mt-1" style="color: var(--color-text-muted);">{post.data.description}</p>
+                <a
+                  href={`/blog/${post.id}`}
+                  class="group flex flex-col justify-between gap-4 rounded-2xl p-5 transition-colors"
+                  style="background: var(--color-surface); border: 1px solid var(--color-border);"
+                >
+                  <div>
+                    {post.data.tags?.length > 0 && (
+                      <span
+                        class="mb-3 inline-block rounded-full px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide"
+                        style="background: color-mix(in srgb, var(--color-aurora-purple) 12%, transparent); color: var(--color-aurora-purple);"
+                      >
+                        {post.data.tags[0]}
+                      </span>
+                    )}
+                    <p class="font-semibold leading-snug group-hover:underline" style="font-family: var(--font-display); color: var(--color-text);">{post.data.title}</p>
+                    <p class="mt-2 text-sm leading-relaxed" style="color: var(--color-text-muted);">{post.data.description}</p>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <time class="text-xs" style="color: var(--color-text-muted);">
+                      {new Date(post.data.date).toLocaleDateString("es-ES", { year: "numeric", month: "short", day: "numeric" })}
+                    </time>
+                    <span class="text-xs font-medium transition-transform group-hover:translate-x-1 inline-block" style="color: var(--color-aurora-purple);">Leer →</span>
+                  </div>
                 </a>
               ))}
             </div>
