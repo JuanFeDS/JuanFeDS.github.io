@@ -1,5 +1,6 @@
 ---
 import { getCollection, render } from "astro:content";
+import ProjectLayout from "../../layouts/ProjectLayout.astro";
 import PostLayout from "../../layouts/PostLayout.astro";
 import MagazineLayout from "../../layouts/MagazineLayout.astro";
 
@@ -13,7 +14,8 @@ export async function getStaticPaths() {
 
 const { project } = Astro.props;
 const { Content } = await render(project);
-const { title, description, date, tags, layout } = project.data;
+const { title, description, date, domain, level, level_name, flags, stack,
+        complexity_breakdown, summary, github, demo, layout } = project.data;
 ---
 
 {layout === "magazine" ? (
@@ -21,7 +23,20 @@ const { title, description, date, tags, layout } = project.data;
     <Content />
   </MagazineLayout>
 ) : (
-  <PostLayout title={title} description={description} date={date} tags={tags}>
+  <ProjectLayout
+    title={title}
+    description={description}
+    date={date}
+    domain={domain}
+    level={level}
+    level_name={level_name}
+    flags={flags}
+    stack={stack}
+    complexity_breakdown={complexity_breakdown}
+    summary={summary}
+    github={github}
+    demo={demo}
+  >
     <Content />
-  </PostLayout>
+  </ProjectLayout>
 )}
