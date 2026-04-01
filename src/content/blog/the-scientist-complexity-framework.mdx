@@ -1,0 +1,145 @@
+---
+title: "Cómo clasifico mis proyectos: The Scientist Complexity Framework"
+description: "Un sistema personal para medir la complejidad real de lo que construyo, más allá de las líneas de código."
+date: "2026-03-31"
+tags: ["meta", "engineering"]
+---
+
+La mayoría de portafolios muestran *qué* se construyó.
+Pocos logran mostrar *qué tan complejo es realmente*.
+
+Si has construido tanto scripts como aplicaciones completas, sabes que no todos los proyectos pesan lo mismo… pero casi todos los portafolios los muestran igual.
+
+Cuando empecé a armar este portafolio me encontré con ese problema: ¿cómo muestro que un proyecto es complejo sin aburrir a nadie con detalles técnicos? ¿Y cómo evito que un script de 50 líneas parezca igual de relevante que un sistema distribuido?
+
+La respuesta que encontré fue definir un sistema propio. Lo llamo **The Scientist Complexity Framework**, y lo uso para clasificar todo lo que construyo.
+
+---
+
+## La idea base
+
+La complejidad de un proyecto no es una sola cosa.
+
+Un ETL que procesa millones de filas puede ser arquitectónicamente simple pero brutalmente complejo en datos. Una app puede tener una infraestructura sofisticada pero datos triviales. Reducir todo a una sola dimensión pierde esa información.
+
+Por eso el framework tiene varias capas.
+
+---
+
+## Capa 1 — Nivel base (arquitectura)
+
+Es la dimensión jerárquica. Responde a la pregunta:
+**¿cómo está construido el sistema?**
+
+| Nivel | Nombre             | Qué incluye                                                                        |
+| ----- | ------------------ | ---------------------------------------------------------------------------------- |
+| 🟢 1  | Standalone Script  | Scripts, notebooks, ETLs simples. Sin deploy, ejecución manual o programada.       |
+| 🔵 2  | Static App         | Webs sin backend, dashboards estáticos. Hosting simple (Vercel, Github pages, Netlify).          |
+| 🟡 3  | Backend System     | APIs, CRUD apps, base de datos, autenticación simple.                              |
+| 🟠 4  | Distributed System | Backend + frontend separados, colas, workers, integraciones externas.              |
+| 🔴 5  | Scalable Platform  | Multi-tenant, alta escalabilidad, observabilidad, CI/CD, infraestructura compleja. |
+
+La mayoría de mis proyectos viven entre nivel 2 y 3.
+Los proyectos de datos suelen empezar en 1 y crecer hacia 3 o 4 cuando el volumen lo justifica.
+
+---
+
+## Capa 2 — Complexity Breakdown
+
+Aquí es donde el sistema se vuelve realmente útil.
+
+Son cuatro dimensiones independientes, cada una en escala de 0 a 3:
+
+* **0 → bajo o inexistente**
+* **1 → básico**
+* **2 → moderado**
+* **3 → alto**
+
+### 🧱 Architecture
+
+¿Qué tan estructurado está el sistema internamente?
+
+* 0 — Script lineal
+* 1 — Estructura simple
+* 2 — Backend estructurado
+* 3 — Sistema distribuido
+
+---
+
+### 📊 Data
+
+¿Qué tan complejo es el manejo de datos?
+
+* 0 — Sin datos relevantes
+* 1 — Datos simples
+* 2 — Transformaciones moderadas
+* 3 — Pipelines complejos o alto volumen
+
+---
+
+### ⚙️ Infrastructure
+
+¿Qué tan complejo es el deploy y la operación?
+
+* 0 — Corre local
+* 1 — Deploy simple
+* 2 — Cloud con configuración
+* 3 — Infraestructura avanzada
+
+---
+
+### 🤖 AI / ML
+
+¿Qué tan integrada está la inteligencia artificial?
+
+* 0 — No hay IA
+* 1 — Uso exploratorio
+* 2 — Modelo en producción
+* 3 — Sistema ML completo
+
+---
+
+## Capa adicional — Complexity Flags
+
+Además del nivel y las dimensiones, utilizo **flags** para marcar características específicas del sistema.
+
+Algunos ejemplos:
+
+* 🤖 AI/ML
+* 📊 Data-Intensive
+* ⚡ Realtime
+* 📱 Multiplatform
+* 🔐 Auth/Security
+* ☁️ Cloud-Native
+
+Los flags no cambian el nivel base, pero ayudan a entender rápidamente el tipo de sistema.
+
+---
+
+## Ejemplo
+
+**Campaign ETL**
+
+* Nivel 1 — Standalone Script
+* Data: 3 · Infrastructure: 0 · AI: 0
+
+Es un sistema arquitectónicamente simple, pero con complejidad significativa en procesamiento de datos.
+
+---
+
+## Por qué funciona (para mí)
+
+Lo que me gusta de este sistema es que dos proyectos con el mismo nivel base pueden ser completamente distintos.
+
+Un pipeline de datos puede ser nivel 1 pero tener una complejidad alta en Data.
+Una aplicación backend puede ser nivel 3, pero si incorpora modelos de ML cambia completamente su naturaleza.
+
+También me obliga a ser honesto.
+No puedo exagerar la complejidad de algo cuando tengo que justificarlo dimensión por dimensión.
+
+---
+
+No es un estándar de la industria ni pretende serlo.
+
+Es simplemente la forma en que pienso sobre los sistemas que construyo —
+y la forma en que decidí mostrarlos.
