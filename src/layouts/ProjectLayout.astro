@@ -1,0 +1,370 @@
+---
+import PageLayout from "./PageLayout.astro";
+
+interface ComplexityBreakdown {
+  architecture: number;
+  data: number;
+  infrastructure: number;
+  ai: number;
+}
+
+interface Props {
+  title: string;
+  description?: string;
+  date: string;
+  domain: string;
+  level: number;
+  level_name: string;
+  flags: string[];
+  stack: string[];
+  complexity_breakdown: ComplexityBreakdown;
+  summary?: string;
+  github?: string;
+  demo?: string;
+}
+
+const {
+  title, description, date, domain, level, level_name,
+  flags, stack, complexity_breakdown, summary, github, demo,
+} = Astro.props;
+
+const domainLabel: Record<string, string> = {
+  "data-engineering": "Data Engineering",
+  "machine-learning": "Machine Learning",
+  "ai": "AI",
+  "analytics": "Analytics",
+  "web": "Web",
+  "mobile": "Mobile",
+};
+
+const domainGradient: Record<string, string> = {
+  "data-engineering": "linear-gradient(135deg, #14b8a6 0%, #3b82f6 100%)",
+  "machine-learning": "linear-gradient(135deg, #8b5cf6 0%, #f472b6 100%)",
+  "ai":               "linear-gradient(135deg, #f472b6 0%, #8b5cf6 100%)",
+  "analytics":        "linear-gradient(135deg, #3b82f6 0%, #14b8a6 100%)",
+  "web":              "linear-gradient(135deg, #14b8a6 0%, #8b5cf6 100%)",
+  "mobile":           "linear-gradient(135deg, #8b5cf6 0%, #3b82f6 100%)",
+};
+
+const domainColor: Record<string, string> = {
+  "data-engineering": "#14b8a6",
+  "machine-learning": "#8b5cf6",
+  "ai":               "#f472b6",
+  "analytics":        "#3b82f6",
+  "web":              "#14b8a6",
+  "mobile":           "#8b5cf6",
+};
+
+const levelDot: Record<number, string> = {
+  1: "🟢", 2: "🔵", 3: "🟡", 4: "🟠", 5: "🔴",
+};
+
+const flagLabel: Record<string, string> = {
+  "ai-ml":             "🤖 AI/ML",
+  "multiplatform":     "📱 Multiplataforma",
+  "advanced-security": "🔐 Seguridad avanzada",
+  "realtime":          "⚡ Tiempo real",
+  "data-intensive":    "📊 Data-intensive",
+  "cloud-native":      "☁️ Cloud-native",
+  "payments":          "💰 Pagos",
+  "high-concurrency":  "🌍 Alta concurrencia",
+};
+
+const dims = [
+  { emoji: "🧱", label: "Architecture", value: complexity_breakdown.architecture },
+  { emoji: "📊", label: "Data",         value: complexity_breakdown.data },
+  { emoji: "⚙️", label: "Infrastructure", value: complexity_breakdown.infrastructure },
+  { emoji: "🤖", label: "AI",           value: complexity_breakdown.ai },
+];
+
+const color    = domainColor[domain];
+const gradient = domainGradient[domain];
+
+const formattedDate = new Date(date).toLocaleDateString("es-ES", {
+  year: "numeric", month: "long", day: "numeric",
+});
+---
+
+<PageLayout title={title} description={description}>
+
+  {/* ── HERO ── */}
+  <div class="project-hero" style={`background: ${gradient};`}>
+    <div class="hero-inner">
+      <a href="/projects" class="breadcrumb">← Proyectos</a>
+      <span class="hero-domain">{domainLabel[domain]}</span>
+      <h1 class="hero-title">{title}</h1>
+      {description && <p class="hero-desc">{description}</p>}
+      <div class="hero-meta">
+        <time class="hero-date">{formattedDate}</time>
+        <div class="hero-links">
+          {github && (
+            <a href={github} target="_blank" rel="noopener" class="hero-link">GitHub ↗</a>
+          )}
+          {demo && (
+            <a href={demo} target="_blank" rel="noopener" class="hero-link">Demo ↗</a>
+          )}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {/* ── METADATA PANEL ── */}
+  <div class="meta-panel-wrapper">
+    <div class="meta-panel">
+
+      {/* Nivel */}
+      <div class="meta-block">
+        <p class="meta-label">Nivel base</p>
+        <p class="meta-value">{levelDot[level]} Nivel {level} — {level_name}</p>
+      </div>
+
+      <div class="meta-divider" />
+
+      {/* Complexity breakdown */}
+      <div class="meta-block meta-chart">
+        <div class="meta-label-row">
+          <p class="meta-label">Complexity Breakdown</p>
+          <a href="/blog/the-scientist-complexity-framework" class="meta-help" title="¿Qué es esto?">?</a>
+        </div>
+        <div class="chart-grid">
+          {dims.map(({ emoji, label, value }) => (
+            <div class="chart-row">
+              <span class="chart-label">{emoji} {label}</span>
+              <div class="chart-track">
+                <div class="chart-fill" style={`width: ${(value / 3) * 100}%; background: ${color};`} />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {flags.length > 0 && (
+        <>
+          <div class="meta-divider" />
+          <div class="meta-block">
+            <p class="meta-label">Complexity Flags</p>
+            <div class="flags-row">
+              {flags.map((flag) => (
+                <span class="flag-tag" style={`color: ${color}; background: ${color}18; border-color: ${color}33;`}>
+                  {flagLabel[flag]}
+                </span>
+              ))}
+            </div>
+          </div>
+        </>
+      )}
+
+      <div class="meta-divider" />
+
+      {/* Stack */}
+      <div class="meta-block">
+        <p class="meta-label">Stack</p>
+        <div class="stack-row">
+          {stack.map((tech) => (
+            <span class="tech-tag">{tech}</span>
+          ))}
+        </div>
+      </div>
+
+    </div>
+
+    {summary && (
+      <p class="project-summary">{summary}</p>
+    )}
+  </div>
+
+  {/* ── CONTENT ── */}
+  <div class="project-content">
+    <div class="prose">
+      <slot />
+    </div>
+  </div>
+
+</PageLayout>
+
+<style>
+  /* Hero */
+  .project-hero {
+    width: 100%;
+    padding: 4rem 1.5rem 3rem;
+  }
+  .hero-inner {
+    max-width: 48rem;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .breadcrumb {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+    margin-bottom: 0.5rem;
+    transition: color 0.15s;
+  }
+  .breadcrumb:hover { color: white; }
+  .hero-domain {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.75);
+  }
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: white;
+    line-height: 1.15;
+  }
+  @media (min-width: 768px) { .hero-title { font-size: 3rem; } }
+  .hero-desc {
+    font-size: 1.05rem;
+    color: rgba(255,255,255,0.82);
+    line-height: 1.6;
+    max-width: 42rem;
+  }
+  .hero-meta {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-top: 0.5rem;
+    flex-wrap: wrap;
+  }
+  .hero-date { font-size: 0.8rem; color: rgba(255,255,255,0.6); }
+  .hero-links { display: flex; gap: 0.75rem; }
+  .hero-link {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: white;
+    text-decoration: none;
+    background: rgba(255,255,255,0.15);
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    border: 1px solid rgba(255,255,255,0.25);
+    backdrop-filter: blur(4px);
+    transition: background 0.15s;
+  }
+  .hero-link:hover { background: rgba(255,255,255,0.25); }
+
+  /* Metadata panel */
+  .meta-panel-wrapper {
+    max-width: 48rem;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+  .meta-panel {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    margin-top: -1.5rem;
+    border-radius: 1rem;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+  }
+  .meta-block {
+    padding: 1rem 1.25rem;
+    flex: 1;
+    min-width: 140px;
+  }
+  .meta-chart { flex: 2; min-width: 220px; }
+  .meta-divider {
+    width: 1px;
+    background: var(--color-border);
+    align-self: stretch;
+  }
+  .meta-label-row {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-bottom: 0.4rem;
+  }
+  .meta-label-row .meta-label { margin-bottom: 0; }
+  .meta-help {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 9999px;
+    font-size: 0.55rem;
+    font-weight: 700;
+    border: 1px solid var(--color-border);
+    color: var(--color-text-muted);
+    text-decoration: none;
+    flex-shrink: 0;
+    transition: all 0.15s;
+  }
+  .meta-help:hover {
+    background: var(--color-text);
+    color: var(--color-bg);
+    border-color: var(--color-text);
+  }
+
+  .meta-label {
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    margin-bottom: 0.4rem;
+  }
+  .meta-value {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  /* Chart */
+  .chart-grid { display: flex; flex-direction: column; gap: 0.3rem; }
+  .chart-row { display: flex; align-items: center; gap: 0.5rem; }
+  .chart-label { width: 7rem; font-size: 0.62rem; color: var(--color-text-muted); flex-shrink: 0; }
+  .chart-track {
+    flex: 1;
+    height: 5px;
+    border-radius: 9999px;
+    background: var(--color-surface-2);
+    overflow: hidden;
+  }
+  .chart-fill { height: 100%; border-radius: 9999px; }
+
+  /* Flags & stack */
+  .flags-row { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+  .flag-tag {
+    padding: 0.15rem 0.6rem;
+    border-radius: 9999px;
+    font-size: 0.68rem;
+    font-weight: 500;
+    border: 1px solid;
+  }
+  .stack-row { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+  .tech-tag {
+    padding: 0.15rem 0.5rem;
+    border-radius: 0.35rem;
+    font-size: 0.68rem;
+    font-family: monospace;
+    background: var(--color-surface-2);
+    color: var(--color-text-muted);
+    border: 1px solid var(--color-border);
+  }
+
+  /* Summary */
+  .project-summary {
+    margin-top: 1.25rem;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: var(--color-text-muted);
+    font-style: italic;
+    border-left: 2px solid var(--color-border);
+    padding-left: 0.75rem;
+  }
+
+  /* Content */
+  .project-content {
+    max-width: 48rem;
+    margin: 3rem auto 5rem;
+    padding: 0 1.5rem;
+  }
+</style>
