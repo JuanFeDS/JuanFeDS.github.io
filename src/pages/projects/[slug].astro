@@ -1,0 +1,27 @@
+---
+import { getCollection, render } from "astro:content";
+import PostLayout from "../../layouts/PostLayout.astro";
+import MagazineLayout from "../../layouts/MagazineLayout.astro";
+
+export async function getStaticPaths() {
+  const projects = await getCollection("projects", ({ data }) => !data.draft);
+  return projects.map((project) => ({
+    params: { slug: project.id },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+const { title, description, date, tags, layout } = project.data;
+---
+
+{layout === "magazine" ? (
+  <MagazineLayout title={title} description={description}>
+    <Content />
+  </MagazineLayout>
+) : (
+  <PostLayout title={title} description={description} date={date} tags={tags}>
+    <Content />
+  </PostLayout>
+)}

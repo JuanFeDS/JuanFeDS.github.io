@@ -1,0 +1,75 @@
+---
+import { getCollection } from "astro:content";
+import PageLayout from "../../layouts/PageLayout.astro";
+
+const posts = (await getCollection("blog"))
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
+---
+
+<PageLayout title="Blog">
+  <div class="mx-auto max-w-3xl px-6 py-16">
+
+    <header class="mb-12">
+      <p class="mb-2 text-sm font-medium" style="color: var(--color-aurora-purple);">Escritura</p>
+      <h1
+        class="text-4xl font-bold md:text-5xl"
+        style="font-family: var(--font-display); color: var(--color-text);"
+      >
+        Blog
+      </h1>
+      <p class="mt-4 text-lg" style="color: var(--color-text-muted);">
+        Opiniones, reflexiones y divulgación sobre datos, tecnología y lo que me llama la atención.
+      </p>
+    </header>
+
+    {posts.length === 0 ? (
+      <p style="color: var(--color-text-muted);">Próximamente...</p>
+    ) : (
+      <ol class="flex flex-col divide-y" style="border-color: var(--color-border);">
+        {posts.map((post) => (
+          <li>
+            <a
+              href={`/blog/${post.id}`}
+              class="group flex items-start justify-between gap-6 py-6"
+            >
+              <div class="flex-1">
+                <div class="flex flex-wrap gap-2 mb-2">
+                  {post.data.tags.map((tag) => (
+                    <span
+                      class="rounded-full px-2.5 py-0.5 text-xs font-medium"
+                      style="background: color-mix(in srgb, var(--color-aurora-purple) 10%, transparent); color: var(--color-aurora-purple);"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+                <h2
+                  class="text-xl font-semibold transition-colors group-hover:underline"
+                  style="font-family: var(--font-display); color: var(--color-text);"
+                >
+                  {post.data.title}
+                </h2>
+                <p class="mt-1 text-sm" style="color: var(--color-text-muted);">
+                  {post.data.description}
+                </p>
+              </div>
+              <time
+                datetime={post.data.date}
+                class="shrink-0 text-sm tabular-nums"
+                style="color: var(--color-text-muted);"
+              >
+                {new Date(post.data.date).toLocaleDateString("es-ES", {
+                  year: "numeric",
+                  month: "short",
+                  day: "numeric",
+                })}
+              </time>
+            </a>
+          </li>
+        ))}
+      </ol>
+    )}
+
+  </div>
+</PageLayout>

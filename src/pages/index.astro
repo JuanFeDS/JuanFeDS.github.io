@@ -1,0 +1,174 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Nav from "../components/Nav.astro";
+
+const posts = (await getCollection("blog"))
+  .filter((p) => !p.data.draft)
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
+  .slice(0, 2);
+
+const projects = (await getCollection("projects"))
+  .filter((p) => !p.data.draft)
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
+  .slice(0, 3);
+---
+
+<BaseLayout title="JuanFe Martínez — Data Scientist & Engineer">
+  <Nav />
+
+  <main class="aurora-bg min-h-screen pt-20">
+    <div class="relative z-10 mx-auto max-w-6xl px-6 py-16">
+
+      <!-- Bento Grid -->
+      <div class="bento-grid">
+
+        <!-- Hero card — full width -->
+        <div
+          class="col-span-12 md:col-span-8 rounded-3xl p-8 md:p-12"
+          style="background: var(--color-surface); border: 1px solid var(--color-border);"
+        >
+          <p class="mb-3 text-sm font-medium" style="color: var(--color-aurora-purple);">
+            Data Scientist & Data Engineer · Mercado Libre
+          </p>
+          <h1
+            class="text-5xl font-bold leading-tight md:text-6xl lg:text-7xl"
+            style="font-family: var(--font-display); color: var(--color-text);"
+          >
+            Hola, soy<br />
+            <span
+              style="background: linear-gradient(135deg, var(--color-aurora-purple), var(--color-aurora-teal)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"
+            >
+              JuanFe
+            </span>
+          </h1>
+          <p class="mt-6 max-w-lg text-lg" style="color: var(--color-text-muted);">
+            Curioso por naturaleza, apasionado por aprender, construir y compartir.
+            Combino ciencia de datos e ingeniería para resolver problemas reales a gran escala.
+          </p>
+          <div class="mt-8 flex flex-wrap gap-3">
+            <a
+              href="/projects"
+              class="rounded-full px-6 py-2.5 text-sm font-semibold text-white transition-opacity hover:opacity-90"
+              style="background: linear-gradient(135deg, var(--color-aurora-purple), var(--color-aurora-blue));"
+            >
+              Ver proyectos
+            </a>
+            <a
+              href="/about"
+              class="rounded-full px-6 py-2.5 text-sm font-semibold transition-colors"
+              style="background: var(--color-surface-2); border: 1px solid var(--color-border); color: var(--color-text);"
+            >
+              Sobre mí
+            </a>
+          </div>
+        </div>
+
+        <!-- Photo card -->
+        <div
+          class="col-span-12 md:col-span-4 rounded-3xl overflow-hidden flex flex-col justify-between"
+          style="background: var(--color-surface); border: 1px solid var(--color-border); min-height: 320px;"
+        >
+          <div class="flex-1 overflow-hidden">
+            <img
+              src="/avatar.jpg"
+              alt="JuanFe Martínez"
+              class="w-full h-full object-cover object-top"
+              style="min-height: 240px;"
+            />
+          </div>
+          <div class="p-5 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span class="text-sm" style="color: var(--color-text-muted);">Disponible para proyectos</span>
+            </div>
+            <a
+              href="https://linkedin.com/in/juanfe-martinez"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-sm font-medium transition-opacity hover:opacity-70"
+              style="color: var(--color-aurora-purple);"
+            >
+              →
+            </a>
+          </div>
+        </div>
+
+        <!-- Stack card -->
+        <div
+          class="col-span-12 md:col-span-4 rounded-3xl p-6"
+          style="background: var(--color-surface); border: 1px solid var(--color-border);"
+        >
+          <p class="mb-4 text-xs font-semibold uppercase tracking-widest" style="color: var(--color-text-muted);">Stack</p>
+          <div class="flex flex-wrap gap-2">
+            {["Python", "SQL", "PyTorch", "scikit-learn", "FastAPI", "pandas", "Power BI", "AWS"].map((tech) => (
+              <span
+                class="rounded-full px-3 py-1 text-xs font-medium"
+                style="background: var(--color-surface-2); border: 1px solid var(--color-border); color: var(--color-text);"
+              >
+                {tech}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        <!-- Featured projects -->
+        {projects.length > 0 && (
+          <div
+            class="col-span-12 md:col-span-8 rounded-3xl p-6"
+            style="background: var(--color-surface); border: 1px solid var(--color-border);"
+          >
+            <div class="mb-4 flex items-center justify-between">
+              <p class="text-xs font-semibold uppercase tracking-widest" style="color: var(--color-text-muted);">Proyectos recientes</p>
+              <a href="/projects" class="text-xs" style="color: var(--color-aurora-purple);">Ver todos →</a>
+            </div>
+            <div class="grid gap-3">
+              {projects.map((p) => (
+                <a
+                  href={`/projects/${p.id}`}
+                  class="group flex items-center justify-between rounded-2xl p-4 transition-colors"
+                  style="background: var(--color-surface-2); border: 1px solid var(--color-border);"
+                >
+                  <div>
+                    <p class="font-semibold" style="font-family: var(--font-display); color: var(--color-text);">{p.data.title}</p>
+                    <p class="mt-0.5 text-sm" style="color: var(--color-text-muted);">{p.data.description}</p>
+                  </div>
+                  <span class="ml-4 text-lg transition-transform group-hover:translate-x-1" style="color: var(--color-text-muted);">→</span>
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <!-- Blog card -->
+        {posts.length > 0 && (
+          <div
+            class="col-span-12 md:col-span-6 rounded-3xl p-6"
+            style="background: linear-gradient(135deg, color-mix(in srgb, var(--color-aurora-purple) 8%, var(--color-surface)), var(--color-surface)); border: 1px solid var(--color-border);"
+          >
+            <div class="mb-4 flex items-center justify-between">
+              <p class="text-xs font-semibold uppercase tracking-widest" style="color: var(--color-text-muted);">Últimas entradas</p>
+              <a href="/blog" class="text-xs" style="color: var(--color-aurora-purple);">Ver blog →</a>
+            </div>
+            <div class="flex flex-col gap-3">
+              {posts.map((post) => (
+                <a href={`/blog/${post.id}`} class="group block">
+                  <p class="font-semibold transition-colors group-hover:underline" style="font-family: var(--font-display); color: var(--color-text);">{post.data.title}</p>
+                  <p class="text-xs mt-1" style="color: var(--color-text-muted);">{post.data.description}</p>
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
+
+      </div>
+    </div>
+  </main>
+
+  <footer
+    class="border-t px-6 py-10 text-center text-sm"
+    style="border-color: var(--color-border); color: var(--color-text-muted);"
+  >
+    <p>&copy; {new Date().getFullYear()} Juan Felipe &mdash; Hecho con Astro</p>
+  </footer>
+</BaseLayout>

@@ -1,0 +1,242 @@
+---
+import PageLayout from "../layouts/PageLayout.astro";
+
+const experience = [
+  {
+    year: "abr. 2025 — actualidad",
+    role: "🛒 Data Science / Engineer",
+    place: "Mercado Libre · Bogotá, Colombia",
+    bullets: [
+      "Diseñé e implementé un sistema multiagente para orquestación de procesos ETL.",
+      "Automaticé flujos ETL end-to-end garantizando escalabilidad y confiabilidad.",
+      "Definí la arquitectura online para ejecución de procesos en tiempo real y por lotes.",
+      "Realicé análisis exploratorio y refinamiento de variables para construcción de grafos analíticos.",
+      "Desarrollé features analíticos para la construcción de modelos de aprendizaje automático.",
+    ],
+  },
+  {
+    year: "abr. 2022 — mar. 2025",
+    role: "📱 Especialista de Datos",
+    place: "WOM Colombia · Bogotá, Colombia",
+    bullets: [
+      "Lideré el desarrollo de productos de datos para la toma de decisiones empresariales.",
+      "Construí pipelines de datos para proyectos transversales de la compañía.",
+      "Gestioné campañas de retención y rentabilización con inteligencia comercial y ML.",
+      "Desarrollé modelos de segmentación de clientes para entender el perfil de los usuarios.",
+      "Construí modelos predictivos con técnicas de ML supervisado y no supervisado.",
+    ],
+  },
+  {
+    year: "abr. 2021 — abr. 2022",
+    role: "📊 Analista de Datos",
+    place: "WOM Colombia · Bogotá, Colombia",
+    bullets: [
+      "Construí y administré bases de datos relacionales en SQL.",
+      "Desarrollé modelos de ML y los llevé a producción vía APIs.",
+      "Elaboré reportes de inteligencia de negocio para la toma de decisiones ejecutivas.",
+      "Trabajé con servicios de computación en la nube en AWS y Azure.",
+    ],
+  },
+];
+
+const education = [
+  {
+    year: "2016 – 2020",
+    title: "Economista",
+    institution: "Universidad Jorge Tadeo Lozano",
+  },
+  {
+    year: "2015 – 2020",
+    title: "Profesional en Comercio Internacional y Finanzas",
+    institution: "Universidad Jorge Tadeo Lozano",
+  },
+  {
+    year: "2020 – actualidad",
+    title: "Data Scientist",
+    institution: "Platzi",
+  },
+];
+
+const stack = [
+  "Python", "SQL", "pandas", "numpy", "scikit-learn", "PyTorch", "Keras",
+  "FastAPI", "Streamlit", "matplotlib", "seaborn", "plotly",
+  "Power BI", "AWS", "Firebase", "Git",
+];
+
+const social = [
+  { label: "GitHub", href: "https://github.com/JuanFeDS" },
+  { label: "LinkedIn", href: "https://linkedin.com/in/juanfe-martinez" },
+  { label: "Twitter / X", href: "https://twitter.com/JuanFeAngel98" },
+  { label: "Instagram", href: "https://instagram.com/juanfem98" },
+];
+---
+
+<PageLayout title="Sobre mí — JuanFe Martínez">
+  <div class="mx-auto max-w-3xl px-6 py-16">
+
+    <!-- Hero -->
+    <div class="mb-16">
+      <p class="mb-2 text-sm font-medium" style="color: var(--color-aurora-pink);">Sobre mí</p>
+      <h1
+        class="text-4xl font-bold md:text-5xl"
+        style="font-family: var(--font-display); color: var(--color-text);"
+      >
+        ¿Quién soy?
+      </h1>
+      <p class="mt-6 text-lg leading-relaxed" style="color: var(--color-text-muted);">
+        ¡Hola! 👋 Soy JuanFe, científico e ingeniero de datos de Colombia, curioso por naturaleza y apasionado
+        por aprender 📚, construir 🛠️ y compartir 🔄.
+      </p>
+      <p class="mt-4 text-lg leading-relaxed" style="color: var(--color-text-muted);">
+        Estoy decidido a convertirme en el mejor científico de datos de Colombia
+        (y bueno... tal vez de Latinoamérica, aún lo estoy pensando 🌎😅).
+      </p>
+    </div>
+
+    <!-- Qué hago -->
+    <section class="mb-16">
+      <h2 class="mb-6 text-xs font-semibold uppercase tracking-widest" style="color: var(--color-text-muted);">
+        🚀 ¿Qué hago?
+      </h2>
+      <div class="grid gap-3 sm:grid-cols-2">
+        {[
+          { icon: "🔍", text: "Analizo datos para descubrir patrones, comportamientos y oportunidades." },
+          { icon: "🧪", text: "Construyo modelos para tomar decisiones más inteligentes." },
+          { icon: "🛠️", text: "Diseño procesos de datos robustos, eficientes y confiables." },
+          { icon: "💬", text: "Y cuando puedo... ¡lo comparto con el mundo!" },
+        ].map(({ icon, text }) => (
+          <div
+            class="rounded-2xl p-4 flex gap-3 items-start"
+            style="background: var(--color-surface); border: 1px solid var(--color-border);"
+          >
+            <span class="text-xl shrink-0">{icon}</span>
+            <p class="text-sm leading-relaxed" style="color: var(--color-text-muted);">{text}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Intereses -->
+    <section class="mb-16">
+      <h2 class="mb-5 text-xs font-semibold uppercase tracking-widest" style="color: var(--color-text-muted);">
+        🎯 Me interesa
+      </h2>
+      <div class="flex flex-wrap gap-2">
+        {[
+          "Ciencia de datos 🧪",
+          "Ingeniería de datos 🏗️",
+          "Inteligencia Artificial 🤖",
+          "Visualización 📊",
+          "Storytelling con datos 🗣️",
+          "Comunidad 💬",
+        ].map((item) => (
+          <span
+            class="rounded-full px-4 py-1.5 text-sm font-medium"
+            style="background: var(--color-surface); border: 1px solid var(--color-border); color: var(--color-text);"
+          >
+            {item}
+          </span>
+        ))}
+      </div>
+    </section>
+
+    <!-- Por qué este blog -->
+    <section class="mb-16">
+      <h2 class="mb-5 text-xs font-semibold uppercase tracking-widest" style="color: var(--color-text-muted);">
+        ✍️ ¿Por qué este blog?
+      </h2>
+      <p class="text-base leading-relaxed" style="color: var(--color-text-muted);">
+        Este espacio es como mi cuaderno de viaje en la industria de los datos: aquí guardo aprendizajes,
+        experiencias, ideas, dudas (sí, también eso), y todo lo que voy descubriendo en el camino.
+      </p>
+      <p class="mt-3 text-base leading-relaxed" style="color: var(--color-text-muted);">
+        Mi objetivo es simple: <strong style="color: var(--color-text);">aprender compartiendo</strong>.
+        Si algo de lo que encuentres aquí te inspira, te ayuda o te da una idea nueva, ya valió la pena 💡.
+      </p>
+    </section>
+
+    <!-- Stack -->
+    <section class="mb-16">
+      <h2 class="mb-5 text-xs font-semibold uppercase tracking-widest" style="color: var(--color-text-muted);">
+        💻 Stack
+      </h2>
+      <div class="flex flex-wrap gap-2">
+        {stack.map((tech) => (
+          <span
+            class="rounded-full px-3 py-1 text-sm font-medium"
+            style="background: var(--color-surface); border: 1px solid var(--color-border); color: var(--color-text);"
+          >
+            {tech}
+          </span>
+        ))}
+      </div>
+    </section>
+
+    <!-- Experience -->
+    <section class="mb-16">
+      <h2 class="mb-6 text-xs font-semibold uppercase tracking-widest" style="color: var(--color-text-muted);">
+        💼 Experiencia
+      </h2>
+      <div class="flex flex-col gap-8">
+        {experience.map((item) => (
+          <div class="rounded-2xl p-6" style="background: var(--color-surface); border: 1px solid var(--color-border);">
+            <div class="flex flex-wrap items-start justify-between gap-2 mb-3">
+              <div>
+                <p class="font-semibold" style="font-family: var(--font-display); color: var(--color-text);">{item.role}</p>
+                <p class="text-sm mt-0.5" style="color: var(--color-text-muted);">{item.place}</p>
+              </div>
+              <span class="text-xs tabular-nums shrink-0" style="color: var(--color-text-muted);">{item.year}</span>
+            </div>
+            <ul class="flex flex-col gap-1.5 mt-3">
+              {item.bullets.map((b) => (
+                <li class="flex gap-2 text-sm" style="color: var(--color-text-muted);">
+                  <span style="color: var(--color-aurora-purple);">·</span>
+                  {b}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Education -->
+    <section class="mb-16">
+      <h2 class="mb-6 text-xs font-semibold uppercase tracking-widest" style="color: var(--color-text-muted);">
+        🎓 Educación
+      </h2>
+      <ol class="flex flex-col divide-y" style="border-color: var(--color-border);">
+        {education.map((item) => (
+          <li class="flex items-start justify-between gap-6 py-5">
+            <div>
+              <p class="font-semibold" style="font-family: var(--font-display); color: var(--color-text);">{item.title}</p>
+              <p class="text-sm mt-0.5" style="color: var(--color-text-muted);">{item.institution}</p>
+            </div>
+            <span class="shrink-0 text-sm tabular-nums" style="color: var(--color-text-muted);">{item.year}</span>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <!-- Contact -->
+    <section>
+      <h2 class="mb-6 text-xs font-semibold uppercase tracking-widest" style="color: var(--color-text-muted);">
+        📬 Contacto
+      </h2>
+      <div class="flex flex-wrap gap-3">
+        {social.map(({ label, href }) => (
+          <a
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="rounded-full px-5 py-2.5 text-sm font-medium transition-opacity hover:opacity-80"
+            style="background: var(--color-surface); border: 1px solid var(--color-border); color: var(--color-text);"
+          >
+            {label} ↗
+          </a>
+        ))}
+      </div>
+    </section>
+
+  </div>
+</PageLayout>
