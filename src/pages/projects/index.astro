@@ -79,10 +79,10 @@ const activeDomains = [...new Set(projects.map((p) => p.data.domain))];
           const color    = domainColor[project.data.domain];
           const gradient = domainGradient[project.data.domain];
           const dims = [
-            { label: "Data",   value: project.data.complexity_breakdown.data },
-            { label: "Infra",  value: project.data.complexity_breakdown.infra },
-            { label: "ML",     value: project.data.complexity_breakdown.ml },
-            { label: "Integ.", value: project.data.complexity_breakdown.integration },
+            { emoji: "🧱", label: "Architecture", value: project.data.complexity_breakdown.architecture },
+            { emoji: "📊", label: "Data",         value: project.data.complexity_breakdown.data },
+            { emoji: "⚙️", label: "Infra",        value: project.data.complexity_breakdown.infrastructure },
+            { emoji: "🤖", label: "AI",           value: project.data.complexity_breakdown.ai },
           ];
           return (
             <div class="card-wrapper" data-domain={project.data.domain}>
@@ -98,6 +98,14 @@ const activeDomains = [...new Set(projects.map((p) => p.data.domain))];
                     <span class="card-domain-badge" style={`background: color-mix(in srgb, ${color} 25%, rgba(0,0,0,0.6)); color: white;`}>
                       {domainLabel[project.data.domain]}
                     </span>
+                    <div class="hero-stack">
+                      {project.data.stack.slice(0, 3).map((tech) => (
+                        <span class="hero-stack-tag">{tech}</span>
+                      ))}
+                      {project.data.stack.length > 3 && (
+                        <span class="hero-stack-tag">+{project.data.stack.length - 3}</span>
+                      )}
+                    </div>
                   </div>
                   <div class="card-body">
                     <div class="flex items-center justify-between mb-2">
@@ -112,14 +120,6 @@ const activeDomains = [...new Set(projects.map((p) => p.data.domain))];
                     <p class="card-desc" style="color: var(--color-text-muted);">
                       {project.data.description}
                     </p>
-                    <div class="front-stack">
-                      {project.data.stack.slice(0, 4).map((tech) => (
-                        <span class="tech-tag">{tech}</span>
-                      ))}
-                      {project.data.stack.length > 4 && (
-                        <span class="tech-tag" style="color: var(--color-text-muted);">+{project.data.stack.length - 4}</span>
-                      )}
-                    </div>
                   </div>
                   <a
                     href={`/projects/${project.id}`}
@@ -136,50 +136,36 @@ const activeDomains = [...new Set(projects.map((p) => p.data.domain))];
                   <div class="back-bg" style={`background: ${gradient}; opacity: 0.07;`} />
 
                   <div class="card-back-body">
-                    {/* Header */}
+
+                    {/* Header: nivel (izq) + categoría (der) */}
                     <div class="back-header">
                       <div>
-                        <p class="back-label" style={`color: ${color};`}>{domainLabel[project.data.domain]}</p>
-                        <h3 class="back-title" style="color: var(--color-text);">{project.data.title}</h3>
+                        <p class="back-label" style={`color: ${color};`}>Nivel base</p>
+                        <p class="back-level" style="color: var(--color-text);">
+                          {levelDot[project.data.level]} Nivel {project.data.level} — {project.data.level_name}
+                        </p>
                       </div>
-                      <div class="score-badge" style={`border-color: ${color}44; color: ${color};`}>
-                        <span class="score-num">{project.data.score}</span>
-                        <span class="score-den">/12</span>
-                      </div>
+                      <span class="back-domain-badge" style={`background: ${color}18; color: ${color}; border: 1px solid ${color}33;`}>
+                        {domainLabel[project.data.domain]}
+                      </span>
                     </div>
 
-                    {/* Mini chart */}
+                    {/* Bar chart */}
                     <div class="chart-section">
-                      {dims.map(({ label, value }) => (
+                      {dims.map(({ emoji, label, value }) => (
                         <div class="chart-row">
-                          <span class="chart-label">{label}</span>
+                          <span class="chart-label">{emoji} {label}</span>
                           <div class="chart-track">
-                            <div
-                              class="chart-fill"
-                              style={`width: ${(value / 3) * 100}%; background: ${color};`}
-                            />
+                            <div class="chart-fill" style={`width: ${(value / 3) * 100}%; background: ${color};`} />
                           </div>
-                          <span class="chart-value" style={`color: ${value > 0 ? color : 'var(--color-text-muted)'};`}>
-                            {value}/3
-                          </span>
                         </div>
                       ))}
                     </div>
 
-                    {/* Stack */}
-                    <div>
-                      <p class="tags-label">Stack</p>
-                      <div class="tags-row">
-                        {project.data.stack.map((tech) => (
-                          <span class="tech-tag">{tech}</span>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Flags */}
+                    {/* Complexity flags */}
                     {project.data.flags.length > 0 && (
                       <div>
-                        <p class="tags-label">Habilidades</p>
+                        <p class="back-label" style="color: var(--color-text-muted); margin-bottom: 0.4rem;">Complexity Flags</p>
                         <div class="tags-row">
                           {project.data.flags.map((flag) => (
                             <span class="flag-tag" style={`color: ${color}; background: ${color}14; border-color: ${color}30;`}>
@@ -188,6 +174,11 @@ const activeDomains = [...new Set(projects.map((p) => p.data.domain))];
                           ))}
                         </div>
                       </div>
+                    )}
+
+                    {/* Summary */}
+                    {project.data.summary && (
+                      <p class="back-summary">{project.data.summary}</p>
                     )}
 
                     {/* Links */}
@@ -301,11 +292,23 @@ const activeDomains = [...new Set(projects.map((p) => p.data.domain))];
   }
   .front-cta:hover { opacity: 0.85; }
 
-  .front-stack {
+  .hero-stack {
+    position: absolute;
+    bottom: 0.6rem;
+    right: 0.75rem;
     display: flex;
-    flex-wrap: wrap;
-    gap: 0.3rem;
-    margin-top: 0.6rem;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.2rem;
+  }
+  .hero-stack-tag {
+    padding: 0.1rem 0.5rem;
+    border-radius: 0.35rem;
+    font-size: 0.6rem;
+    font-family: monospace;
+    background: rgba(0,0,0,0.45);
+    color: rgba(255,255,255,0.9);
+    backdrop-filter: blur(4px);
   }
 
   .flip-hint {
@@ -330,40 +333,38 @@ const activeDomains = [...new Set(projects.map((p) => p.data.domain))];
     gap: 0.75rem;
   }
 
-  .back-header {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 0.5rem;
-  }
-  .back-label { font-size: 0.6rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 0.1rem; }
-  .back-title { font-size: 0.9rem; font-weight: 700; font-family: var(--font-display); line-height: 1.2; color: var(--color-text); }
-
-  .score-badge {
+  .back-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 0.75rem; }
+  .back-domain-badge {
     flex-shrink: 0;
-    display: flex;
-    align-items: baseline;
-    gap: 1px;
-    border: 1px solid;
-    border-radius: 0.75rem;
-    padding: 0.25rem 0.6rem;
+    padding: 0.2rem 0.65rem;
+    border-radius: 9999px;
+    font-size: 0.65rem;
+    font-weight: 600;
+    white-space: nowrap;
   }
-  .score-num { font-size: 1.1rem; font-weight: 800; font-family: var(--font-display); line-height: 1; }
-  .score-den { font-size: 0.65rem; font-weight: 500; opacity: 0.7; }
+  .back-label { font-size: 0.6rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 0.15rem; }
+  .back-level { font-size: 0.88rem; font-weight: 700; font-family: var(--font-display); line-height: 1.2; margin-bottom: 0.15rem; }
+  .back-summary {
+    font-size: 0.68rem;
+    line-height: 1.5;
+    color: var(--color-text-muted);
+    font-style: italic;
+    border-left: 2px solid var(--color-border);
+    padding-left: 0.5rem;
+  }
 
-  /* Mini bar chart */
-  .chart-section { display: flex; flex-direction: column; gap: 0.3rem; }
+  /* Bar chart */
+  .chart-section { display: flex; flex-direction: column; gap: 0.28rem; }
   .chart-row { display: flex; align-items: center; gap: 0.5rem; }
-  .chart-label { width: 2.25rem; font-size: 0.62rem; color: var(--color-text-muted); flex-shrink: 0; }
+  .chart-label { width: 6.5rem; font-size: 0.62rem; color: var(--color-text-muted); flex-shrink: 0; }
   .chart-track {
     flex: 1;
-    height: 6px;
+    height: 5px;
     border-radius: 9999px;
     background: var(--color-surface-2);
     overflow: hidden;
   }
-  .chart-fill { height: 100%; border-radius: 9999px; transition: width 0.4s ease; }
-  .chart-value { width: 1.8rem; font-size: 0.62rem; font-weight: 600; text-align: right; flex-shrink: 0; }
+  .chart-fill { height: 100%; border-radius: 9999px; }
 
   /* Tags */
   .tags-label {
@@ -392,7 +393,7 @@ const activeDomains = [...new Set(projects.map((p) => p.data.domain))];
   }
 
   /* Back buttons */
-  .back-links { display: flex; gap: 0.5rem; margin-top: auto; width: 100%; }
+  .back-links { display: flex; gap: 0.5rem; margin-top: auto; width: 100%; padding-top: 0.25rem; }
   .btn-primary {
     display: block;
     text-align: center;
