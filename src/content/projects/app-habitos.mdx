@@ -1,0 +1,34 @@
+---
+title: "App de Hábitos"
+description: "App móvil para tracking de hábitos diarios con rachas, recordatorios inteligentes y resumen semanal por IA."
+date: "2025-10-20"
+domain: "mobile"
+level: 3
+level_name: "Basic Backend"
+flags: ["ai-ml", "multiplatform"]
+stack: ["React Native", "Expo", "Node.js", "PostgreSQL", "OpenAI"]
+score: 6
+complexity_breakdown:
+  data: 1
+  infra: 2
+  ml: 2
+  integration: 1
+github: "https://github.com"
+demo: "https://demo.example.com"
+draft: false
+---
+
+## Contexto
+
+Proyecto personal para aprender React Native. Terminó siendo una app funcional con usuarios reales.
+
+## Features
+
+- Tracking diario con check-in de un toque
+- Rachas y estadísticas de consistencia
+- Recordatorios adaptativos según hora de mayor cumplimiento histórico
+- Resumen semanal generado por GPT-4o con observaciones personalizadas
+
+## Stack
+
+Backend en Node.js con PostgreSQL. Notificaciones push via Expo. El resumen semanal se genera en un cron job nocturno y se entrega vía push al despertar.

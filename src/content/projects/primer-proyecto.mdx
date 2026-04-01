@@ -1,0 +1,40 @@
+---
+title: "Clasificador de Churn"
+description: "Modelo de ML para predecir abandono de clientes en una fintech, con pipeline de features y API de inferencia."
+date: "2026-02-10"
+domain: "machine-learning"
+level: 3
+level_name: "Basic Backend"
+flags: ["ai-ml", "data-intensive"]
+stack: ["Python", "scikit-learn", "FastAPI", "PostgreSQL"]
+score: 7
+complexity_breakdown:
+  data: 3
+  infra: 1
+  ml: 2
+  integration: 1
+github: "https://github.com"
+draft: false
+---
+
+## Contexto
+
+Una fintech con ~50k clientes activos necesitaba anticipar qué usuarios iban a cancelar su cuenta en los próximos 30 días para activar campañas de retención oportunas.
+
+## Problema
+
+Sin modelo predictivo, el equipo de CRM reaccionaba al abandono ya ocurrido. La tasa de churn era del 8% mensual con costo de adquisición alto.
+
+## Solución
+
+Pipeline completo de ML:
+
+1. Feature engineering sobre historial de transacciones, logins y soporte
+2. Modelo XGBoost con validación temporal (no data leakage)
+3. API FastAPI que expone `/predict` para integración con CRM
+
+## Resultados
+
+- AUC-ROC: 0.87 en test set
+- Reducción del churn en 2.3pp en el primer trimestre post-deploy
+- Integrado con HubSpot vía webhook

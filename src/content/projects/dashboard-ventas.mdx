@@ -1,0 +1,31 @@
+---
+title: "Dashboard de Ventas"
+description: "Dashboard interactivo para equipo comercial con métricas en tiempo real y alertas automáticas por territorio."
+date: "2026-01-15"
+domain: "analytics"
+level: 2
+level_name: "Static App"
+flags: ["realtime", "data-intensive"]
+stack: ["React", "Recharts", "Supabase"]
+score: 5
+complexity_breakdown:
+  data: 2
+  infra: 1
+  ml: 0
+  integration: 2
+demo: "https://demo.example.com"
+draft: false
+---
+
+## Contexto
+
+Equipo de ventas de 12 personas en una empresa de logística. Seguían sus KPIs en un Excel compartido que alguien actualizaba a mano cada lunes.
+
+## Solución
+
+Dashboard React con datos en tiempo real via Supabase Realtime. Filtros por rep, territorio y periodo. Alertas cuando una cuenta cae más del 20% respecto al mes anterior.
+
+## Resultados
+
+- Adopción del 100% del equipo en la primera semana
+- Reuniones de pipeline reducidas de 90 a 30 minutos
