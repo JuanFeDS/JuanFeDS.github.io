@@ -16,37 +16,131 @@ const projects = (await getCollection("projects"))
 const allProjects = (await getCollection("projects")).filter((p) => !p.data.draft);
 const n = allProjects.length || 1;
 
-const dimDefs = [
-  { key: "architecture",   emoji: "🧱", label: "Arch",  angle: -Math.PI / 2 },
-  { key: "data",           emoji: "📊", label: "Data",  angle: 0 },
-  { key: "infrastructure", emoji: "⚙️", label: "Infra", angle: Math.PI / 2 },
-  { key: "ai",             emoji: "🤖", label: "AI",    angle: Math.PI },
-];
-
-const dimAvgs = dimDefs.map(({ key, emoji, label, angle }) => ({
-  emoji, label, angle,
-  avg: +(allProjects.reduce((s, p) => s + (p.data.complexity_breakdown as Record<string, number>)[key], 0) / n).toFixed(2),
+// Level distribution
+const levelName: Record<number, string> = {
+  1: "Standalone Script",
+  2: "Static App",
+  3: "Basic Backend",
+  4: "Distributed System",
+  5: "Complex Platform",
+};
+const levelDist = [1, 2, 3, 4, 5].map((level) => ({
+  level,
+  count: allProjects.filter((p) => p.data.level === level).length,
 }));
+const maxLevelCount = Math.max(...levelDist.map((l) => l.count), 1);
 
-const avgLevel = +(allProjects.reduce((s, p) => s + p.data.level, 0) / n).toFixed(1);
+const levelColor: Record<number, string> = {
+  1: "var(--level-1)", 2: "var(--level-2)", 3: "var(--level-3)",
+  4: "var(--level-4)", 5: "var(--level-5)",
+};
+const levelDesc: Record<number, string> = {
+  1: "Nivel 1 · Standalone Script",
+  2: "Nivel 2 · Static App",
+  3: "Nivel 3 · Basic Backend",
+  4: "Nivel 4 · Distributed System",
+  5: "Nivel 5 · Complex Platform",
+};
 
-// Radar SVG geometry
-const CX = 80, CY = 76, R = 40;
-const radarPt = (v: number, a: number) => ({
-  x: +(CX + (v / 3) * R * Math.cos(a)).toFixed(2),
-  y: +(CY + (v / 3) * R * Math.sin(a)).toFixed(2),
+// Matrix: niveles × dimensiones de complejidad (siempre 5 niveles)
+const matrixDims = [
+  { key: "architecture",   emoji: "🧱", short: "Arch" },
+  { key: "data",           emoji: "📊", short: "Data" },
+  { key: "infrastructure", emoji: "⚙️", short: "Infra" },
+  { key: "ai",             emoji: "🤖", short: "AI"   },
+];
+const projectMatrix = [1, 2, 3, 4, 5].map((level) => {
+  const levelProjects = allProjects.filter((p) => p.data.level === level);
+  const n = levelProjects.length || 1;
+  return {
+    level,
+    count: levelProjects.length,
+    cells: matrixDims.map(({ key }) => ({
+      avg: levelProjects.length > 0
+        ? +(levelProjects.reduce((s, p) => s + (p.data.complexity_breakdown as Record<string, number>)[key], 0) / n).toFixed(1)
+        : null,
+    })),
+  };
 });
 
-const gridRings = [1, 2, 3].map((g) =>
-  dimAvgs.map(({ angle }) => { const p = radarPt(g, angle); return `${p.x},${p.y}`; }).join(" ")
-);
-const dataPolygon   = dimAvgs.map(({ avg, angle }) => { const p = radarPt(avg, angle); return `${p.x},${p.y}`; }).join(" ");
-const dataCircles   = dimAvgs.map(({ avg, angle }) => radarPt(avg, angle));
-const axisEndpoints = dimAvgs.map(({ angle }) => radarPt(3, angle));
-const labelPos      = dimAvgs.map(({ angle }) => ({
-  x: +(CX + (R + 18) * Math.cos(angle)).toFixed(1),
-  y: +(CY + (R + 18) * Math.sin(angle)).toFixed(1),
-}));
+
+const domainLabel: Record<string, string> = {
+  "data-engineering": "Data Engineering",
+  "machine-learning": "Machine Learning",
+  "ai": "AI",
+  "analytics": "Analytics",
+  "web": "Web",
+  "mobile": "Mobile",
+};
+
+const domainGradient: Record<string, string> = {
+  "data-engineering": "linear-gradient(135deg, #14b8a6 0%, #3b82f6 100%)",
+  "machine-learning": "linear-gradient(135deg, #8b5cf6 0%, #f472b6 100%)",
+  "ai":               "linear-gradient(135deg, #f472b6 0%, #8b5cf6 100%)",
+  "analytics":        "linear-gradient(135deg, #3b82f6 0%, #14b8a6 100%)",
+  "web":              "linear-gradient(135deg, #14b8a6 0%, #8b5cf6 100%)",
+  "mobile":           "linear-gradient(135deg, #8b5cf6 0%, #3b82f6 100%)",
+};
+
+// ── Stack dinámico desde proyectos ──────────────────────────────────────────
+const techCategoryMap: Record<string, string> = {
+  // Lenguajes
+  "Python": "Lenguajes", "SQL": "Lenguajes", "TypeScript": "Lenguajes",
+  "JavaScript": "Lenguajes", "Bash": "Lenguajes", "R": "Lenguajes",
+  "Go": "Lenguajes", "Rust": "Lenguajes", "Java": "Lenguajes",
+  // ML / IA
+  "PyTorch": "ML / IA", "TensorFlow": "ML / IA", "scikit-learn": "ML / IA",
+  "pandas": "ML / IA", "NumPy": "ML / IA", "LangChain": "ML / IA",
+  "OpenAI": "ML / IA", "HuggingFace": "ML / IA", "Pinecone": "ML / IA",
+  "Weaviate": "ML / IA", "FAISS": "ML / IA",
+  // Backend
+  "FastAPI": "Backend", "Node.js": "Backend", "Express": "Backend",
+  "PostgreSQL": "Backend", "MySQL": "Backend", "Redis": "Backend",
+  "MongoDB": "Backend", "Supabase": "Backend", "GraphQL": "Backend",
+  "REST": "Backend", "Slack API": "Backend",
+  // Frontend
+  "React": "Frontend", "React Native": "Frontend", "Expo": "Frontend",
+  "Next.js": "Frontend", "Vue": "Frontend", "Astro": "Frontend",
+  "Recharts": "Frontend", "Tailwind": "Frontend",
+  // Cloud & Data
+  "AWS": "Cloud & Data", "GCP": "Cloud & Data", "Azure": "Cloud & Data",
+  "BigQuery": "Cloud & Data", "Airflow": "Cloud & Data", "Docker": "Cloud & Data",
+  "Kubernetes": "Cloud & Data", "Terraform": "Cloud & Data",
+  "Power BI": "Cloud & Data", "dbt": "Cloud & Data", "Spark": "Cloud & Data",
+};
+
+const categoryOrder = ["Lenguajes", "ML / IA", "Backend", "Frontend", "Cloud & Data"];
+const categoryColor: Record<string, string> = {
+  "Lenguajes":   "var(--color-aurora-purple)",
+  "ML / IA":     "var(--color-aurora-teal)",
+  "Backend":     "var(--color-aurora-blue)",
+  "Frontend":    "var(--color-cat-frontend)",
+  "Cloud & Data":"var(--color-cat-cloud)",
+  "Otros":       "var(--color-text-muted)",
+};
+
+// Techs únicas presentes en proyectos, preservando orden de primera aparición
+const projectTechs = [...new Set(allProjects.flatMap((p) => p.data.stack))];
+
+// Agrupar por categoría
+const techsByCategory = new Map<string, string[]>();
+for (const tech of projectTechs) {
+  const cat = techCategoryMap[tech] ?? "Otros";
+  if (!techsByCategory.has(cat)) techsByCategory.set(cat, []);
+  techsByCategory.get(cat)!.push(tech);
+}
+
+// Ordenar categorías: primero las del orden definido, luego "Otros"
+const stackGroups = [
+  ...categoryOrder.filter((c) => techsByCategory.has(c)).map((c) => ({
+    label: c,
+    color: categoryColor[c],
+    techs: techsByCategory.get(c)!,
+  })),
+  ...(techsByCategory.has("Otros") ? [{ label: "Otros", color: categoryColor["Otros"], techs: techsByCategory.get("Otros")! }] : []),
+];
+// ────────────────────────────────────────────────────────────────────────────
+
 ---
 
 <BaseLayout title="JuanFe Martínez — Data Scientist & Engineer">
@@ -80,7 +174,7 @@ const labelPos      = dimAvgs.map(({ angle }) => ({
                 <img
                   src="/avatar.jpg"
                   alt="JuanFe Martínez"
-                  class="w-full h-full object-cover object-top"
+                  class="w-full h-full object-cover object-center"
                 />
               </div>
             </div>
@@ -128,7 +222,7 @@ const labelPos      = dimAvgs.map(({ angle }) => ({
 
         <!-- Complexity Profile card -->
         <div
-          class="col-span-12 md:col-span-4 rounded-3xl overflow-hidden flex flex-col mt-0 md:-mt-10"
+          class="col-span-12 md:col-span-4 rounded-3xl flex flex-col mt-0 md:-mt-10"
           style="background: var(--color-surface); border: 1px solid var(--color-border);"
         >
           <!-- Header -->
@@ -141,125 +235,186 @@ const labelPos      = dimAvgs.map(({ angle }) => ({
               <span class="text-xs font-semibold uppercase tracking-widest" style="color: var(--color-text-muted);">Complexity Profile</span>
               <a href="/blog/the-scientist-complexity-framework" class="text-xs transition-opacity hover:opacity-70" style="color: var(--color-aurora-purple);">¿Qué es esto? →</a>
             </div>
+            <p class="relative mt-2 text-xs leading-relaxed" style="color: var(--color-text-muted);">
+              Cada proyecto clasificado por nivel de sistema y scored en cuatro dimensiones: arquitectura, datos, infraestructura e IA.
+            </p>
           </div>
 
-          <!-- Radar chart -->
-          <div class="flex-1 flex items-center justify-center px-2 py-1">
-            <svg viewBox="0 0 160 164" class="w-full max-w-[260px]" aria-hidden="true">
-              <!-- Grid rings -->
-              {gridRings.map((pts, i) => (
-                <polygon
-                  points={pts}
-                  fill="none"
-                  stroke-width={i === 2 ? "0.8" : "0.5"}
-                  style={`stroke: var(--color-border); opacity: ${i === 2 ? 0.8 : 0.4};`}
-                />
+          <!-- Level distribution -->
+          <div class="flex-1 flex flex-col justify-center px-5 py-4">
+            <div class="flex items-center gap-1.5 mb-3">
+              <p class="text-[9px] font-bold uppercase tracking-widest" style="color: var(--color-text-muted);">Distribución por nivel</p>
+              <div class="matrix-help">
+                <span class="matrix-help-icon">?</span>
+                <div class="matrix-help-popup">
+                  <p class="matrix-help-section">Niveles · tipo de sistema</p>
+                  <div style="display:flex; flex-direction:column; gap:2px;">
+                    <span><b style="color:#22c55e">1</b> · Standalone Script</span>
+                    <span><b style="color:#3b82f6">2</b> · Static App</span>
+                    <span><b style="color:#eab308">3</b> · Basic Backend</span>
+                    <span><b style="color:#f97316">4</b> · Distributed System</span>
+                    <span><b style="color:#ef4444">5</b> · Complex Platform</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="flex flex-col gap-2">
+              {levelDist.map(({ level, count }) => (
+                <div class="flex items-center gap-2.5">
+                  <span
+                    class="text-[10px] font-bold w-3 flex-shrink-0 text-right cursor-default"
+                    title={levelName[level]}
+                    style={`color: ${levelColor[level]};`}
+                  >{level}</span>
+                  <div class="flex-1 h-2 rounded-full overflow-hidden" style="background: var(--color-surface-2);">
+                    <div
+                      class="h-full rounded-full"
+                      style={`width: ${count > 0 ? Math.max(count / maxLevelCount * 100, 5) : 0}%; background: ${levelColor[level]};`}
+                    />
+                  </div>
+                  <span
+                    class="text-[10px] font-bold w-3 flex-shrink-0 tabular-nums text-right"
+                    style={`color: ${count > 0 ? levelColor[level] : "var(--color-border)"};`}
+                  >{count}</span>
+                </div>
               ))}
+            </div>
+          </div>
 
-              <!-- Axis lines -->
-              {axisEndpoints.map((end) => (
-                <line
-                  x1={CX} y1={CY} x2={end.x} y2={end.y}
-                  stroke-width="0.5"
-                  style="stroke: var(--color-border); opacity: 0.5;"
-                />
+          <!-- Footer: matriz niveles × dimensiones -->
+          <div class="px-4 pt-3 pb-4" style="border-top: 1px solid var(--color-border);">
+            <div class="flex items-center gap-1.5 mb-2">
+              <p class="text-[9px] font-bold uppercase tracking-widest" style="color: var(--color-text-muted);">Score promedio por nivel</p>
+              <div class="matrix-help">
+                <span class="matrix-help-icon">?</span>
+                <div class="matrix-help-popup">
+                  <p class="matrix-help-section">Niveles de complejidad</p>
+                  <div class="matrix-help-grid">
+                    <span><b style="color:#22c55e">1</b> Standalone Script</span>
+                    <span><b style="color:#3b82f6">2</b> Static App</span>
+                    <span><b style="color:#eab308">3</b> Basic Backend</span>
+                    <span><b style="color:#f97316">4</b> Distributed System</span>
+                    <span><b style="color:#ef4444">5</b> Complex Platform</span>
+                  </div>
+                  <p class="matrix-help-section" style="margin-top:8px;">Dimensiones · score 0–3</p>
+                  <div class="matrix-help-grid">
+                    <span>🧱 <b>Arch</b> Diseño interno</span>
+                    <span>📊 <b>Data</b> Complejidad datos</span>
+                    <span>⚙️ <b>Infra</b> Deploy y operación</span>
+                    <span>🤖 <b>AI</b> ML integrado</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="matrix-wrap" style="grid-template-columns: auto repeat(4, 1fr);">
+              <!-- Esquina vacía + headers de dimensión -->
+              <div />
+              {matrixDims.map(({ emoji, short, key }) => (
+                <div class="matrix-col-header" title={key}>{emoji} {short}</div>
               ))}
-
-              <!-- Data polygon -->
-              <polygon
-                points={dataPolygon}
-                stroke-width="1.5"
-                stroke-linejoin="round"
-                style="fill: color-mix(in srgb, var(--color-aurora-purple) 20%, transparent); stroke: var(--color-aurora-purple);"
-              />
-
-              <!-- Data points -->
-              {dataCircles.map((p) => (
-                <circle cx={p.x} cy={p.y} r="3" style="fill: var(--color-aurora-purple);" />
-              ))}
-
-              <!-- Emoji + title labels -->
-              {dimAvgs.map(({ emoji, label }, i) => (
+              <!-- Filas de nivel -->
+              {projectMatrix.map(({ level, count, cells }) => (
                 <>
-                  <text
-                    x={labelPos[i].x}
-                    y={labelPos[i].y}
-                    text-anchor="middle"
-                    dominant-baseline="middle"
-                    font-size="12"
-                  >{emoji}</text>
-                  <text
-                    x={labelPos[i].x}
-                    y={+labelPos[i].y + 13}
-                    text-anchor="middle"
-                    dominant-baseline="middle"
-                    font-size="8.5"
-                    font-weight="600"
-                    letter-spacing="0.04em"
-                    style="fill: var(--color-text-muted); text-transform: uppercase;"
-                  >{label}</text>
+                  <div class="matrix-row-label" title={levelDesc[level]} style={`color: ${levelColor[level]};`}>{level}</div>
+                  {cells.map(({ avg }) => (
+                    <div
+                      class="matrix-cell"
+                      style={avg !== null && avg > 0
+                        ? `background: color-mix(in srgb, ${levelColor[level]} ${Math.round(avg / 3 * 70 + 10)}%, transparent); color: ${levelColor[level]};`
+                        : ""}
+                    >
+                      {avg !== null && avg > 0 ? avg : null}
+                    </div>
+                  ))}
                 </>
               ))}
-            </svg>
-          </div>
-
-          <!-- Dim scores -->
-          <div class="grid grid-cols-4 divide-x" style="border-top: 1px solid var(--color-border);">
-            {dimAvgs.map(({ label, avg }) => (
-              <div class="py-3 flex flex-col items-center gap-0.5">
-                <span class="text-sm font-bold leading-none" style="font-family: var(--font-display); color: var(--color-text);">{avg}</span>
-                <span class="text-[10px]" style="color: var(--color-text-muted);">{label}</span>
-              </div>
-            ))}
-          </div>
-
-          <!-- Footer -->
-          <div class="px-5 py-3 flex items-center justify-between" style="border-top: 1px solid var(--color-border);">
-            <span class="text-xs" style="color: var(--color-text-muted);">{n} proyecto{n !== 1 ? "s" : ""}</span>
-            <span class="text-xs font-semibold" style="color: var(--color-aurora-purple);">Nivel medio {avgLevel}</span>
+            </div>
           </div>
         </div>
 
         <!-- Stack card -->
         <div
-          class="col-span-12 md:col-span-4 rounded-3xl p-6"
+          class="col-span-12 md:col-span-4 rounded-3xl p-6 flex flex-col gap-5 relative overflow-hidden"
           style="background: var(--color-surface); border: 1px solid var(--color-border);"
         >
-          <p class="mb-4 text-xs font-semibold uppercase tracking-widest" style="color: var(--color-text-muted);">Stack</p>
-          <div class="flex flex-wrap gap-2">
-            {["Python", "SQL", "PyTorch", "scikit-learn", "FastAPI", "pandas", "Power BI", "AWS"].map((tech) => (
-              <span
-                class="rounded-full px-3 py-1 text-xs font-medium"
-                style="background: var(--color-surface-2); border: 1px solid var(--color-border); color: var(--color-text);"
-              >
-                {tech}
-              </span>
+          <!-- Glow -->
+          <div class="absolute inset-0 pointer-events-none opacity-10"
+            style="background: radial-gradient(ellipse at 80% 20%, var(--color-aurora-purple) 0%, transparent 65%);" />
+
+          <p class="relative text-xs font-semibold uppercase tracking-widest" style="color: var(--color-text-muted);">Stack</p>
+
+          <div class="relative flex flex-col gap-4">
+            {stackGroups.map(({ label, color, techs }, gi) => (
+              <div>
+                <p class="mb-1.5 text-[10px] font-bold uppercase tracking-widest" style={`color: ${color};`}>{label}</p>
+                <div class="flex flex-wrap gap-1.5" data-stack-group={gi}>
+                  {techs.map((tech, ti) => (
+                    <a
+                      href={`/projects?tech=${encodeURIComponent(tech)}`}
+                      class={`stack-pill rounded-full px-3 py-1 text-xs font-medium transition-opacity hover:opacity-70${ti >= 3 ? " stack-overflow hidden" : ""}`}
+                      style={`background: color-mix(in srgb, ${color} 10%, transparent); border: 1px solid color-mix(in srgb, ${color} 25%, transparent); color: var(--color-text); text-decoration: none;`}
+                    >
+                      {tech}
+                    </a>
+                  ))}
+                  {techs.length > 3 && (
+                    <button
+                      class="stack-toggle rounded-full px-3 py-1 text-xs font-medium transition-opacity hover:opacity-70"
+                      data-group={gi}
+                      data-extra={techs.length - 3}
+                      style={`background: color-mix(in srgb, ${color} 10%, transparent); border: 1px solid color-mix(in srgb, ${color} 25%, transparent); color: ${color};`}
+                    >
+                      +{techs.length - 3} más
+                    </button>
+                  )}
+                </div>
+              </div>
             ))}
           </div>
         </div>
 
         <!-- Featured projects -->
         {projects.length > 0 && (
-          <div
-            class="col-span-12 md:col-span-8 rounded-3xl p-6"
-            style="background: var(--color-surface); border: 1px solid var(--color-border);"
-          >
-            <div class="mb-4 flex items-center justify-between">
+          <div class="col-span-12 md:col-span-8 rounded-3xl p-6" style="background: var(--color-surface); border: 1px solid var(--color-border);">
+            <div class="mb-5 flex items-center justify-between">
               <p class="text-xs font-semibold uppercase tracking-widest" style="color: var(--color-text-muted);">Proyectos recientes</p>
               <a href="/projects" class="text-xs" style="color: var(--color-aurora-purple);">Ver todos →</a>
             </div>
-            <div class="grid gap-3">
+            <div class="grid grid-cols-1 gap-4">
               {projects.map((p) => (
-                <a
-                  href={`/projects/${p.id}`}
-                  class="group flex items-center justify-between rounded-2xl p-4 transition-colors"
-                  style="background: var(--color-surface-2); border: 1px solid var(--color-border);"
-                >
-                  <div>
-                    <p class="font-semibold" style="font-family: var(--font-display); color: var(--color-text);">{p.data.title}</p>
-                    <p class="mt-0.5 text-sm" style="color: var(--color-text-muted);">{p.data.description}</p>
+                <a href={`/projects/${p.id}`} class="project-card group relative rounded-2xl overflow-hidden">
+
+                  <!-- Capa imagen (revelada con wipe diagonal) -->
+                  <div class="project-img absolute inset-0">
+                    {p.data.image
+                      ? <img src={p.data.image} alt={p.data.title} class="w-full h-full object-cover" />
+                      : <div class="w-full h-full" style={`background: ${domainGradient[p.data.domain]};`} />
+                    }
                   </div>
-                  <span class="ml-4 text-lg transition-transform group-hover:translate-x-1" style="color: var(--color-text-muted);">→</span>
+
+                  <!-- Overlay oscuro (aparece con la imagen) -->
+                  <div class="project-overlay absolute inset-0" style="background: linear-gradient(to top, rgba(0,0,0,0.80), rgba(0,0,0,0.25));" />
+
+                  <!-- Contenido -->
+                  <div class="relative z-10 flex items-center px-5 gap-4">
+                    <!-- 30% izquierda: título + categoría -->
+                    <div class="w-[30%] flex-shrink-0">
+                      <span class="project-domain block text-[10px] font-bold uppercase tracking-widest mb-0.5">
+                        {domainLabel[p.data.domain]}
+                      </span>
+                      <p class="project-title font-bold text-sm leading-snug" style="font-family: var(--font-display);">
+                        {p.data.title}
+                      </p>
+                    </div>
+                    <!-- Divisor -->
+                    <div class="project-divider h-8 w-px flex-shrink-0" style="background: var(--color-border);" />
+                    <!-- 70% derecha: descripción -->
+                    <div class="flex-1 min-w-0">
+                      <p class="project-desc text-sm leading-snug line-clamp-2">
+                        {p.data.description}
+                      </p>
+                    </div>
+                  </div>
                 </a>
               ))}
             </div>
@@ -318,3 +473,177 @@ const labelPos      = dimAvgs.map(({ angle }) => ({
     <p>&copy; {new Date().getFullYear()} Juan Felipe &mdash; Hecho con Astro</p>
   </footer>
 </BaseLayout>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>(".stack-toggle").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const group   = btn.dataset.group!;
+      const extra   = Number(btn.dataset.extra);
+      const wrapper = document.querySelector(`[data-stack-group="${group}"]`)!;
+      const hidden  = wrapper.querySelectorAll<HTMLElement>(".stack-overflow");
+      const expanded = btn.dataset.expanded === "true";
+
+      hidden.forEach((el) => el.classList.toggle("hidden", expanded));
+      btn.dataset.expanded  = expanded ? "false" : "true";
+      btn.textContent       = expanded ? `+${extra} más` : "ver menos";
+    });
+  });
+</script>
+
+<style>
+  .matrix-wrap {
+    display: grid;
+    gap: 3px;
+  }
+  .matrix-col-header {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    text-align: center;
+    color: var(--color-text-muted);
+    padding-bottom: 2px;
+  }
+  .matrix-row-label {
+    font-size: 10px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    padding-right: 4px;
+  }
+  .matrix-cell {
+    height: 22px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    border: 1px solid var(--color-border);
+  }
+  .matrix-empty {
+    color: var(--color-border);
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 1;
+  }
+  .matrix-help {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  .matrix-help-icon {
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    border: 1px solid var(--color-text-muted);
+    font-size: 8px;
+    font-weight: 700;
+    font-family: monospace;
+    color: var(--color-text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: default;
+    opacity: 0.5;
+    transition: opacity 0.15s;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  .matrix-help:hover .matrix-help-icon {
+    opacity: 1;
+  }
+  .matrix-help-popup {
+    position: absolute;
+    bottom: calc(100% + 6px);
+    left: 0;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    padding: 10px 12px;
+    border-radius: 8px;
+    width: 220px;
+    font-size: 10px;
+    color: var(--color-text-muted);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s;
+    z-index: 50;
+    line-height: 1.7;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  }
+  .matrix-help:hover .matrix-help-popup {
+    opacity: 1;
+  }
+  .matrix-help-section {
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-muted);
+    margin-bottom: 4px;
+  }
+  .matrix-help-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px 8px;
+  }
+
+  .project-card {
+    min-height: 78px;
+    background: var(--color-surface-2);
+    border: 1px solid var(--color-border);
+    cursor: pointer;
+    text-decoration: none;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+  }
+
+  /* Imagen: empieza colapsada en el borde izquierdo (diagonal) */
+  .project-img {
+    clip-path: polygon(0 0, 0 0, 15% 100%, 0 100%);
+  }
+
+  /* Al hacer hover: barra diagonal barre de izquierda a derecha */
+  .project-card:hover .project-img {
+    animation: diagonal-wipe 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+
+  @keyframes diagonal-wipe {
+    from { clip-path: polygon(0 0, 0 0,   15% 100%,   0 100%); }
+    to   { clip-path: polygon(0 0, 115% 0, 100% 100%, 0 100%); }
+  }
+
+  /* Overlay oscuro aparece junto con la imagen */
+  .project-overlay {
+    opacity: 0;
+    transition: opacity 0.25s ease 0.35s;
+  }
+  .project-card:hover .project-overlay {
+    opacity: 1;
+  }
+
+  /* Textos: cambian a blanco cuando la imagen aparece */
+  .project-domain {
+    color: var(--color-text);
+    transition: color 0.2s ease 0.35s;
+  }
+  .project-card:hover .project-domain { color: rgba(255, 255, 255, 0.65); }
+
+  .project-title {
+    color: var(--color-text);
+    transition: color 0.2s ease 0.35s;
+  }
+  .project-card:hover .project-title { color: white; }
+
+  .project-desc {
+    color: var(--color-text-muted);
+    transition: color 0.2s ease 0.35s;
+  }
+  .project-card:hover .project-desc { color: rgba(255, 255, 255, 0.75); }
+
+  .project-divider {
+    transition: background 0.2s ease 0.35s;
+  }
+  .project-card:hover .project-divider { background: rgba(255, 255, 255, 0.25) !important; }
+</style>
