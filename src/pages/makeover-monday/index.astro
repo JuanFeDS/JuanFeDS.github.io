@@ -1,0 +1,354 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Nav from "../../components/Nav.astro";
+
+const allEntries = (await getCollection("makeover_monday"))
+  .filter((e) => !e.data.draft)
+  .sort((a, b) => {
+    if (b.data.year !== a.data.year) return b.data.year - a.data.year;
+    return b.data.week - a.data.week;
+  });
+
+const byYear: Record<number, typeof allEntries> = {};
+for (const entry of allEntries) {
+  if (!byYear[entry.data.year]) byYear[entry.data.year] = [];
+  byYear[entry.data.year].push(entry);
+}
+const years = Object.keys(byYear).map(Number).sort((a, b) => b - a);
+
+const gradients = [
+  "linear-gradient(135deg,#8b5cf6,#14b8a6)",
+  "linear-gradient(135deg,#14b8a6,#3b82f6)",
+  "linear-gradient(135deg,#f472b6,#8b5cf6)",
+  "linear-gradient(135deg,#3b82f6,#f472b6)",
+  "linear-gradient(135deg,#eab308,#14b8a6)",
+  "linear-gradient(135deg,#ef4444,#f97316)",
+  "linear-gradient(135deg,#14b8a6,#8b5cf6)",
+  "linear-gradient(135deg,#f97316,#eab308)",
+];
+
+const sizeClass: Record<string, string> = {
+  sm: "viz-sm", md: "viz-md", lg: "viz-lg", wide: "viz-wide", tall: "viz-tall",
+};
+---
+
+<BaseLayout title="Makeover Monday — JuanFe">
+  <Nav />
+  <main class="aurora-bg min-h-screen pt-20">
+    <div class="relative z-10 mx-auto max-w-6xl px-6 py-16">
+
+      <!-- Header -->
+      <div class="mb-14">
+        <p class="text-xs font-semibold uppercase tracking-widest mb-2" style="color: var(--color-aurora-purple);">Data Visualization</p>
+        <h1 class="text-5xl font-bold" style="font-family: var(--font-display); color: var(--color-text);">Makeover Monday</h1>
+        <p class="mt-3 text-lg max-w-xl" style="color: var(--color-text-muted);">
+          Reimaginando datasets públicos cada semana. Mismo dataset, otra perspectiva, otra historia.
+        </p>
+      </div>
+
+      <!-- Year sections -->
+      {years.map((year) => (
+        <section class="mb-20">
+          <div class="flex items-center gap-4 mb-6">
+            <h2 class="text-3xl font-bold" style="font-family: var(--font-display); color: var(--color-text);">{year}</h2>
+            <div class="flex-1 h-px" style="background: var(--color-border);" />
+            <span class="text-xs font-medium" style="color: var(--color-text-muted);">
+              {byYear[year].length} visualización{byYear[year].length !== 1 ? "es" : ""}
+            </span>
+          </div>
+
+          <div class="viz-grid">
+            {byYear[year].map((entry) => {
+              const g   = gradients[entry.data.week % gradients.length];
+              const sc  = sizeClass[entry.data.size ?? "md"];
+              const wk  = String(entry.data.week).padStart(2, "0");
+              return (
+                <button
+                  class={`viz-card ${sc}`}
+                  data-slug={entry.id}
+                  data-title={entry.data.title}
+                  data-week={String(entry.data.week)}
+                  data-year={String(entry.data.year)}
+                  data-image={entry.data.image ?? ""}
+                  data-gradient={g}
+                  aria-label={`W${wk} · ${entry.data.title}`}
+                >
+                  <div class="viz-inner">
+                    {entry.data.image
+                      ? <img src={entry.data.image} alt={entry.data.title} class="viz-img" loading="lazy" />
+                      : <div class="viz-img" style={`background: ${g};`} />
+                    }
+                    <div class="viz-info">
+                      <span class="viz-week-badge">W{wk}</span>
+                      <p class="viz-title-overlay">{entry.data.title}</p>
+                    </div>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        </section>
+      ))}
+
+    </div>
+  </main>
+
+  <!-- Lightbox -->
+  <div id="lb" class="lb" aria-hidden="true" role="dialog" aria-modal="true">
+    <div id="lb-backdrop" class="lb-backdrop" />
+    <div class="lb-frame">
+      <button id="lb-close" class="lb-close" aria-label="Cerrar">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+          <path d="M18 6 6 18M6 6l12 12"/>
+        </svg>
+      </button>
+      <div id="lb-media" class="lb-media" />
+      <div class="lb-meta">
+        <span id="lb-badge" class="lb-badge" />
+        <p id="lb-title" class="lb-title" />
+        <a id="lb-link" href="#" class="lb-link">Ver detalle →</a>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  const lb       = document.getElementById("lb")!;
+  const backdrop = document.getElementById("lb-backdrop")!;
+  const closeBtn = document.getElementById("lb-close")!;
+  const media    = document.getElementById("lb-media")!;
+  const badge    = document.getElementById("lb-badge")!;
+  const titleEl  = document.getElementById("lb-title")!;
+  const linkEl   = document.getElementById("lb-link") as HTMLAnchorElement;
+
+  function openLb(card: HTMLButtonElement) {
+    const { slug, title, week, year, image, gradient } = card.dataset as Record<string, string>;
+    const wk = week.padStart(2, "0");
+
+    media.innerHTML = image
+      ? `<img src="${image}" alt="${title}" class="lb-img" />`
+      : `<div class="lb-img" style="background:${gradient};"></div>`;
+
+    badge.textContent   = `W${wk} · ${year}`;
+    titleEl.textContent = title;
+    linkEl.href         = `/makeover-monday/${slug}`;
+
+    lb.classList.add("open");
+    lb.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeLb() {
+    lb.classList.remove("open");
+    lb.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+  }
+
+  document.querySelectorAll<HTMLButtonElement>(".viz-card").forEach((c) => {
+    c.addEventListener("click", () => openLb(c));
+  });
+  backdrop.addEventListener("click", closeLb);
+  closeBtn.addEventListener("click", closeLb);
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeLb(); });
+</script>
+
+<style>
+  /* ── Collage grid ──────────────────────────────────── */
+  .viz-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-auto-rows: 80px;
+    gap: 5px;
+    grid-auto-flow: dense;
+  }
+  .viz-sm   { grid-column: span 1; grid-row: span 1; }
+  .viz-md   { grid-column: span 1; grid-row: span 2; }
+  .viz-lg   { grid-column: span 2; grid-row: span 2; }
+  .viz-wide { grid-column: span 2; grid-row: span 1; }
+  .viz-tall { grid-column: span 1; grid-row: span 3; }
+
+  @media (max-width: 900px) {
+    .viz-grid {
+      grid-template-columns: repeat(4, 1fr);
+      grid-auto-rows: 75px;
+    }
+    .viz-lg { grid-column: span 2; }
+    .viz-wide { grid-column: span 2; }
+    .viz-tall { grid-row: span 2; }
+  }
+  @media (max-width: 480px) {
+    .viz-grid {
+      grid-template-columns: repeat(3, 1fr);
+      grid-auto-rows: 70px;
+    }
+  }
+
+  /* ── Card ──────────────────────────────────────────── */
+  .viz-card {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    border: none;
+    padding: 0;
+    background: var(--color-surface-2);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .viz-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.28);
+    z-index: 1;
+  }
+  .viz-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+  .viz-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+  }
+  .viz-card:hover .viz-img {
+    transform: scale(1.06);
+  }
+  .viz-info {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.05) 45%, transparent 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 8px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .viz-card:hover .viz-info { opacity: 1; }
+
+  .viz-week-badge {
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 2px;
+  }
+  .viz-title-overlay {
+    font-size: 10px;
+    font-weight: 600;
+    color: white;
+    line-height: 1.3;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* ── Lightbox ──────────────────────────────────────── */
+  .lb {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
+  .lb.open {
+    pointer-events: all;
+    opacity: 1;
+  }
+  .lb-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.75);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
+  .lb-frame {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    width: min(680px, 90vw);
+    transform: scale(0.93) translateY(10px);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .lb.open .lb-frame {
+    transform: scale(1) translateY(0);
+  }
+  .lb-close {
+    position: absolute;
+    top: -14px;
+    right: -14px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+    color: var(--color-text-muted);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.15s, background 0.15s;
+    z-index: 2;
+  }
+  .lb-close:hover {
+    color: var(--color-text);
+    background: var(--color-surface-2);
+  }
+  .lb-media {
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.55);
+  }
+  .lb-img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    display: block;
+  }
+  .lb-meta {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+  }
+  .lb-badge {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-aurora-purple);
+  }
+  .lb-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: white;
+    margin: 0;
+    font-family: var(--font-display);
+    text-align: center;
+    line-height: 1.3;
+  }
+  .lb-link {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-aurora-teal);
+    text-decoration: none;
+    margin-top: 2px;
+    transition: opacity 0.15s;
+  }
+  .lb-link:hover { opacity: 0.75; }
+</style>

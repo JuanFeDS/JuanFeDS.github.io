@@ -1,0 +1,135 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Nav from "../../components/Nav.astro";
+
+export async function getStaticPaths() {
+  const entries = await getCollection("makeover_monday", ({ data }) => !data.draft);
+  return entries.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const { title, week, year, image, tool, source_url } = entry.data;
+const wk = String(week).padStart(2, "0");
+
+const gradients = [
+  "linear-gradient(135deg,#8b5cf6,#14b8a6)",
+  "linear-gradient(135deg,#14b8a6,#3b82f6)",
+  "linear-gradient(135deg,#f472b6,#8b5cf6)",
+  "linear-gradient(135deg,#3b82f6,#f472b6)",
+  "linear-gradient(135deg,#eab308,#14b8a6)",
+  "linear-gradient(135deg,#ef4444,#f97316)",
+  "linear-gradient(135deg,#14b8a6,#8b5cf6)",
+  "linear-gradient(135deg,#f97316,#eab308)",
+];
+const heroGrad = gradients[week % gradients.length];
+---
+
+<BaseLayout title={`${title} · W${wk} ${year} — JuanFe`}>
+  <Nav />
+  <main class="aurora-bg min-h-screen pt-20">
+
+    <!-- Hero -->
+    <div class="relative overflow-hidden" style="height: clamp(280px, 42vh, 500px);">
+      {image
+        ? <img src={image} alt={title} class="absolute inset-0 w-full h-full object-cover" />
+        : <div class="absolute inset-0" style={`background: ${heroGrad};`} />
+      }
+      <div class="absolute inset-0" style="background: linear-gradient(to top, var(--color-bg) 0%, rgba(0,0,0,0.2) 55%, transparent 100%);" />
+      <div class="absolute bottom-0 left-0 right-0 px-6 pb-10 mx-auto max-w-3xl">
+        <div class="flex items-center gap-3 mb-3 flex-wrap">
+          <span
+            class="rounded-full px-3 py-1 text-xs font-bold uppercase tracking-widest"
+            style="background: rgba(139,92,246,0.25); color: var(--color-aurora-purple); backdrop-filter: blur(6px);"
+          >
+            W{wk} · {year}
+          </span>
+          {tool && (
+            <span class="text-xs font-medium" style="color: rgba(255,255,255,0.65);">{tool}</span>
+          )}
+        </div>
+        <h1 class="text-3xl md:text-4xl font-bold text-white leading-tight" style="font-family: var(--font-display);">
+          {title}
+        </h1>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="mx-auto max-w-3xl px-6 py-12">
+      {source_url && (
+        <div class="mb-8 rounded-xl px-4 py-3 flex items-center gap-3" style="background: var(--color-surface); border: 1px solid var(--color-border);">
+          <span class="text-xs font-semibold uppercase tracking-widest" style="color: var(--color-text-muted);">Dataset original</span>
+          <a
+            href={source_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-xs font-semibold ml-auto transition-opacity hover:opacity-75"
+            style="color: var(--color-aurora-teal);"
+          >
+            Ver fuente →
+          </a>
+        </div>
+      )}
+
+      <div class="prose-viz">
+        <Content />
+      </div>
+
+      <div class="mt-14 pt-6" style="border-top: 1px solid var(--color-border);">
+        <a
+          href="/makeover-monday"
+          class="text-sm font-medium transition-opacity hover:opacity-75"
+          style="color: var(--color-aurora-purple);"
+        >
+          ← Volver a Makeover Monday
+        </a>
+      </div>
+    </div>
+
+  </main>
+</BaseLayout>
+
+<style>
+  .prose-viz {
+    color: var(--color-text);
+    line-height: 1.8;
+    font-size: 1rem;
+  }
+  .prose-viz :global(h2) {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-top: 2.5rem;
+    margin-bottom: 0.75rem;
+    font-family: var(--font-display);
+    color: var(--color-text);
+  }
+  .prose-viz :global(h3) {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-top: 1.75rem;
+    margin-bottom: 0.5rem;
+    color: var(--color-text);
+  }
+  .prose-viz :global(p) {
+    margin-bottom: 1.25rem;
+    color: var(--color-text-muted);
+  }
+  .prose-viz :global(ul),
+  .prose-viz :global(ol) {
+    padding-left: 1.5rem;
+    margin-bottom: 1.25rem;
+    color: var(--color-text-muted);
+  }
+  .prose-viz :global(li) { margin-bottom: 0.4rem; }
+  .prose-viz :global(strong) { color: var(--color-text); }
+  .prose-viz :global(a) { color: var(--color-aurora-teal); }
+  .prose-viz :global(img) {
+    width: 100%;
+    border-radius: 12px;
+    margin: 1.5rem 0;
+  }
+</style>
