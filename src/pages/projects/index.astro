@@ -64,6 +64,12 @@ const activeDomains = [...new Set(projects.map((p) => p.data.domain))];
       </p>
     </header>
 
+    <div id="tech-filter-banner" class="hidden mb-4 flex items-center gap-2 text-sm" style="color: var(--color-text-muted);">
+      <span>Filtrando por stack:</span>
+      <span id="tech-filter-label" class="rounded-full px-3 py-0.5 text-xs font-semibold" style="background: var(--color-surface-2); border: 1px solid var(--color-border); color: var(--color-text);"></span>
+      <a href="/projects" class="text-xs transition-opacity hover:opacity-70" style="color: var(--color-aurora-purple);">× limpiar</a>
+    </div>
+
     <div class="flex flex-wrap gap-2 mb-10" id="filters">
       <button class="filter-btn active" data-filter="all">Todos</button>
       {activeDomains.map((domain) => (
@@ -85,7 +91,7 @@ const activeDomains = [...new Set(projects.map((p) => p.data.domain))];
             { emoji: "🤖", label: "AI",           value: project.data.complexity_breakdown.ai },
           ];
           return (
-            <div class="card-wrapper" data-domain={project.data.domain}>
+            <div class="card-wrapper" data-domain={project.data.domain} data-stack={project.data.stack.join(",").toLowerCase()}>
               <div class="card-inner">
 
                 {/* ── FRENTE ── */}
@@ -437,6 +443,7 @@ const activeDomains = [...new Set(projects.map((p) => p.data.domain))];
 </style>
 
 <script>
+  // Flip cards
   document.querySelectorAll<HTMLElement>(".card-wrapper").forEach((card) => {
     card.addEventListener("click", (e) => {
       if ((e.target as HTMLElement).closest("a")) return;
@@ -444,6 +451,7 @@ const activeDomains = [...new Set(projects.map((p) => p.data.domain))];
     });
   });
 
+  // Domain filter buttons
   document.querySelectorAll<HTMLButtonElement>(".filter-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
       const filter = btn.dataset.filter!;
@@ -456,4 +464,23 @@ const activeDomains = [...new Set(projects.map((p) => p.data.domain))];
       });
     });
   });
+
+  // Tech filter from URL (?tech=Python)
+  const techParam = new URLSearchParams(window.location.search).get("tech");
+  if (techParam) {
+    const techLower = techParam.toLowerCase();
+
+    // Mostrar banner
+    const banner = document.getElementById("tech-filter-banner")!;
+    const label  = document.getElementById("tech-filter-label")!;
+    banner.classList.remove("hidden");
+    label.textContent = techParam;
+
+    // Filtrar cards
+    document.querySelectorAll<HTMLElement>(".card-wrapper").forEach((card) => {
+      const stack = card.dataset.stack ?? "";
+      const match = stack.split(",").some((t) => t.trim() === techLower);
+      card.classList.toggle("hidden", !match);
+    });
+  }
 </script>
