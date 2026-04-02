@@ -27,6 +27,17 @@
 
 :root {
   color-scheme: light dark;
+
+  /* Level colors — accessible on light backgrounds */
+  --level-1: #15803d;
+  --level-2: #1d4ed8;
+  --level-3: #92400e;
+  --level-4: #c2410c;
+  --level-5: #b91c1c;
+
+  /* Category colors — accessible on light backgrounds */
+  --color-cat-frontend: #be185d;
+  --color-cat-cloud:    #c2410c;
 }
 
 html {
@@ -43,6 +54,17 @@ html.dark {
   --color-border: #1e1e35;
   --color-text: #e8e8f0;
   --color-text-muted: #7878a0;
+
+  /* Level colors — vivid on dark backgrounds */
+  --level-1: #22c55e;
+  --level-2: #3b82f6;
+  --level-3: #eab308;
+  --level-4: #f97316;
+  --level-5: #ef4444;
+
+  /* Category colors — vivid on dark backgrounds */
+  --color-cat-frontend: #f472b6;
+  --color-cat-cloud:    #fb923c;
 }
 
 /* Aurora background */
@@ -109,6 +131,8 @@ html.dark {
 .prose p {
   margin-bottom: 1.25em;
   color: var(--color-text);
+  text-align: justify;
+  hyphens: auto;
 }
 
 .prose code {
