@@ -54,4 +54,18 @@ const projects = defineCollection({
   }),
 });
 
-export const collections = { blog, projects };
+const makeover_monday = defineCollection({
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/makeover-monday" }),
+  schema: z.object({
+    title: z.string(),
+    week: z.number().int().min(1).max(53),
+    year: z.number().int().min(2020),
+    image: z.string().optional(),
+    tool: z.string().optional(),
+    size: z.enum(["sm", "md", "lg", "wide", "tall"]).optional().default("sm"),
+    source_url: z.string().optional(),
+    draft: z.boolean().optional().default(false),
+  }),
+});
+
+export const collections = { blog, projects, makeover_monday };
