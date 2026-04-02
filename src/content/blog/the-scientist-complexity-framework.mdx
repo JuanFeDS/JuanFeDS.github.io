@@ -26,7 +26,7 @@ Por eso el framework tiene varias capas.
 
 ---
 
-## Capa 1 — Nivel base (arquitectura)
+## Capa 1 — Nivel base
 
 Es la dimensión jerárquica. Responde a la pregunta:
 **¿cómo está construido el sistema?**
@@ -39,7 +39,7 @@ Es la dimensión jerárquica. Responde a la pregunta:
 | 🟠 4  | Distributed System | Backend + frontend separados, colas, workers, integraciones externas.              |
 | 🔴 5  | Scalable Platform  | Multi-tenant, alta escalabilidad, observabilidad, CI/CD, infraestructura compleja. |
 
-La mayoría de mis proyectos viven entre nivel 2 y 3.
+La mayoría de mis proyectos personales viven entre nivel 2 y 3.
 Los proyectos de datos suelen empezar en 1 y crecer hacia 3 o 4 cuando el volumen lo justifica.
 
 ---
@@ -57,45 +57,45 @@ Son cuatro dimensiones independientes, cada una en escala de 0 a 3:
 
 ### 🧱 Architecture
 
-¿Qué tan estructurado está el sistema internamente?
+¿Qué tan bien diseñado está el código internamente? Separación de responsabilidades, modularidad, uso de patrones.
 
-* 0 — Script lineal
-* 1 — Estructura simple
-* 2 — Backend estructurado
-* 3 — Sistema distribuido
+* 0 — Sin estructura: código lineal, todo en un mismo lugar
+* 1 — Estructura básica: funciones o módulos simples, algo de organización
+* 2 — Diseño deliberado: capas claras, separación de responsabilidades, código reutilizable
+* 3 — Arquitectura avanzada: patrones de diseño formales, alta cohesión, bajo acoplamiento
 
 ---
 
 ### 📊 Data
 
-¿Qué tan complejo es el manejo de datos?
+¿Qué tan complejo es el origen, transformación y uso de los datos?
 
-* 0 — Sin datos relevantes
-* 1 — Datos simples
-* 2 — Transformaciones moderadas
-* 3 — Pipelines complejos o alto volumen
+* 0 — Sin datos relevantes: lógica pura, sin persistencia ni procesamiento
+* 1 — Datos simples: CRUD básico, datasets pequeños, sin transformaciones significativas
+* 2 — Transformaciones moderadas: múltiples fuentes, limpieza, joins, agregaciones
+* 3 — Pipelines complejos: alto volumen, orquestación, calidad de datos, linaje o múltiples destinos
 
 ---
 
 ### ⚙️ Infrastructure
 
-¿Qué tan complejo es el deploy y la operación?
+¿Qué tan complejo es el deploy, la operación y el mantenimiento del sistema?
 
-* 0 — Corre local
-* 1 — Deploy simple
-* 2 — Cloud con configuración
-* 3 — Infraestructura avanzada
+* 0 — Sin deploy: corre local o en un notebook, no hay nada que operar
+* 1 — Deploy simple: hosting estático o serverless básico, configuración mínima
+* 2 — Cloud con configuración: Docker, servicios gestionados, variables de entorno, algo de CI/CD
+* 3 — Infraestructura avanzada: múltiples entornos, autoscaling, monitoreo, pipelines de deploy robustos
 
 ---
 
 ### 🤖 AI / ML
 
-¿Qué tan integrada está la inteligencia artificial?
+¿Qué tan integrada y sofisticada es la componente de inteligencia artificial o machine learning?
 
-* 0 — No hay IA
-* 1 — Uso exploratorio
-* 2 — Modelo en producción
-* 3 — Sistema ML completo
+* 0 — Sin IA: el sistema no usa ningún modelo ni componente de ML
+* 1 — Uso exploratorio: modelo preentrenado consumido via API, o análisis en notebook sin deploy
+* 2 — Modelo integrado: inferencia en producción, el modelo forma parte de la lógica del sistema
+* 3 — Sistema ML completo: pipeline de entrenamiento, versionado, evaluación, serving y monitoreo
 
 ---
 

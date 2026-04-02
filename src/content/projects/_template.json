@@ -42,28 +42,28 @@
 
   "_complexity_guide": {
     "architecture": {
-      "0": "Script lineal, sin arquitectura",
-      "1": "Estructura simple (scripts organizados / app sencilla)",
-      "2": "Backend estructurado (API, capas, DB)",
-      "3": "Sistema distribuido (servicios, colas, desacoplamiento)"
+      "0": "Sin estructura: código lineal, todo en un mismo lugar",
+      "1": "Estructura básica: funciones o módulos simples, algo de organización",
+      "2": "Diseño deliberado: capas claras, separación de responsabilidades, código reutilizable",
+      "3": "Arquitectura avanzada: patrones de diseño formales, alta cohesión, bajo acoplamiento"
     },
     "data": {
-      "0": "Sin datos relevantes",
-      "1": "Datos simples (CRUD, datasets pequeños)",
-      "2": "Transformaciones / pipelines moderados",
-      "3": "Data pipelines complejos, volumen alto o múltiples fuentes"
+      "0": "Sin datos relevantes: lógica pura, sin persistencia ni procesamiento",
+      "1": "Datos simples: CRUD básico, datasets pequeños, sin transformaciones significativas",
+      "2": "Transformaciones moderadas: múltiples fuentes, limpieza, joins, agregaciones",
+      "3": "Pipelines complejos: alto volumen, orquestación, calidad de datos, linaje o múltiples destinos"
     },
     "infrastructure": {
-      "0": "Sin deploy (local)",
-      "1": "Deploy simple (Vercel, Heroku, scripts)",
-      "2": "Cloud con configuración (Docker, servicios gestionados)",
-      "3": "Infra compleja (CI/CD, autoscaling, múltiples entornos)"
+      "0": "Sin deploy: corre local o en un notebook, no hay nada que operar",
+      "1": "Deploy simple: hosting estático o serverless básico, configuración mínima",
+      "2": "Cloud con configuración: Docker, servicios gestionados, variables de entorno, algo de CI/CD",
+      "3": "Infraestructura avanzada: múltiples entornos, autoscaling, monitoreo, pipelines de deploy robustos"
     },
     "ai": {
-      "0": "Sin IA",
-      "1": "Uso básico (modelo preentrenado o notebook)",
-      "2": "Modelo integrado en lógica (API, predicciones)",
-      "3": "Sistema ML completo (pipeline, entrenamiento, serving)"
+      "0": "Sin IA: el sistema no usa ningún modelo ni componente de ML",
+      "1": "Uso exploratorio: modelo preentrenado via API, o análisis en notebook sin deploy",
+      "2": "Modelo integrado: inferencia en producción, el modelo forma parte de la lógica del sistema",
+      "3": "Sistema ML completo: pipeline de entrenamiento, versionado, evaluación, serving y monitoreo"
     }
   },
 
