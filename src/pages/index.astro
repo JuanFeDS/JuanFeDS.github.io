@@ -164,6 +164,22 @@ const stackGroups = [
             </p>
           </div>
 
+          <!-- Avatar mobile (visible solo en mobile, centrado bajo el badge) -->
+          <div class="flex justify-center mt-4 mb-1 md:hidden">
+            <div
+              class="p-0.5 rounded-full"
+              style="background: linear-gradient(135deg, var(--color-aurora-purple), var(--color-aurora-teal));"
+            >
+              <div class="w-24 h-24 rounded-full overflow-hidden" style="background: var(--color-surface-2);">
+                <img
+                  src="/avatar.jpg"
+                  alt="JuanFe Martínez"
+                  class="w-full h-full object-cover object-center"
+                />
+              </div>
+            </div>
+          </div>
+
           <!-- Avatar (col 1, fila 2, desktop only) -->
           <div class="hidden md:flex md:items-center md:justify-center md:col-start-1 md:row-start-2 md:pt-6">
             <div
@@ -244,7 +260,7 @@ const stackGroups = [
           <div class="flex-1 flex flex-col justify-center px-5 py-4">
             <div class="flex items-center gap-1.5 mb-3">
               <p class="text-[9px] font-bold uppercase tracking-widest" style="color: var(--color-text-muted);">Distribución por nivel</p>
-              <div class="matrix-help">
+              <div class="matrix-help" tabindex="0">
                 <span class="matrix-help-icon">?</span>
                 <div class="matrix-help-popup">
                   <p class="matrix-help-section">Niveles · tipo de sistema</p>
@@ -285,7 +301,7 @@ const stackGroups = [
           <div class="px-4 pt-3 pb-4" style="border-top: 1px solid var(--color-border);">
             <div class="flex items-center gap-1.5 mb-2">
               <p class="text-[9px] font-bold uppercase tracking-widest" style="color: var(--color-text-muted);">Score promedio por nivel</p>
-              <div class="matrix-help">
+              <div class="matrix-help" tabindex="0">
                 <span class="matrix-help-icon">?</span>
                 <div class="matrix-help-popup">
                   <p class="matrix-help-section">Niveles de complejidad</p>
@@ -470,7 +486,7 @@ const stackGroups = [
     class="border-t px-6 py-10 text-center text-sm"
     style="border-color: var(--color-border); color: var(--color-text-muted);"
   >
-    <p>&copy; {new Date().getFullYear()} Juan Felipe &mdash; Hecho con Astro</p>
+    <p>&copy; {new Date().getFullYear()} JuanFeDS &mdash; Hecho con Astro</p>
   </footer>
 </BaseLayout>
 
@@ -551,18 +567,20 @@ const stackGroups = [
     line-height: 1;
     flex-shrink: 0;
   }
-  .matrix-help:hover .matrix-help-icon {
+  .matrix-help:hover .matrix-help-icon,
+  .matrix-help:focus-within .matrix-help-icon {
     opacity: 1;
   }
   .matrix-help-popup {
     position: absolute;
     bottom: calc(100% + 6px);
-    left: 0;
+    left: 50%;
+    transform: translateX(-50%);
     background: var(--color-surface);
     border: 1px solid var(--color-border);
     padding: 10px 12px;
     border-radius: 8px;
-    width: 220px;
+    width: min(220px, calc(100vw - 48px));
     font-size: 10px;
     color: var(--color-text-muted);
     pointer-events: none;
@@ -572,7 +590,8 @@ const stackGroups = [
     line-height: 1.7;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
   }
-  .matrix-help:hover .matrix-help-popup {
+  .matrix-help:hover .matrix-help-popup,
+  .matrix-help:focus-within .matrix-help-popup {
     opacity: 1;
   }
   .matrix-help-section {
