@@ -1,4 +1,4 @@
-# 🧑‍💻 juanfe.dev — Portafolio personal
+# 🧑‍💻 JuanfeDS — Portafolio personal
 
 Portafolio personal de Juan Felipe Martínez, Data Scientist & Data Engineer. Construido como un espacio para mostrar proyectos, compartir ideas y documentar el trabajo técnico de forma honesta.
 
