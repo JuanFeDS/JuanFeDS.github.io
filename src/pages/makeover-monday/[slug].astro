@@ -13,7 +13,7 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { Content } = await render(entry);
-const { title, week, year, image, tool, source_url } = entry.data;
+const { title, description, week, year, tool, source_url, dataset_url } = entry.data;
 const wk = String(week).padStart(2, "0");
 
 const gradients = [
@@ -22,7 +22,7 @@ const gradients = [
   "linear-gradient(135deg,#f472b6,#8b5cf6)",
   "linear-gradient(135deg,#3b82f6,#f472b6)",
   "linear-gradient(135deg,#eab308,#14b8a6)",
-  "linear-gradient(135deg,#ef4444,#f97316)",
+  "linear-gradient(135deg,#0f766e,#0f172a)",
   "linear-gradient(135deg,#14b8a6,#8b5cf6)",
   "linear-gradient(135deg,#f97316,#eab308)",
 ];
@@ -33,49 +33,66 @@ const heroGrad = gradients[week % gradients.length];
   <Nav />
   <main class="aurora-bg min-h-screen pt-20">
 
-    <!-- Hero -->
-    <div class="relative overflow-hidden" style="height: clamp(280px, 42vh, 500px);">
-      {image
-        ? <img src={image} alt={title} class="absolute inset-0 w-full h-full object-cover" />
-        : <div class="absolute inset-0" style={`background: ${heroGrad};`} />
-      }
-      <div class="absolute inset-0" style="background: linear-gradient(to top, var(--color-bg) 0%, rgba(0,0,0,0.2) 55%, transparent 100%);" />
-      <div class="absolute bottom-0 left-0 right-0 px-6 pb-10 mx-auto max-w-3xl">
+    <!-- Hero (gradient only) -->
+    <div class="relative overflow-hidden" style={`background: ${heroGrad}; height: clamp(320px, 45vh, 480px);`}>
+      <div class="absolute inset-0" style="background: linear-gradient(to top, var(--color-bg) 0%, rgba(0,0,0,0.15) 60%, transparent 100%);" />
+      <div class="absolute bottom-0 left-0 right-0 px-6 pb-16 mx-auto max-w-3xl">
         <div class="flex items-center gap-3 mb-3 flex-wrap">
           <span
             class="rounded-full px-3 py-1 text-xs font-bold uppercase tracking-widest"
-            style="background: rgba(139,92,246,0.25); color: var(--color-aurora-purple); backdrop-filter: blur(6px);"
+            style="background: rgba(0,0,0,0.25); color: white; backdrop-filter: blur(6px);"
           >
             W{wk} · {year}
           </span>
           {tool && (
-            <span class="text-xs font-medium" style="color: rgba(255,255,255,0.65);">{tool}</span>
+            <span class="text-xs font-medium" style="color: rgba(255,255,255,0.75);">{tool}</span>
           )}
         </div>
         <h1 class="text-3xl md:text-4xl font-bold text-white leading-tight" style="font-family: var(--font-display);">
           {title}
         </h1>
+        {description && (
+          <p class="mt-2 text-sm md:text-base" style="color: rgba(255,255,255,0.75); max-width: 52ch;">{description}</p>
+        )}
       </div>
     </div>
 
     <!-- Content -->
     <div class="mx-auto max-w-3xl px-6 py-12">
-      {source_url && (
-        <div class="mb-8 rounded-xl px-4 py-3 flex items-center gap-3" style="background: var(--color-surface); border: 1px solid var(--color-border);">
-          <span class="text-xs font-semibold uppercase tracking-widest" style="color: var(--color-text-muted);">Dataset original</span>
-          <a
-            href={source_url}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="text-xs font-semibold ml-auto transition-opacity hover:opacity-75"
-            style="color: var(--color-aurora-teal);"
-          >
-            Ver fuente →
-          </a>
+      {(source_url || dataset_url) && (
+        <div class="mb-8 rounded-xl overflow-hidden" style="border: 1px solid var(--color-border); max-width: 65ch;">
+          {source_url && (
+            <div class="px-4 py-3 flex items-center gap-3" style="background: var(--color-surface);">
+              <span class="text-xs font-semibold uppercase tracking-widest" style="color: var(--color-text-muted);">Artículo original</span>
+              <a
+                href={source_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-xs font-semibold ml-auto transition-opacity hover:opacity-75"
+                style="color: var(--color-aurora-teal);"
+              >
+                Ver fuente →
+              </a>
+            </div>
+          )}
+          {dataset_url && (
+            <div class="px-4 py-3 flex items-center gap-3" style="background: var(--color-surface); border-top: 1px solid var(--color-border);">
+              <span class="text-xs font-semibold uppercase tracking-widest" style="color: var(--color-text-muted);">Dataset</span>
+              <a
+                href={dataset_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-xs font-semibold ml-auto transition-opacity hover:opacity-75"
+                style="color: var(--color-aurora-teal);"
+              >
+                Ver dataset →
+              </a>
+            </div>
+          )}
         </div>
       )}
 
-      <div class="prose-viz">
+      <div class="prose">
         <Content />
       </div>
 
@@ -94,42 +111,65 @@ const heroGrad = gradients[week % gradients.length];
 </BaseLayout>
 
 <style>
-  .prose-viz {
-    color: var(--color-text);
-    line-height: 1.8;
-    font-size: 1rem;
-  }
-  .prose-viz :global(h2) {
-    font-size: 1.4rem;
-    font-weight: 700;
-    margin-top: 2.5rem;
-    margin-bottom: 0.75rem;
-    font-family: var(--font-display);
-    color: var(--color-text);
-  }
-  .prose-viz :global(h3) {
-    font-size: 1.1rem;
-    font-weight: 600;
-    margin-top: 1.75rem;
-    margin-bottom: 0.5rem;
-    color: var(--color-text);
-  }
-  .prose-viz :global(p) {
-    margin-bottom: 1.25rem;
-    color: var(--color-text-muted);
-  }
-  .prose-viz :global(ul),
-  .prose-viz :global(ol) {
-    padding-left: 1.5rem;
-    margin-bottom: 1.25rem;
-    color: var(--color-text-muted);
-  }
-  .prose-viz :global(li) { margin-bottom: 0.4rem; }
-  .prose-viz :global(strong) { color: var(--color-text); }
-  .prose-viz :global(a) { color: var(--color-aurora-teal); }
-  .prose-viz :global(img) {
-    width: 100%;
+  /* Ficha técnica */
+  :global(.ficha-tecnica) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    border: 1px solid var(--color-border);
     border-radius: 12px;
-    margin: 1.5rem 0;
+    overflow: hidden;
+    margin: 0.5rem 0 2rem;
+    background: var(--color-surface);
+  }
+  :global(.ficha-item) {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 12px 16px;
+    flex: 1 1 140px;
+    border-right: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+  }
+  :global(.ficha-item:last-child) {
+    border-right: none;
+  }
+  :global(.ficha-label) {
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-muted);
+  }
+  :global(.ficha-value) {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+  :global(.ficha-link) {
+    color: var(--color-aurora-teal) !important;
+    text-decoration: none;
+  }
+  :global(.ficha-link:hover) {
+    opacity: 0.75;
+  }
+
+  /* Figure & captions */
+  :global(.prose figure) {
+    margin: 2rem 0;
+  }
+  :global(.prose figure img) {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    border: 1px solid var(--color-border);
+    margin: 0;
+  }
+  :global(.prose figcaption) {
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    margin-top: 0.5rem;
+    font-style: italic;
   }
 </style>
