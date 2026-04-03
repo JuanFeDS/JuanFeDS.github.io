@@ -60,10 +60,12 @@ const makeover_monday = defineCollection({
     title: z.string(),
     week: z.number().int().min(1).max(53),
     year: z.number().int().min(2020),
+    description: z.string().optional(),
     image: z.string().optional(),
     tool: z.string().optional(),
     size: z.enum(["sm", "md", "lg", "wide", "tall"]).optional().default("sm"),
     source_url: z.string().optional(),
+    dataset_url: z.string().optional(),
     draft: z.boolean().optional().default(false),
   }),
 });
