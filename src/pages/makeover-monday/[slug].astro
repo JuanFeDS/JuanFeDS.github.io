@@ -227,6 +227,19 @@ const nextGrad = next ? gradients[next.data.week % gradients.length] : null;
   .hero-arrow-right { right: 16px; }
   .hero-arrow-label { line-height: 1; }
 
+  @media (max-width: 640px) {
+    .hero-arrow {
+      padding: 10px;
+      top: auto;
+      bottom: 16px;
+      transform: none;
+    }
+    .hero-arrow:hover {
+      transform: scale(1.05);
+    }
+    .hero-arrow-label { display: none; }
+  }
+
   /* Navegación prev/next */
   .entry-nav-link {
     text-decoration: none;
