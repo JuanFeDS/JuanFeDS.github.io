@@ -14,6 +14,12 @@ export async function getStaticPaths() {
 const { entry } = Astro.props;
 const { Content } = await render(entry);
 const { title, description, week, year, tool, source_url, dataset_url } = entry.data;
+
+const allEntries = (await getCollection("makeover_monday", ({ data }) => !data.draft))
+  .sort((a, b) => a.data.year !== b.data.year ? a.data.year - b.data.year : a.data.week - b.data.week);
+const currentIndex = allEntries.findIndex((e) => e.id === entry.id);
+const prev = currentIndex > 0 ? allEntries[currentIndex - 1] : null;
+const next = currentIndex < allEntries.length - 1 ? allEntries[currentIndex + 1] : null;
 const wk = String(week).padStart(2, "0");
 
 const gradients = [
@@ -27,6 +33,8 @@ const gradients = [
   "linear-gradient(135deg,#f97316,#eab308)",
 ];
 const heroGrad = gradients[week % gradients.length];
+const prevGrad = prev ? gradients[prev.data.week % gradients.length] : null;
+const nextGrad = next ? gradients[next.data.week % gradients.length] : null;
 ---
 
 <BaseLayout title={`${title} · W${wk} ${year} — JuanFe`}>
@@ -34,9 +42,31 @@ const heroGrad = gradients[week % gradients.length];
   <main class="aurora-bg min-h-screen pt-20">
 
     <!-- Hero (gradient only) -->
-    <div class="relative overflow-hidden" style={`background: ${heroGrad}; height: clamp(320px, 45vh, 480px);`}>
-      <div class="absolute inset-0" style="background: linear-gradient(to top, var(--color-bg) 0%, rgba(0,0,0,0.15) 60%, transparent 100%);" />
-      <div class="absolute bottom-0 left-0 right-0 px-6 pb-16 mx-auto max-w-3xl">
+    <div class="relative overflow-hidden" style={`background: ${heroGrad}; min-height: clamp(280px, 38vh, 400px); padding-top: clamp(80px, 14vh, 140px);`}>
+      <div class="hero-fade absolute inset-0" />
+      <div class="hero-veil absolute inset-0" />
+      <!-- Overlay de peek — se activa con JS al hacer hover en las flechas -->
+      <div id="hero-preview" class="absolute inset-0" style="pointer-events:none; opacity:0; transition: opacity 0.4s ease;" />
+
+      <!-- Flechas de navegación -->
+      {prev && (
+        <a href={`/makeover-monday/${prev.id}`} class="hero-arrow hero-arrow-left" data-grad={prevGrad} data-side="left" aria-label={`Anterior: ${prev.data.title}`}>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M15 18l-6-6 6-6"/>
+          </svg>
+          <span class="hero-arrow-label">W{String(prev.data.week).padStart(2,"0")}</span>
+        </a>
+      )}
+      {next && (
+        <a href={`/makeover-monday/${next.id}`} class="hero-arrow hero-arrow-right" data-grad={nextGrad} data-side="right" aria-label={`Siguiente: ${next.data.title}`}>
+          <span class="hero-arrow-label">W{String(next.data.week).padStart(2,"0")}</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 18l6-6-6-6"/>
+          </svg>
+        </a>
+      )}
+
+      <div class="relative px-6 pb-16 mx-auto max-w-3xl">
         <div class="flex items-center gap-3 mb-3 flex-wrap">
           <span
             class="rounded-full px-3 py-1 text-xs font-bold uppercase tracking-widest"
@@ -96,21 +126,132 @@ const heroGrad = gradients[week % gradients.length];
         <Content />
       </div>
 
-      <div class="mt-14 pt-6" style="border-top: 1px solid var(--color-border);">
-        <a
-          href="/makeover-monday"
-          class="text-sm font-medium transition-opacity hover:opacity-75"
-          style="color: var(--color-aurora-purple);"
-        >
-          ← Volver a Makeover Monday
-        </a>
-      </div>
+      <nav class="mt-14 pt-6 grid grid-cols-3 items-center gap-4" style="border-top: 1px solid var(--color-border);">
+
+        <!-- Anterior -->
+        <div class="flex justify-start">
+          {prev ? (
+            <a href={`/makeover-monday/${prev.id}`} class="entry-nav-link group flex flex-col gap-1">
+              <span class="entry-nav-label">← Anterior</span>
+              <span class="entry-nav-title">W{String(prev.data.week).padStart(2,"0")} · {prev.data.title}</span>
+            </a>
+          ) : <span />}
+        </div>
+
+        <!-- Galería -->
+        <div class="flex justify-center">
+          <a
+            href="/makeover-monday"
+            class="text-xs font-semibold uppercase tracking-widest transition-opacity hover:opacity-70"
+            style="color: var(--color-text-muted);"
+          >
+            Ver galería
+          </a>
+        </div>
+
+        <!-- Siguiente -->
+        <div class="flex justify-end">
+          {next ? (
+            <a href={`/makeover-monday/${next.id}`} class="entry-nav-link group flex flex-col gap-1 text-right">
+              <span class="entry-nav-label">Siguiente →</span>
+              <span class="entry-nav-title">{next.data.title} · W{String(next.data.week).padStart(2,"0")}</span>
+            </a>
+          ) : <span />}
+        </div>
+
+      </nav>
     </div>
 
   </main>
 </BaseLayout>
 
+<script>
+  const preview = document.getElementById("hero-preview") as HTMLElement | null;
+  if (preview) {
+    document.querySelectorAll<HTMLAnchorElement>(".hero-arrow").forEach((arrow) => {
+      const grad = arrow.dataset.grad ?? "";
+      const side = arrow.dataset.side as "left" | "right";
+
+      const mask = side === "left"
+        ? "linear-gradient(to right, black 0%, black 45%, transparent 80%)"
+        : "linear-gradient(to left,  black 0%, black 45%, transparent 80%)";
+
+      arrow.addEventListener("mouseenter", () => {
+        preview.style.background       = grad;
+        preview.style.maskImage        = mask;
+        preview.style.webkitMaskImage  = mask;
+        preview.style.opacity          = "0.72";
+      });
+      arrow.addEventListener("mouseleave", () => {
+        preview.style.opacity = "0";
+      });
+    });
+  }
+</script>
+
 <style>
+  /* Hero overlays */
+  /* Scrim oscuro fuerte en la zona inferior donde vive el texto — igual en ambos modos */
+  .hero-fade {
+    background: linear-gradient(to top, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.3) 45%, transparent 75%);
+  }
+  .hero-veil {
+    background: linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, transparent 50%);
+  }
+
+  /* Flechas en el hero */
+  .hero-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 14px;
+    border-radius: 999px;
+    background: rgba(0,0,0,0.28);
+    backdrop-filter: blur(8px);
+    color: white;
+    text-decoration: none;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+  .hero-arrow:hover {
+    background: rgba(0,0,0,0.48);
+    transform: translateY(-50%) scale(1.05);
+  }
+  .hero-arrow-left  { left: 16px; }
+  .hero-arrow-right { right: 16px; }
+  .hero-arrow-label { line-height: 1; }
+
+  /* Navegación prev/next */
+  .entry-nav-link {
+    text-decoration: none;
+    max-width: 18ch;
+    transition: opacity 0.15s;
+  }
+  .entry-nav-link:hover { opacity: 0.7; }
+  .entry-nav-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-aurora-purple);
+  }
+  .entry-nav-title {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--color-text);
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
   /* Ficha técnica */
   :global(.ficha-tecnica) {
     display: flex;
