@@ -48,6 +48,17 @@ const flagLabel: Record<string, string> = {
   "high-concurrency":  "🌍 Concurrencia",
 };
 
+const flagDescription: Record<string, string> = {
+  "ai-ml":             "Usa modelos o pipelines de ML/IA",
+  "multiplatform":     "Disponible en web y móvil",
+  "advanced-security": "OAuth, roles y permisos avanzados",
+  "realtime":          "Comunicación en tiempo real (WebSockets, SSE, streaming)",
+  "data-intensive":    "Big data o pipelines de datos complejos",
+  "cloud-native":      "Infraestructura como código, autoscaling",
+  "payments":          "Pagos o monetización integrada",
+  "high-concurrency":  "Diseñado para alta concurrencia",
+};
+
 const activeDomains = [...new Set(projects.map((p) => p.data.domain))];
 ---
 
@@ -174,7 +185,11 @@ const activeDomains = [...new Set(projects.map((p) => p.data.domain))];
                         <p class="back-label" style="color: var(--color-text-muted); margin-bottom: 0.4rem;">Complexity Flags</p>
                         <div class="tags-row">
                           {project.data.flags.map((flag) => (
-                            <span class="flag-tag" style={`color: ${color}; background: ${color}14; border-color: ${color}30;`}>
+                            <span
+                              class="flag-tag"
+                              style={`color: ${color}; background: ${color}14; border-color: ${color}30;`}
+                              data-tooltip={flagDescription[flag]}
+                            >
                               {flagLabel[flag]}
                             </span>
                           ))}
@@ -396,7 +411,9 @@ const activeDomains = [...new Set(projects.map((p) => p.data.domain))];
     border-radius: 9999px;
     font-size: 0.65rem;
     border: 1px solid;
+    cursor: default;
   }
+
 
   /* Back buttons */
   .back-links { display: flex; gap: 0.5rem; margin-top: auto; width: 100%; padding-top: 0.25rem; }
@@ -462,6 +479,40 @@ const activeDomains = [...new Set(projects.map((p) => p.data.domain))];
         card.classList.toggle("hidden", !match);
         if (!match) card.classList.remove("flipped");
       });
+    });
+  });
+
+  // Flag tooltips
+  const tooltip = document.createElement("div");
+  tooltip.id = "flag-tooltip";
+  Object.assign(tooltip.style, {
+    position:      "fixed",
+    zIndex:        "9999",
+    background:    "var(--color-surface)",
+    color:         "var(--color-text)",
+    border:        "1px solid var(--color-border)",
+    borderRadius:  "0.5rem",
+    padding:       "0.3rem 0.6rem",
+    fontSize:      "0.65rem",
+    whiteSpace:    "nowrap",
+    pointerEvents: "none",
+    boxShadow:     "0 4px 12px rgba(0,0,0,0.15)",
+    opacity:       "0",
+    transition:    "opacity 0.12s",
+  });
+  document.body.appendChild(tooltip);
+
+  document.querySelectorAll<HTMLElement>(".flag-tag[data-tooltip]").forEach((el) => {
+    el.addEventListener("mouseenter", () => {
+      tooltip.textContent = el.dataset.tooltip!;
+      tooltip.style.opacity = "1";
+    });
+    el.addEventListener("mousemove", (e) => {
+      tooltip.style.left = `${e.clientX - tooltip.offsetWidth / 2}px`;
+      tooltip.style.top  = `${e.clientY - tooltip.offsetHeight - 10}px`;
+    });
+    el.addEventListener("mouseleave", () => {
+      tooltip.style.opacity = "0";
     });
   });
 

@@ -1,0 +1,119 @@
+---
+title: "YT Organizer — Dashboard personal para YouTube"
+description: "App web full-stack que reemplaza el algoritmo de YouTube con un dashboard propio: organiza suscripciones por categorías, gestiona una lista de pendientes y analiza qué canales realmente consumes."
+date: "2026-05-01"
+domain: "web"
+level: 3
+level_name: "Basic Backend"
+flags: ["realtime", "data-intensive"]
+stack:
+  - React 19
+  - Vite
+  - shadcn/ui
+  - Tailwind CSS v4
+  - Apache ECharts
+  - React Router
+  - Node.js
+  - Express
+  - SQLite
+  - YouTube Data API v3
+  - OAuth 2.0
+  - Server-Sent Events
+image: ""
+draft: false
+complexity_breakdown:
+  architecture: 2
+  data: 2
+  infrastructure: 1
+  ai: 0
+summary: "Dashboard React + Express que consume la YouTube Data API v3 con OAuth2, persiste listas propias en SQLite y analiza el engagement por canal con SSE streaming."
+---
+
+YouTube tiene un problema que nadie le va a resolver: cuantas más suscripciones acumulas, menos ves de los canales que en realidad te importan. El algoritmo optimiza para retenerte, no para ponerte al día. Si sigues 200 canales y solo abres YouTube una vez al día, hay contenido que nunca vas a ver — y ni siquiera sabrás qué te perdiste.
+
+Este proyecto nació de esa fricción. La solución no era ver menos YouTube sino tener más control sobre cómo lo consumo.
+
+## El dashboard que YouTube no te da
+
+YT Organizer es una app web personal que se conecta a tu cuenta de Google mediante OAuth 2.0 y usa la YouTube Data API v3 para leer tus datos reales — suscripciones, playlists, canales. A diferencia de YouTube, aquí tú decides qué ves y en qué orden.
+
+Las funciones principales son:
+
+- **Suscripciones con categorías propias** — agrupa canales en categorías que tú defines (tecnología, diseño, cocina, lo que sea) y filtra por ellas.
+- **Lista de pendientes persistente** — guarda videos para ver después, marca los que ya viste, y la lista sobrevive a cerrar el navegador porque vive en SQLite, no en `localStorage`.
+- **Búsqueda dentro de tu ecosistema** — busca videos directamente desde el dashboard y agrégalos a pendientes o favoritos sin salir.
+- **Playlists** — navega tus playlists existentes de YouTube con sus videos.
+- **Favoritos** — guarda videos que quieres poder encontrar rápido.
+
+## Por qué un backend propio era necesario
+
+La opción más simple habría sido una SPA que llame a la API de YouTube directamente desde el navegador. Es viable, pero tiene un costo: exponer las credenciales OAuth en el cliente y no poder persistir datos entre sesiones de forma confiable.
+
+Con un backend Express propio:
+- Las credenciales de Google y el token de sesión nunca salen del servidor.
+- La lista de pendientes, vistos y favoritos se guarda en SQLite — una base de datos que vive en un archivo local, sin infraestructura adicional.
+- Las llamadas a YouTube pasan por el servidor, lo que permite cachear resultados costosos.
+
+SQLite fue la decisión correcta para este caso. No necesitaba un servidor de base de datos, no necesitaba escalar, y necesitaba una solución que funcionara sin configuración extra. `better-sqlite3` hace que las consultas sean síncronas y directas — ideal para un servidor de uso personal.
+
+## El módulo de estadísticas y el problema de la API
+
+La parte más interesante del proyecto es el módulo de estadísticas: un dashboard al estilo Spotify Wrapped que analiza tus patrones de consumo.
+
+La estadística más valiosa es el **análisis de engagement por canal**: ¿de cuáles canales realmente guardas o ves videos, y cuáles son suscripciones fantasma — canales activos con los que nunca interactúas?
+
+Para responder eso, la app necesita dos fuentes de datos:
+
+1. **Actividad del canal** — cuántos videos publicó en los últimos 90 días. Esto viene de la API de YouTube: para cada canal suscrito, se obtiene el ID de su playlist de uploads y se cuenta cuántos videos tienen fecha de publicación reciente.
+2. **Tu engagement** — cuántos videos de ese canal tienes en pendientes, vistos o favoritos. Esto viene de SQLite.
+
+El problema: si tienes 150 suscripciones, eso son 150 llamadas a `playlistItems.list` más unas pocas a `channels.list`. No es instantáneo.
+
+{/* TODO: add image */}
+
+## SSE para progreso en tiempo real
+
+Hacer que el usuario espere 30 segundos mirando una pantalla en blanco no era una opción. La solución fue cambiar el endpoint de estadísticas a **Server-Sent Events (SSE)**: en lugar de responder cuando todo termina, el servidor va enviando eventos de progreso mientras procesa cada lote de canales.
+
+```javascript
+// El servidor emite eventos mientras procesa
+const send = (payload) => res.write(`data: ${JSON.stringify(payload)}\n\n`)
+
+send({ progress: 5, message: 'Obteniendo suscripciones...' })
+// ... procesa batch ...
+send({ progress: 47, message: 'Analizando canales (60/127)...' })
+// ... al terminar:
+send({ progress: 100, message: '¡Listo!', result: data })
+res.end()
+```
+
+```javascript
+// El cliente escucha los eventos con EventSource
+const es = new EventSource('/api/channel-stats/stream', { withCredentials: true })
+es.onmessage = (e) => {
+  const { progress, message, result } = JSON.parse(e.data)
+  setLoadProgress(progress)
+  setLoadMessage(message)
+  if (result) { setChannelData(result); es.close() }
+}
+```
+
+El resultado es una barra de progreso real — no simulada — que avanza a medida que el servidor analiza cada lote de 8 canales en paralelo. Los resultados se cachean en memoria por 60 minutos para no repetir el análisis en cada visita.
+
+## Suscripciones fantasma
+
+El concepto más útil que emergió del análisis es el de **suscripción fantasma**: un canal que sigue publicando contenido (activo en los últimos 90 días) pero con el que nunca interactúas en la app — ningún video guardado, ninguno marcado como visto, ninguno en favoritos.
+
+Estas suscripciones son ruido puro. El dashboard las identifica y las separa del resto, lo que hace visible algo que YouTube tiene todo el interés en ocultarte: que una parte significativa de tus suscripciones probablemente ya no te interesan.
+
+{/* TODO: add image */}
+
+## Una nota sobre el historial de YouTube
+
+La YouTube Data API v3 no expone el historial de reproducción del usuario. Esto significa que "visto" en esta app solo cuenta los videos que tú marcas explícitamente — no lo que ves directamente en YouTube. Es una limitación real, pero también un incentivo para usar el dashboard como punto de entrada en lugar de YouTube directamente.
+
+## Lo que quedó
+
+El proyecto funciona como herramienta personal local. El siguiente paso natural es desplegarlo — un servidor pequeño en Railway o Fly.io sería suficiente para uso individual. El código ya tiene todo lo necesario: variables de entorno separadas, sesiones con cookie segura en producción, y CORS configurado por origen.
+
+Lo que más me sorprendió construyendo esto fue lo revelador que es el análisis de engagement. Ver en un gráfico que el 40% de tus suscripciones son fantasmas es incómodo — y exactamente el tipo de información que YouTube nunca te va a mostrar.
