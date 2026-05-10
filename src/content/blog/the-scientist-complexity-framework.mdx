@@ -48,21 +48,23 @@ Los proyectos de datos suelen empezar en 1 y crecer hacia 3 o 4 cuando el volume
 
 Aquí es donde el sistema se vuelve realmente útil.
 
-Son cuatro dimensiones independientes, cada una en escala de 0 a 3:
+Son cuatro dimensiones independientes, cada una en escala de 1 a 5:
 
-* **0 → bajo o inexistente**
-* **1 → básico**
-* **2 → moderado**
-* **3 → alto**
+* **1 → nulo o mínimo**
+* **2 → básico**
+* **3 → moderado**
+* **4 → avanzado**
+* **5 → experto / máximo**
 
 ### 🧱 Architecture
 
 ¿Qué tan bien diseñado está el código internamente? Separación de responsabilidades, modularidad, uso de patrones.
 
-* 0 — Sin estructura: código lineal, todo en un mismo lugar
-* 1 — Estructura básica: funciones o módulos simples, algo de organización
-* 2 — Diseño deliberado: capas claras, separación de responsabilidades, código reutilizable
-* 3 — Arquitectura avanzada: patrones de diseño formales, alta cohesión, bajo acoplamiento
+* 1 — Sin estructura: código lineal, todo en un mismo lugar
+* 2 — Estructura básica: funciones o módulos simples, algo de organización
+* 3 — Diseño deliberado: capas claras, separación de responsabilidades, código reutilizable
+* 4 — Arquitectura avanzada: patrones de diseño formales, alta cohesión, bajo acoplamiento
+* 5 — Arquitectura de referencia: DDD, hexagonal o event-driven, documentada y extensible a escala
 
 ---
 
@@ -70,10 +72,11 @@ Son cuatro dimensiones independientes, cada una en escala de 0 a 3:
 
 ¿Qué tan complejo es el origen, transformación y uso de los datos?
 
-* 0 — Sin datos relevantes: lógica pura, sin persistencia ni procesamiento
-* 1 — Datos simples: CRUD básico, datasets pequeños, sin transformaciones significativas
-* 2 — Transformaciones moderadas: múltiples fuentes, limpieza, joins, agregaciones
-* 3 — Pipelines complejos: alto volumen, orquestación, calidad de datos, linaje o múltiples destinos
+* 1 — Sin datos relevantes: lógica pura, sin persistencia ni procesamiento
+* 2 — Datos simples: CRUD básico, datasets pequeños, sin transformaciones significativas
+* 3 — Transformaciones moderadas: múltiples fuentes, limpieza, joins, agregaciones
+* 4 — Pipelines complejos: alto volumen, orquestación, calidad de datos, linaje o múltiples destinos
+* 5 — Plataforma de datos: data warehouse, streaming, SLAs de calidad y observabilidad completa
 
 ---
 
@@ -81,21 +84,23 @@ Son cuatro dimensiones independientes, cada una en escala de 0 a 3:
 
 ¿Qué tan complejo es el deploy, la operación y el mantenimiento del sistema?
 
-* 0 — Sin deploy: corre local o en un notebook, no hay nada que operar
-* 1 — Deploy simple: hosting estático o serverless básico, configuración mínima
-* 2 — Cloud con configuración: Docker, servicios gestionados, variables de entorno, algo de CI/CD
-* 3 — Infraestructura avanzada: múltiples entornos, autoscaling, monitoreo, pipelines de deploy robustos
+* 1 — Sin deploy: corre local o en un notebook, no hay nada que operar
+* 2 — Deploy simple: hosting estático o serverless básico, configuración mínima
+* 3 — Cloud con configuración: Docker, servicios gestionados, variables de entorno, algo de CI/CD
+* 4 — Infraestructura avanzada: múltiples entornos, autoscaling, monitoreo, pipelines de deploy robustos
+* 5 — Infraestructura de producción: IaC, disaster recovery, SLOs y observabilidad full-stack
 
 ---
 
-### 🤖 AI / ML
+### 🤖 AI / Agentes
 
-¿Qué tan integrada y sofisticada es la componente de inteligencia artificial o machine learning?
+¿Qué tan integrada y sofisticada es la componente de inteligencia artificial o agentes autónomos? Cubre ML clásico, LLMs, agentes y sistemas de razonamiento.
 
-* 0 — Sin IA: el sistema no usa ningún modelo ni componente de ML
-* 1 — Uso exploratorio: modelo preentrenado consumido via API, o análisis en notebook sin deploy
-* 2 — Modelo integrado: inferencia en producción, el modelo forma parte de la lógica del sistema
-* 3 — Sistema ML completo: pipeline de entrenamiento, versionado, evaluación, serving y monitoreo
+* 1 — Sin IA: el sistema no usa ningún componente de inteligencia artificial, ML o agentes
+* 2 — Uso puntual: LLM via API, modelo preentrenado o agente simple, sin integración profunda en la lógica
+* 3 — IA integrada: LLM, modelo o agente como parte central del sistema; prompts, chains, razonamiento o inferencia en producción
+* 4 — Sistema de IA completo: agentes autónomos con memoria, RAG, pipelines de entrenamiento o fine-tuning, orquestación de múltiples modelos
+* 5 — Plataforma de IA avanzada: multi-agente coordinado, reentrenamiento automático, A/B testing de modelos, evaluación de razonamiento y monitoreo de drift
 
 ---
 
@@ -121,7 +126,7 @@ Los flags no cambian el nivel base, pero ayudan a entender rápidamente el tipo 
 **Campaign ETL**
 
 * Nivel 1 — Standalone Script
-* Data: 3 · Infrastructure: 0 · AI: 0
+* Data: 4 · Infrastructure: 1 · AI: 1
 
 Es un sistema arquitectónicamente simple, pero con complejidad significativa en procesamiento de datos.
 
