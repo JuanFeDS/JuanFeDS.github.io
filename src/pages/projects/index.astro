@@ -38,7 +38,6 @@ const levelDot: Record<number, string> = {
 };
 
 const flagLabel: Record<string, string> = {
-  "ai-ml":             "🤖 IA/ML",
   "multiplatform":     "📱 Multi",
   "advanced-security": "🔐 Seg",
   "realtime":          "⚡ RT",
@@ -49,7 +48,6 @@ const flagLabel: Record<string, string> = {
 };
 
 const flagDescription: Record<string, string> = {
-  "ai-ml":             "Usa modelos o pipelines de ML/IA",
   "multiplatform":     "Disponible en web y móvil",
   "advanced-security": "OAuth, roles y permisos avanzados",
   "realtime":          "Comunicación en tiempo real (WebSockets, SSE, streaming)",
@@ -173,7 +171,7 @@ const activeDomains = [...new Set(projects.map((p) => p.data.domain))];
                         <div class="chart-row">
                           <span class="chart-label">{emoji} {label}</span>
                           <div class="chart-track">
-                            <div class="chart-fill" style={`width: ${(value / 3) * 100}%; background: ${color};`} />
+                            <div class="chart-fill" style={`width: ${((value - 1) / 4) * 100}%; background: ${color};`} />
                           </div>
                         </div>
                       ))}

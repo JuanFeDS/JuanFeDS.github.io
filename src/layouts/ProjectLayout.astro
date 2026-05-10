@@ -60,7 +60,6 @@ const levelDot: Record<number, string> = {
 };
 
 const flagLabel: Record<string, string> = {
-  "ai-ml":             "🤖 AI/ML",
   "multiplatform":     "📱 Multiplataforma",
   "advanced-security": "🔐 Seguridad avanzada",
   "realtime":          "⚡ Tiempo real",
@@ -135,7 +134,7 @@ const formattedDate = new Date(date).toLocaleDateString("es-ES", {
             <div class="chart-row">
               <span class="chart-label">{emoji} {label}</span>
               <div class="chart-track">
-                <div class="chart-fill" style={`width: ${(value / 3) * 100}%; background: ${color};`} />
+                <div class="chart-fill" style={`width: ${((value - 1) / 4) * 100}%; background: ${color};`} />
               </div>
             </div>
           ))}
