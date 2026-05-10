@@ -10,8 +10,7 @@ const posts = (await getCollection("blog"))
 
 const projects = (await getCollection("projects"))
   .filter((p) => !p.data.draft)
-  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
-  .slice(0, 3);
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
 
 const allProjects = (await getCollection("projects")).filter((p) => !p.data.draft);
 const n = allProjects.length || 1;
@@ -312,22 +311,23 @@ const stackGroups = [
                     <span><b style="color:#f97316">4</b> Distributed System</span>
                     <span><b style="color:#ef4444">5</b> Complex Platform</span>
                   </div>
-                  <p class="matrix-help-section" style="margin-top:8px;">Dimensiones · score 0–3</p>
+                  <p class="matrix-help-section" style="margin-top:8px;">Dimensiones · score 1–5</p>
                   <div class="matrix-help-grid">
                     <span>🧱 <b>Arch</b> Diseño interno</span>
                     <span>📊 <b>Data</b> Complejidad datos</span>
                     <span>⚙️ <b>Infra</b> Deploy y operación</span>
-                    <span>🤖 <b>AI</b> ML integrado</span>
+                    <span>🤖 <b>AI</b> IA / Agentes</span>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="matrix-wrap" style="grid-template-columns: auto repeat(4, 1fr);">
-              <!-- Esquina vacía + headers de dimensión -->
+            <div class="matrix-wrap" style="grid-template-columns: auto repeat(4, 1fr) 1fr;">
+              <!-- Esquina vacía + headers de dimensión + header count -->
               <div />
               {matrixDims.map(({ emoji, short, key }) => (
                 <div class="matrix-col-header" title={key}>{emoji} {short}</div>
               ))}
+              <div class="matrix-col-header">📦 Tot</div>
               <!-- Filas de nivel -->
               {projectMatrix.map(({ level, count, cells }) => (
                 <>
@@ -336,12 +336,18 @@ const stackGroups = [
                     <div
                       class="matrix-cell"
                       style={avg !== null && avg > 0
-                        ? `background: color-mix(in srgb, ${levelColor[level]} ${Math.round(avg / 3 * 70 + 10)}%, transparent); color: ${levelColor[level]};`
+                        ? `background: color-mix(in srgb, ${levelColor[level]} ${Math.round((avg - 1) / 4 * 70 + 10)}%, transparent); color: ${levelColor[level]};`
                         : ""}
                     >
                       {avg !== null && avg > 0 ? avg : null}
                     </div>
                   ))}
+                  <div
+                    class="matrix-cell"
+                    style={count > 0 ? `color: ${levelColor[level]}; opacity: 0.6;` : ""}
+                  >
+                    {count > 0 ? count : null}
+                  </div>
                 </>
               ))}
             </div>
