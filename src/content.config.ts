@@ -29,7 +29,6 @@ const projects = defineCollection({
       "Complex Platform",
     ]),
     flags: z.array(z.enum([
-      "ai-ml",
       "multiplatform",
       "advanced-security",
       "realtime",
@@ -40,10 +39,10 @@ const projects = defineCollection({
     ])).optional().default([]),
     stack: z.array(z.string()),
     complexity_breakdown: z.object({
-      architecture: z.number().int().min(0).max(3),
-      data: z.number().int().min(0).max(3),
-      infrastructure: z.number().int().min(0).max(3),
-      ai: z.number().int().min(0).max(3),
+      architecture: z.number().int().min(1).max(5),
+      data: z.number().int().min(1).max(5),
+      infrastructure: z.number().int().min(1).max(5),
+      ai: z.number().int().min(1).max(5),
     }),
     summary: z.string().optional(),
     image: z.string().optional(),

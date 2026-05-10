@@ -18,10 +18,9 @@
     "5": "Multi-tenant, escalabilidad real, observabilidad, CI/CD sólido, Docker/Kubernetes"
   },
 
-  "flags": ["<ai-ml | multiplatform | advanced-security | realtime | data-intensive | cloud-native | payments | high-concurrency>"],
+  "flags": ["<multiplatform | advanced-security | realtime | data-intensive | cloud-native | payments | high-concurrency>"],
 
   "_flags_guide": {
-    "ai-ml": "Usa modelos, inferencia o pipelines de ML/IA",
     "multiplatform": "Web + mobile",
     "advanced-security": "OAuth, roles, permisos avanzados",
     "realtime": "WebSockets, streaming",
@@ -34,36 +33,40 @@
   "stack": [""],
 
   "complexity_breakdown": {
-    "architecture": "<0 | 1 | 2 | 3>",
-    "data": "<0 | 1 | 2 | 3>",
-    "infrastructure": "<0 | 1 | 2 | 3>",
-    "ai": "<0 | 1 | 2 | 3>"
+    "architecture": "<1 | 2 | 3 | 4 | 5>",
+    "data": "<1 | 2 | 3 | 4 | 5>",
+    "infrastructure": "<1 | 2 | 3 | 4 | 5>",
+    "ai": "<1 | 2 | 3 | 4 | 5>"
   },
 
   "_complexity_guide": {
     "architecture": {
-      "0": "Sin estructura: código lineal, todo en un mismo lugar",
-      "1": "Estructura básica: funciones o módulos simples, algo de organización",
-      "2": "Diseño deliberado: capas claras, separación de responsabilidades, código reutilizable",
-      "3": "Arquitectura avanzada: patrones de diseño formales, alta cohesión, bajo acoplamiento"
+      "1": "Sin estructura: código lineal, todo en un mismo lugar",
+      "2": "Estructura básica: funciones o módulos simples, algo de organización",
+      "3": "Diseño deliberado: capas claras, separación de responsabilidades, código reutilizable",
+      "4": "Arquitectura avanzada: patrones de diseño formales, alta cohesión, bajo acoplamiento",
+      "5": "Arquitectura de referencia: DDD, hexagonal o event-driven, documentada y extensible a escala"
     },
     "data": {
-      "0": "Sin datos relevantes: lógica pura, sin persistencia ni procesamiento",
-      "1": "Datos simples: CRUD básico, datasets pequeños, sin transformaciones significativas",
-      "2": "Transformaciones moderadas: múltiples fuentes, limpieza, joins, agregaciones",
-      "3": "Pipelines complejos: alto volumen, orquestación, calidad de datos, linaje o múltiples destinos"
+      "1": "Sin datos relevantes: lógica pura, sin persistencia ni procesamiento",
+      "2": "Datos simples: CRUD básico, datasets pequeños, sin transformaciones significativas",
+      "3": "Transformaciones moderadas: múltiples fuentes, limpieza, joins, agregaciones",
+      "4": "Pipelines complejos: alto volumen, orquestación, calidad de datos, linaje o múltiples destinos",
+      "5": "Plataforma de datos: data warehouse, streaming, SLAs de calidad y observabilidad completa"
     },
     "infrastructure": {
-      "0": "Sin deploy: corre local o en un notebook, no hay nada que operar",
-      "1": "Deploy simple: hosting estático o serverless básico, configuración mínima",
-      "2": "Cloud con configuración: Docker, servicios gestionados, variables de entorno, algo de CI/CD",
-      "3": "Infraestructura avanzada: múltiples entornos, autoscaling, monitoreo, pipelines de deploy robustos"
+      "1": "Sin deploy: corre local o en un notebook, no hay nada que operar",
+      "2": "Deploy simple: hosting estático o serverless básico, configuración mínima",
+      "3": "Cloud con configuración: Docker, servicios gestionados, variables de entorno, algo de CI/CD",
+      "4": "Infraestructura avanzada: múltiples entornos, autoscaling, monitoreo, pipelines de deploy robustos",
+      "5": "Infraestructura de producción: IaC, disaster recovery, SLOs y observabilidad full-stack"
     },
     "ai": {
-      "0": "Sin IA: el sistema no usa ningún modelo ni componente de ML",
-      "1": "Uso exploratorio: modelo preentrenado via API, o análisis en notebook sin deploy",
-      "2": "Modelo integrado: inferencia en producción, el modelo forma parte de la lógica del sistema",
-      "3": "Sistema ML completo: pipeline de entrenamiento, versionado, evaluación, serving y monitoreo"
+      "1": "Sin IA: el sistema no usa ningún componente de inteligencia artificial, ML o agentes",
+      "2": "Uso puntual: LLM via API, modelo preentrenado o agente simple, sin integración profunda",
+      "3": "IA integrada: LLM, modelo o agente como parte central; prompts, chains, razonamiento o inferencia en producción",
+      "4": "Sistema de IA completo: agentes autónomos con memoria, RAG, pipelines de entrenamiento o fine-tuning, orquestación de modelos",
+      "5": "Plataforma de IA avanzada: multi-agente coordinado, reentrenamiento automático, A/B testing y monitoreo de drift"
     }
   },
 
