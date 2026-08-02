@@ -53,7 +53,15 @@ const activeDomains = [...new Set(projects.map((p) => p.data.domain))];
             { emoji: "🤖", label: "AI",           value: project.data.complexity_breakdown.ai },
           ];
           return (
-            <div class="card-wrapper" data-domain={project.data.domain} data-stack={project.data.stack.join(",").toLowerCase()}>
+            <div
+              class="card-wrapper"
+              data-domain={project.data.domain}
+              data-stack={project.data.stack.join(",").toLowerCase()}
+              role="button"
+              tabindex="0"
+              aria-pressed="false"
+              aria-label={`Ver detalle de complejidad de ${project.data.title}`}
+            >
               <div class="card-inner">
 
                 {/* ── FRENTE ── */}
@@ -193,6 +201,11 @@ const activeDomains = [...new Set(projects.map((p) => p.data.domain))];
     cursor: pointer;
   }
   .card-wrapper.hidden { display: none; }
+  .card-wrapper:focus-visible {
+    outline: 2px solid var(--color-aurora-purple);
+    outline-offset: 3px;
+    border-radius: 1.5rem;
+  }
 
   .card-inner {
     position: relative;
@@ -412,10 +425,22 @@ const activeDomains = [...new Set(projects.map((p) => p.data.domain))];
 
 <script>
   // Flip cards
+  function toggleFlip(card: HTMLElement) {
+    const flipped = card.classList.toggle("flipped");
+    card.setAttribute("aria-pressed", String(flipped));
+  }
+
   document.querySelectorAll<HTMLElement>(".card-wrapper").forEach((card) => {
     card.addEventListener("click", (e) => {
       if ((e.target as HTMLElement).closest("a")) return;
-      card.classList.toggle("flipped");
+      toggleFlip(card);
+    });
+    card.addEventListener("keydown", (e) => {
+      if ((e.target as HTMLElement).closest("a")) return;
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        toggleFlip(card);
+      }
     });
   });
 
@@ -428,7 +453,10 @@ const activeDomains = [...new Set(projects.map((p) => p.data.domain))];
       document.querySelectorAll<HTMLElement>(".card-wrapper").forEach((card) => {
         const match = filter === "all" || card.dataset.domain === filter;
         card.classList.toggle("hidden", !match);
-        if (!match) card.classList.remove("flipped");
+        if (!match) {
+          card.classList.remove("flipped");
+          card.setAttribute("aria-pressed", "false");
+        }
       });
     });
   });
