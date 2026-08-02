@@ -2,6 +2,10 @@
 import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Nav from "../components/Nav.astro";
+import {
+  domainLabel, domainGradient, levelName, levelColor, levelDesc,
+  matrixDims, techCategoryMap, categoryOrder, categoryColor,
+} from "../lib/taxonomy";
 
 const posts = (await getCollection("blog"))
   .filter((p) => !p.data.draft)
@@ -16,38 +20,13 @@ const allProjects = (await getCollection("projects")).filter((p) => !p.data.draf
 const n = allProjects.length || 1;
 
 // Level distribution
-const levelName: Record<number, string> = {
-  1: "Standalone Script",
-  2: "Static App",
-  3: "Basic Backend",
-  4: "Distributed System",
-  5: "Complex Platform",
-};
 const levelDist = [1, 2, 3, 4, 5].map((level) => ({
   level,
   count: allProjects.filter((p) => p.data.level === level).length,
 }));
 const maxLevelCount = Math.max(...levelDist.map((l) => l.count), 1);
 
-const levelColor: Record<number, string> = {
-  1: "var(--level-1)", 2: "var(--level-2)", 3: "var(--level-3)",
-  4: "var(--level-4)", 5: "var(--level-5)",
-};
-const levelDesc: Record<number, string> = {
-  1: "Nivel 1 · Standalone Script",
-  2: "Nivel 2 · Static App",
-  3: "Nivel 3 · Basic Backend",
-  4: "Nivel 4 · Distributed System",
-  5: "Nivel 5 · Complex Platform",
-};
-
 // Matrix: niveles × dimensiones de complejidad (siempre 5 niveles)
-const matrixDims = [
-  { key: "architecture",   emoji: "🧱", short: "Arch" },
-  { key: "data",           emoji: "📊", short: "Data" },
-  { key: "infrastructure", emoji: "⚙️", short: "Infra" },
-  { key: "ai",             emoji: "🤖", short: "AI"   },
-];
 const projectMatrix = [1, 2, 3, 4, 5].map((level) => {
   const levelProjects = allProjects.filter((p) => p.data.level === level);
   const n = levelProjects.length || 1;
@@ -63,61 +42,7 @@ const projectMatrix = [1, 2, 3, 4, 5].map((level) => {
 });
 
 
-const domainLabel: Record<string, string> = {
-  "data-engineering": "Data Engineering",
-  "machine-learning": "Machine Learning",
-  "ai": "AI",
-  "analytics": "Analytics",
-  "web": "Web",
-  "mobile": "Mobile",
-};
-
-const domainGradient: Record<string, string> = {
-  "data-engineering": "linear-gradient(135deg, #14b8a6 0%, #3b82f6 100%)",
-  "machine-learning": "linear-gradient(135deg, #8b5cf6 0%, #f472b6 100%)",
-  "ai":               "linear-gradient(135deg, #f472b6 0%, #8b5cf6 100%)",
-  "analytics":        "linear-gradient(135deg, #3b82f6 0%, #14b8a6 100%)",
-  "web":              "linear-gradient(135deg, #14b8a6 0%, #8b5cf6 100%)",
-  "mobile":           "linear-gradient(135deg, #8b5cf6 0%, #3b82f6 100%)",
-};
-
 // ── Stack dinámico desde proyectos ──────────────────────────────────────────
-const techCategoryMap: Record<string, string> = {
-  // Lenguajes
-  "Python": "Lenguajes", "SQL": "Lenguajes", "TypeScript": "Lenguajes",
-  "JavaScript": "Lenguajes", "Bash": "Lenguajes", "R": "Lenguajes",
-  "Go": "Lenguajes", "Rust": "Lenguajes", "Java": "Lenguajes",
-  // ML / IA
-  "PyTorch": "ML / IA", "TensorFlow": "ML / IA", "scikit-learn": "ML / IA",
-  "pandas": "ML / IA", "NumPy": "ML / IA", "LangChain": "ML / IA",
-  "OpenAI": "ML / IA", "HuggingFace": "ML / IA", "Pinecone": "ML / IA",
-  "Weaviate": "ML / IA", "FAISS": "ML / IA",
-  // Backend
-  "FastAPI": "Backend", "Node.js": "Backend", "Express": "Backend",
-  "PostgreSQL": "Backend", "MySQL": "Backend", "Redis": "Backend",
-  "MongoDB": "Backend", "Supabase": "Backend", "GraphQL": "Backend",
-  "REST": "Backend", "Slack API": "Backend",
-  // Frontend
-  "React": "Frontend", "React Native": "Frontend", "Expo": "Frontend",
-  "Next.js": "Frontend", "Vue": "Frontend", "Astro": "Frontend",
-  "Recharts": "Frontend", "Tailwind": "Frontend",
-  // Cloud & Data
-  "AWS": "Cloud & Data", "GCP": "Cloud & Data", "Azure": "Cloud & Data",
-  "BigQuery": "Cloud & Data", "Airflow": "Cloud & Data", "Docker": "Cloud & Data",
-  "Kubernetes": "Cloud & Data", "Terraform": "Cloud & Data",
-  "Power BI": "Cloud & Data", "dbt": "Cloud & Data", "Spark": "Cloud & Data",
-};
-
-const categoryOrder = ["Lenguajes", "ML / IA", "Backend", "Frontend", "Cloud & Data"];
-const categoryColor: Record<string, string> = {
-  "Lenguajes":   "var(--color-aurora-purple)",
-  "ML / IA":     "var(--color-aurora-teal)",
-  "Backend":     "var(--color-aurora-blue)",
-  "Frontend":    "var(--color-cat-frontend)",
-  "Cloud & Data":"var(--color-cat-cloud)",
-  "Otros":       "var(--color-text-muted)",
-};
-
 // Techs únicas presentes en proyectos, preservando orden de primera aparición
 const projectTechs = [...new Set(allProjects.flatMap((p) => p.data.stack))];
 

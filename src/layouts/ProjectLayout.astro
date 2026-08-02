@@ -1,5 +1,6 @@
 ---
 import PageLayout from "./PageLayout.astro";
+import { domainLabel, domainGradient, domainColor, levelDot, flagLabel } from "../lib/taxonomy";
 
 interface ComplexityBreakdown {
   architecture: number;
@@ -27,47 +28,6 @@ const {
   title, description, date, domain, level, level_name,
   flags, stack, complexity_breakdown, summary, github, demo,
 } = Astro.props;
-
-const domainLabel: Record<string, string> = {
-  "data-engineering": "Data Engineering",
-  "machine-learning": "Machine Learning",
-  "ai": "AI",
-  "analytics": "Analytics",
-  "web": "Web",
-  "mobile": "Mobile",
-};
-
-const domainGradient: Record<string, string> = {
-  "data-engineering": "linear-gradient(135deg, #14b8a6 0%, #3b82f6 100%)",
-  "machine-learning": "linear-gradient(135deg, #8b5cf6 0%, #f472b6 100%)",
-  "ai":               "linear-gradient(135deg, #f472b6 0%, #8b5cf6 100%)",
-  "analytics":        "linear-gradient(135deg, #3b82f6 0%, #14b8a6 100%)",
-  "web":              "linear-gradient(135deg, #14b8a6 0%, #8b5cf6 100%)",
-  "mobile":           "linear-gradient(135deg, #8b5cf6 0%, #3b82f6 100%)",
-};
-
-const domainColor: Record<string, string> = {
-  "data-engineering": "#14b8a6",
-  "machine-learning": "#8b5cf6",
-  "ai":               "#f472b6",
-  "analytics":        "#3b82f6",
-  "web":              "#14b8a6",
-  "mobile":           "#8b5cf6",
-};
-
-const levelDot: Record<number, string> = {
-  1: "🟢", 2: "🔵", 3: "🟡", 4: "🟠", 5: "🔴",
-};
-
-const flagLabel: Record<string, string> = {
-  "multiplatform":     "📱 Multiplataforma",
-  "advanced-security": "🔐 Seguridad avanzada",
-  "realtime":          "⚡ Tiempo real",
-  "data-intensive":    "📊 Data-intensive",
-  "cloud-native":      "☁️ Cloud-native",
-  "payments":          "💰 Pagos",
-  "high-concurrency":  "🌍 Alta concurrencia",
-};
 
 const dims = [
   { emoji: "🧱", label: "Architecture", value: complexity_breakdown.architecture },
