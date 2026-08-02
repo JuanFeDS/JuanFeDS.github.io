@@ -22,11 +22,12 @@ interface Props {
   summary?: string;
   github?: string;
   demo?: string;
+  image?: string;
 }
 
 const {
   title, description, date, domain, level, level_name,
-  flags, stack, complexity_breakdown, summary, github, demo,
+  flags, stack, complexity_breakdown, summary, github, demo, image,
 } = Astro.props;
 
 const dims = [
@@ -44,7 +45,7 @@ const formattedDate = new Date(date).toLocaleDateString("es-ES", {
 });
 ---
 
-<PageLayout title={title} description={description}>
+<PageLayout title={title} description={description} image={image}>
 
   {/* ── HERO ── */}
   <div class="project-hero" style={`background: ${gradient};`}>
