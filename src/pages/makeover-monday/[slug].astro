@@ -46,7 +46,7 @@ const nextGrad = next ? gradients[next.data.week % gradients.length] : null;
       <div class="hero-fade absolute inset-0" />
       <div class="hero-veil absolute inset-0" />
       <!-- Overlay de peek — se activa con JS al hacer hover en las flechas -->
-      <div id="hero-preview" class="absolute inset-0" style="pointer-events:none; opacity:0; transition: opacity 0.4s ease;" />
+      <div id="hero-preview" class="absolute inset-0 pointer-events-none opacity-0 transition-opacity duration-[400ms] ease-in-out" />
 
       <!-- Flechas de navegación -->
       {prev && (
@@ -69,20 +69,19 @@ const nextGrad = next ? gradients[next.data.week % gradients.length] : null;
       <div class="relative px-6 pb-16 mx-auto max-w-3xl">
         <div class="flex items-center gap-3 mb-3 flex-wrap">
           <span
-            class="rounded-full px-3 py-1 text-xs font-bold uppercase tracking-widest"
-            style="background: rgba(0,0,0,0.25); color: white; backdrop-filter: blur(6px);"
+            class="rounded-full px-3 py-1 text-xs font-bold uppercase tracking-widest bg-black/25 text-white backdrop-blur-[6px]"
           >
             W{wk} · {year}
           </span>
           {tool && (
-            <span class="text-xs font-medium" style="color: rgba(255,255,255,0.75);">{tool}</span>
+            <span class="text-xs font-medium text-white/75">{tool}</span>
           )}
         </div>
-        <h1 class="text-3xl md:text-4xl font-bold text-white leading-tight" style="font-family: var(--font-display);">
+        <h1 class="text-3xl md:text-4xl font-bold text-white leading-tight font-display">
           {title}
         </h1>
         {description && (
-          <p class="mt-2 text-sm md:text-base" style="color: rgba(255,255,255,0.75); max-width: 52ch;">{description}</p>
+          <p class="mt-2 text-sm md:text-base text-white/75 max-w-[52ch]">{description}</p>
         )}
       </div>
     </div>
@@ -90,30 +89,28 @@ const nextGrad = next ? gradients[next.data.week % gradients.length] : null;
     <!-- Content -->
     <div class="mx-auto max-w-3xl px-6 py-12">
       {(source_url || dataset_url) && (
-        <div class="mb-8 rounded-xl overflow-hidden" style="border: 1px solid var(--color-border); max-width: 65ch;">
+        <div class="mb-8 rounded-xl overflow-hidden border border-border max-w-[65ch]">
           {source_url && (
-            <div class="px-4 py-3 flex items-center gap-3" style="background: var(--color-surface);">
-              <span class="text-xs font-semibold uppercase tracking-widest" style="color: var(--color-text-muted);">Artículo original</span>
+            <div class="px-4 py-3 flex items-center gap-3 bg-surface">
+              <span class="text-xs font-semibold uppercase tracking-widest text-text-muted">Artículo original</span>
               <a
                 href={source_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                class="text-xs font-semibold ml-auto transition-opacity hover:opacity-75"
-                style="color: var(--color-aurora-teal);"
+                class="text-xs font-semibold ml-auto transition-opacity hover:opacity-75 text-aurora-teal"
               >
                 Ver fuente →
               </a>
             </div>
           )}
           {dataset_url && (
-            <div class="px-4 py-3 flex items-center gap-3" style="background: var(--color-surface); border-top: 1px solid var(--color-border);">
-              <span class="text-xs font-semibold uppercase tracking-widest" style="color: var(--color-text-muted);">Dataset</span>
+            <div class="px-4 py-3 flex items-center gap-3 bg-surface border-t border-border">
+              <span class="text-xs font-semibold uppercase tracking-widest text-text-muted">Dataset</span>
               <a
                 href={dataset_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                class="text-xs font-semibold ml-auto transition-opacity hover:opacity-75"
-                style="color: var(--color-aurora-teal);"
+                class="text-xs font-semibold ml-auto transition-opacity hover:opacity-75 text-aurora-teal"
               >
                 Ver dataset →
               </a>
@@ -126,7 +123,7 @@ const nextGrad = next ? gradients[next.data.week % gradients.length] : null;
         <Content />
       </div>
 
-      <nav class="mt-14 pt-6 grid grid-cols-3 items-center gap-4" style="border-top: 1px solid var(--color-border);">
+      <nav class="mt-14 pt-6 grid grid-cols-3 items-center gap-4 border-t border-border">
 
         <!-- Anterior -->
         <div class="flex justify-start">
@@ -142,8 +139,7 @@ const nextGrad = next ? gradients[next.data.week % gradients.length] : null;
         <div class="flex justify-center">
           <a
             href="/makeover-monday"
-            class="text-xs font-semibold uppercase tracking-widest transition-opacity hover:opacity-70"
-            style="color: var(--color-text-muted);"
+            class="text-xs font-semibold uppercase tracking-widest transition-opacity hover:opacity-70 text-text-muted"
           >
             Ver galería
           </a>

@@ -1,5 +1,6 @@
 ---
 import { getCollection } from "astro:content";
+import { Image, getImage } from "astro:assets";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Nav from "../../components/Nav.astro";
 
@@ -9,6 +10,21 @@ const allEntries = (await getCollection("makeover_monday"))
     if (b.data.year !== a.data.year) return b.data.year - a.data.year;
     return b.data.week - a.data.week;
   });
+
+const lightboxSrc = new Map(
+  await Promise.all(
+    allEntries
+      .filter((e) => e.data.image)
+      .map(async (e) => {
+        const optimized = await getImage({
+          src: e.data.image!,
+          width: e.data.image!.width,
+          height: e.data.image!.height,
+        });
+        return [e.id, optimized.src] as const;
+      })
+  )
+);
 
 const byYear: Record<number, typeof allEntries> = {};
 for (const entry of allEntries) {
@@ -37,9 +53,9 @@ const gradients = [
 
       <!-- Header -->
       <div class="mb-14">
-        <p class="text-xs font-semibold uppercase tracking-widest mb-2" style="color: var(--color-aurora-purple);">Data Visualization</p>
-        <h1 class="text-5xl font-bold" style="font-family: var(--font-display); color: var(--color-text);">Makeover Monday</h1>
-        <p class="mt-3 text-lg max-w-xl" style="color: var(--color-text-muted);">
+        <p class="text-xs font-semibold uppercase tracking-widest mb-2 text-aurora-purple">Data Visualization</p>
+        <h1 class="text-5xl font-bold font-display text-text">Makeover Monday</h1>
+        <p class="mt-3 text-lg max-w-xl text-text-muted">
           Reimaginando datasets públicos cada semana. Mismo dataset, otra perspectiva, otra historia.
         </p>
       </div>
@@ -48,9 +64,9 @@ const gradients = [
       {years.map((year) => (
         <section class="mb-20">
           <div class="flex items-center gap-4 mb-6">
-            <h2 class="text-3xl font-bold" style="font-family: var(--font-display); color: var(--color-text);">{year}</h2>
-            <div class="flex-1 h-px" style="background: var(--color-border);" />
-            <span class="text-xs font-medium" style="color: var(--color-text-muted);">
+            <h2 class="text-3xl font-bold font-display text-text">{year}</h2>
+            <div class="flex-1 h-px bg-border" />
+            <span class="text-xs font-medium text-text-muted">
               {byYear[year].length} visualización{byYear[year].length !== 1 ? "es" : ""}
             </span>
           </div>
@@ -66,7 +82,7 @@ const gradients = [
                   data-title={entry.data.title}
                   data-week={String(entry.data.week)}
                   data-year={String(entry.data.year)}
-                  data-image={entry.data.image ?? ""}
+                  data-image={lightboxSrc.get(entry.id) ?? ""}
                   data-gradient={g}
                   data-description={entry.data.description ?? ""}
                   data-source-url={entry.data.source_url ?? ""}
@@ -75,7 +91,7 @@ const gradients = [
                 >
                   <div class="viz-inner">
                     {entry.data.image
-                      ? <img src={entry.data.image} alt={entry.data.title} class="viz-img" loading="lazy" />
+                      ? <Image src={entry.data.image} alt={entry.data.title} width={entry.data.image.width} height={entry.data.image.height} class="viz-img" loading="lazy" />
                       : <div class="viz-img" style={`background: ${g};`} />
                     }
                     <div class="viz-info">
@@ -146,8 +162,8 @@ const gradients = [
     const wk = week.padStart(2, "0");
 
     media.innerHTML = image
-      ? `<img src="${image}" alt="${title}" class="lb-img" style="border-radius:12px;" />`
-      : `<div class="lb-img" style="background:${gradient};border-radius:12px;"></div>`;
+      ? `<img src="${image}" alt="${title}" class="lb-img" />`
+      : `<div class="lb-img" style="background:${gradient};"></div>`;
 
     badge.textContent   = `W${wk} · ${year}`;
     titleEl.textContent = title;

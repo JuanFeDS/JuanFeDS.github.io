@@ -24,8 +24,7 @@ const formattedDate = new Date(date).toLocaleDateString("es-ES", {
         <div class="mb-4 flex flex-wrap gap-2">
           {tags.map((tag) => (
             <span
-              class="rounded-full px-3 py-1 text-xs font-medium"
-              style="background: color-mix(in srgb, var(--color-aurora-purple) 12%, transparent); color: var(--color-aurora-purple); border: 1px solid color-mix(in srgb, var(--color-aurora-purple) 25%, transparent);"
+              class="rounded-full px-3 py-1 text-xs font-medium bg-aurora-purple/12 text-aurora-purple border border-aurora-purple/25"
             >
               {tag}
             </span>
@@ -33,22 +32,20 @@ const formattedDate = new Date(date).toLocaleDateString("es-ES", {
         </div>
       )}
       <h1
-        class="text-4xl font-bold leading-tight md:text-5xl"
-        style="font-family: var(--font-display); color: var(--color-text);"
+        class="text-4xl font-bold leading-tight md:text-5xl font-display text-text"
       >
         {title}
       </h1>
       {description && (
-        <p class="mt-4 text-xl" style="color: var(--color-text-muted);">{description}</p>
+        <p class="mt-4 text-xl text-text-muted">{description}</p>
       )}
       <time
         datetime={date}
-        class="mt-6 block text-sm"
-        style="color: var(--color-text-muted);"
+        class="mt-6 block text-sm text-text-muted"
       >
         {formattedDate}
       </time>
-      <hr class="mt-8" style="border-color: var(--color-border);" />
+      <hr class="mt-8 border-border" />
     </header>
 
     <div class="prose">

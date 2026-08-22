@@ -13,14 +13,13 @@ const allTags = [...new Set(posts.flatMap((p) => p.data.tags))].sort();
   <div class="mx-auto max-w-3xl px-6 py-16">
 
     <header class="mb-10">
-      <p class="mb-2 text-sm font-medium" style="color: var(--color-aurora-purple);">Escritura</p>
+      <p class="mb-2 text-sm font-medium text-aurora-purple">Escritura</p>
       <h1
-        class="text-4xl font-bold md:text-5xl"
-        style="font-family: var(--font-display); color: var(--color-text);"
+        class="text-4xl font-bold md:text-5xl font-display text-text"
       >
         Blog
       </h1>
-      <p class="mt-4 text-lg" style="color: var(--color-text-muted);">
+      <p class="mt-4 text-lg text-text-muted">
         Opiniones, reflexiones y divulgación sobre datos, tecnología y lo que me llama la atención.
       </p>
     </header>
@@ -35,9 +34,9 @@ const allTags = [...new Set(posts.flatMap((p) => p.data.tags))].sort();
     )}
 
     {posts.length === 0 ? (
-      <p style="color: var(--color-text-muted);">Próximamente...</p>
+      <p class="text-text-muted">Próximamente...</p>
     ) : (
-      <ol class="flex flex-col divide-y" style="border-color: var(--color-border);" id="posts-list">
+      <ol class="flex flex-col divide-y divide-border" id="posts-list">
         {posts.map((post) => (
           <li data-tags={post.data.tags.join(",")}>
             <a
@@ -48,27 +47,24 @@ const allTags = [...new Set(posts.flatMap((p) => p.data.tags))].sort();
                 <div class="flex flex-wrap gap-2 mb-2">
                   {post.data.tags.map((tag) => (
                     <span
-                      class="rounded-full px-2.5 py-0.5 text-xs font-medium"
-                      style="background: color-mix(in srgb, var(--color-aurora-purple) 10%, transparent); color: var(--color-aurora-purple);"
+                      class="rounded-full px-2.5 py-0.5 text-xs font-medium bg-aurora-purple/10 text-aurora-purple"
                     >
                       {tag}
                     </span>
                   ))}
                 </div>
                 <h2
-                  class="text-xl font-semibold transition-colors group-hover:underline"
-                  style="font-family: var(--font-display); color: var(--color-text);"
+                  class="text-xl font-semibold transition-colors group-hover:underline font-display text-text"
                 >
                   {post.data.title}
                 </h2>
-                <p class="mt-1 text-sm" style="color: var(--color-text-muted);">
+                <p class="mt-1 text-sm text-text-muted">
                   {post.data.description}
                 </p>
               </div>
               <time
                 datetime={post.data.date}
-                class="shrink-0 text-sm tabular-nums"
-                style="color: var(--color-text-muted);"
+                class="shrink-0 text-sm tabular-nums text-text-muted"
               >
                 {new Date(post.data.date).toLocaleDateString("es-ES", {
                   year: "numeric",
