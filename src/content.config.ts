@@ -15,7 +15,7 @@ const blog = defineCollection({
 
 const projects = defineCollection({
   loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/projects" }),
-  schema: z.object({
+  schema: ({ image }) => z.object({
     title: z.string(),
     description: z.string(),
     date: z.string(),
@@ -45,7 +45,7 @@ const projects = defineCollection({
       ai: z.number().int().min(1).max(5),
     }),
     summary: z.string().optional(),
-    image: z.string().optional(),
+    image: image().optional(),
     github: z.string().optional(),
     demo: z.string().optional(),
     draft: z.boolean().optional().default(false),
@@ -55,12 +55,12 @@ const projects = defineCollection({
 
 const makeover_monday = defineCollection({
   loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/makeover-monday" }),
-  schema: z.object({
+  schema: ({ image }) => z.object({
     title: z.string(),
     week: z.number().int().min(1).max(53),
     year: z.number().int().min(2020),
     description: z.string().optional(),
-    image: z.string().optional(),
+    image: image().optional(),
     tool: z.string().optional(),
     size: z.enum(["sm", "md", "lg", "wide", "tall"]).optional().default("sm"),
     source_url: z.string().optional(),

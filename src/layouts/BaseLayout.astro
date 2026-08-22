@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import defaultAvatar from "../assets/avatar.jpg";
 
 interface Props {
   title: string;
@@ -10,11 +11,31 @@ interface Props {
 const {
   title,
   description = "Portafolio de ciencia e ingeniería de datos",
-  image = "/avatar.jpg",
+  image = defaultAvatar.src,
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const ogImageURL = new URL(image || "/avatar.jpg", Astro.site);
+
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Juan Felipe Martínez",
+  alternateName: "JuanFe",
+  url: Astro.site?.toString(),
+  image: ogImageURL.toString(),
+  jobTitle: "Data Scientist & Data Engineer",
+  worksFor: {
+    "@type": "Organization",
+    name: "Mercado Libre",
+  },
+  sameAs: [
+    "https://github.com/JuanFeDS",
+    "https://linkedin.com/in/juanfe-martinez",
+    "https://twitter.com/JuanFeAngel98",
+    "https://instagram.com/juanfem98",
+  ],
+};
 ---
 
 <!doctype html>
@@ -41,6 +62,10 @@ const ogImageURL = new URL(image || "/avatar.jpg", Astro.site);
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageURL} />
+
+    <!-- Structured data -->
+    <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
+
     <script is:inline>
       const saved = localStorage.getItem("theme");
       const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;

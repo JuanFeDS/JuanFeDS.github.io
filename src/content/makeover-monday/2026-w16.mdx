@@ -3,13 +3,17 @@ title: "La IA no está reemplazando a todos por igual: La automatización se cen
 description: "Los datos muestran una división clara: los trabajos peor remunerados y con menor volumen de empleo son los más vulnerables a la automatización. Lejos de afectar a todos por igual, el impacto se concentra en la base del mercado laboral."
 week: 16
 year: 2026
-image: "/images/makeover-monday/2026_W16/MoM_2026_W16.png"
+image: "../../assets/images/makeover-monday/2026_W16/MoM_2026_W16.png"
 tool: "Da Vinci + Canva"
 size: "lg"
 source_url: "https://www.aiexposure.org/rankings"
 dataset_url: "https://data.world/makeovermonday/ai-risk-rankings"
 draft: false
 ---
+
+import { Image } from "astro:assets";
+import imgOriginal from "../../assets/images/makeover-monday/2026_W16/MoM_2026_W16_org.png";
+import imgRedesign from "../../assets/images/makeover-monday/2026_W16/MoM_2026_W16.png";
 
 ## Cuando el miedo no está distribuido por igual
 
@@ -39,7 +43,7 @@ Sin embargo, más allá del ruido, empiezan a aparecer esfuerzos por entender es
 ## Muchos datos, pero poca claridad
 
 <figure>
-  <img src="/images/makeover-monday/2026_W16/MoM_2026_W16_org.png" alt="Visualización original" />
+  <Image src={imgOriginal} alt="Visualización original" />
   <figcaption>Visualización original — AI Exposure Rankings (2026)</figcaption>
 </figure>
 
@@ -50,7 +54,7 @@ El resultado es una experiencia fragmentada: el usuario salta de un ranking a ot
 ## Dos mundos dentro del mismo mercado laboral
 
 <figure>
-  <img src="/images/makeover-monday/2026_W16/MoM_2026_W16.png" alt="Rediseño — Da Vinci + Canva" />
+  <Image src={imgRedesign} alt="Rediseño — Da Vinci + Canva" />
   <figcaption>Rediseño — Da Vinci + Canva · JuanFeDS (2026)</figcaption>
 </figure>
 

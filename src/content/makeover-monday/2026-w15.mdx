@@ -3,13 +3,17 @@ title: "La contratación está creciendo, pero en algunas compañías aún no es
 description: "Aunque se reportan nuevas contrataciones en las grandes compañías tecnológicas, algunas de ellas aún no logran compensar el impacto de los despidos ocurridos en los últimos dos años."
 week: 15
 year: 2026
-image: "/images/makeover-monday/2026_W15/MoM_2026_W15.png"
+image: "../../assets/images/makeover-monday/2026_W15/MoM_2026_W15.png"
 tool: "DaVinci + Canva"
 size: "lg"
 source_url: "https://www.trueup.io/big-tech-hiring"
 dataset_url: "https://data.world/makeovermonday/2026w15-tech-hiring"
 draft: false
 ---
+
+import { Image } from "astro:assets";
+import imgOriginal from "../../assets/images/makeover-monday/2026_W15/MoM_2026_W15_org.png";
+import imgRedesign from "../../assets/images/makeover-monday/2026_W15/MoM_2026_W15.png";
 
 ## Cuando el ruido no deja ver la señal
 
@@ -39,7 +43,7 @@ Sin embargo, recientemente algunas de las grandes compañías tecnológicas (muc
 ## Cuando más datos no significan más claridad
 
 <figure>
-  <img src="/images/makeover-monday/2026_W15/MoM_2026_W15_org.png" alt="Visualización original" />
+  <Image src={imgOriginal} alt="Visualización original" />
   <figcaption>Visualización original — TrueUp (2026)</figcaption>
 </figure>
 
@@ -52,7 +56,7 @@ El resultado es una visualización que muestra mucho, pero explica poco.
 ## Comparar no es lo mismo que entender
 
 <figure>
-  <img src="/images/makeover-monday/2026_W15/MoM_2026_W15.png" alt="Rediseño — DaVinci + Canva" />
+  <Image src={imgRedesign} alt="Rediseño — DaVinci + Canva" />
   <figcaption>Rediseño — DaVinci + Canva · JuanFeDS (2026)</figcaption>
 </figure>
 

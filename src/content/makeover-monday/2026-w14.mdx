@@ -3,12 +3,16 @@ title: "El petróleo cambió de manos: Evolución de la participación en la pro
 description: "La producción mundial no solo creció: también redistribuyó el poder, pasando de la dominancia de Estados Unidos a un escenario más diverso entre países."
 week: 14
 year: 2026
-image: "/images/makeover-monday/2026_W14/MoM_2026_W14.png"
+image: "../../assets/images/makeover-monday/2026_W14/MoM_2026_W14.png"
 tool: "Da Vinci + Canva"
 source_url: "https://ourworldindata.org/grapher/oil-production-by-country"
 dataset_url: "https://ourworldindata.org/grapher/oil-production-by-country"
 draft: false
 ---
+
+import { Image } from "astro:assets";
+import imgOriginal from "../../assets/images/makeover-monday/2026_W14/MoM_2026_W14_org.png";
+import imgRedesign from "../../assets/images/makeover-monday/2026_W14/MoM_2026_W14.png";
 
 ## El petróleo como reflejo del poder mundial
 
@@ -40,7 +44,7 @@ Más que una historia de crecimiento, esta es una historia de transformación en
 ## Una historia que se pierde entre líneas
 
 <figure>
-  <img src="/images/makeover-monday/2026_W14/MoM_2026_W14_org.png" alt="Visualización original de Our World in Data sobre producción de petróleo por país" />
+  <Image src={imgOriginal} alt="Visualización original de Our World in Data sobre producción de petróleo por país" />
   <figcaption>Visualización original — Our World in Data (2024)</figcaption>
 </figure>
 
@@ -55,7 +59,7 @@ La historia está ahí, pero queda escondida entre el ruido.
 ## Otra forma de contar la misma historia
 
 <figure>
-  <img src="/images/makeover-monday/2026_W14/MoM_2026_W14.png" alt="Rediseño — áreas apiladas de participación en producción mundial de petróleo (1900–2024)" />
+  <Image src={imgRedesign} alt="Rediseño — áreas apiladas de participación en producción mundial de petróleo (1900–2024)" />
   <figcaption>Rediseño — Da Vinci + Canva · JuanFeDS (2026)</figcaption>
 </figure>
 
