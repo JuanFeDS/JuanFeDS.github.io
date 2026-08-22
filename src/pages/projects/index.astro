@@ -17,19 +17,19 @@ const activeDomains = [...new Set(projects.map((p) => p.data.domain))];
   <div class="mx-auto max-w-5xl px-6 py-16">
 
     <header class="mb-10">
-      <p class="mb-2 text-sm font-medium" style="color: var(--color-aurora-teal);">Trabajo</p>
-      <h1 class="text-4xl font-bold md:text-5xl" style="font-family: var(--font-display); color: var(--color-text);">
+      <p class="mb-2 text-sm font-medium text-aurora-teal">Trabajo</p>
+      <h1 class="text-4xl font-bold md:text-5xl font-display text-text">
         Proyectos
       </h1>
-      <p class="mt-4 text-lg" style="color: var(--color-text-muted);">
+      <p class="mt-4 text-lg text-text-muted">
         Apps web, mobile, modelos de ML, pipelines de datos y aplicaciones con IA.
       </p>
     </header>
 
-    <div id="tech-filter-banner" class="hidden mb-4 flex items-center gap-2 text-sm" style="color: var(--color-text-muted);">
+    <div id="tech-filter-banner" class="hidden mb-4 flex items-center gap-2 text-sm text-text-muted">
       <span>Filtrando por stack:</span>
-      <span id="tech-filter-label" class="rounded-full px-3 py-0.5 text-xs font-semibold" style="background: var(--color-surface-2); border: 1px solid var(--color-border); color: var(--color-text);"></span>
-      <a href="/projects" class="text-xs transition-opacity hover:opacity-70" style="color: var(--color-aurora-purple);">× limpiar</a>
+      <span id="tech-filter-label" class="rounded-full px-3 py-0.5 text-xs font-semibold bg-surface-2 border border-border text-text"></span>
+      <a href="/projects" class="text-xs transition-opacity hover:opacity-70 text-aurora-purple">× limpiar</a>
     </div>
 
     <div class="flex flex-wrap gap-2 mb-10" id="filters">
@@ -40,7 +40,7 @@ const activeDomains = [...new Set(projects.map((p) => p.data.domain))];
     </div>
 
     {projects.length === 0 ? (
-      <p style="color: var(--color-text-muted);">Próximamente...</p>
+      <p class="text-text-muted">Próximamente...</p>
     ) : (
       <div class="projects-grid" id="projects-grid">
         {projects.map((project) => {
@@ -65,12 +65,9 @@ const activeDomains = [...new Set(projects.map((p) => p.data.domain))];
               <div class="card-inner">
 
                 {/* ── FRENTE ── */}
-                <div class="card-face card-front" style="background: var(--color-surface); border: 1px solid var(--color-border);">
+                <div class="card-face card-front bg-surface border border-border">
                   <div class="card-hero">
-                    {project.data.image
-                      ? <img src={project.data.image} alt={project.data.title} class="card-hero-img" />
-                      : <div class="card-hero-gradient" style={`background: ${gradient};`} />
-                    }
+                    <div class="card-hero-gradient" style={`background: ${gradient};`} />
                     <span class="card-domain-badge" style={`background: color-mix(in srgb, ${color} 25%, rgba(0,0,0,0.6)); color: white;`}>
                       {domainLabel[project.data.domain]}
                     </span>
@@ -85,15 +82,15 @@ const activeDomains = [...new Set(projects.map((p) => p.data.domain))];
                   </div>
                   <div class="card-body">
                     <div class="flex items-center justify-between mb-2">
-                      <span class="text-xs" style="color: var(--color-text-muted);">
+                      <span class="text-xs text-text-muted">
                         {levelDot[project.data.level]} {project.data.level_name}
                       </span>
                       <span class="flip-hint">detalle →</span>
                     </div>
-                    <h2 class="card-title" style="font-family: var(--font-display); color: var(--color-text);">
+                    <h2 class="card-title font-display text-text">
                       {project.data.title}
                     </h2>
-                    <p class="card-desc" style="color: var(--color-text-muted);">
+                    <p class="card-desc text-text-muted">
                       {project.data.description}
                     </p>
                   </div>
@@ -117,7 +114,7 @@ const activeDomains = [...new Set(projects.map((p) => p.data.domain))];
                     <div class="back-header">
                       <div>
                         <p class="back-label" style={`color: ${color};`}>Nivel base</p>
-                        <p class="back-level" style="color: var(--color-text);">
+                        <p class="back-level text-text">
                           {levelDot[project.data.level]} Nivel {project.data.level} — {project.data.level_name}
                         </p>
                       </div>
@@ -141,7 +138,7 @@ const activeDomains = [...new Set(projects.map((p) => p.data.domain))];
                     {/* Complexity flags */}
                     {project.data.flags.length > 0 && (
                       <div>
-                        <p class="back-label" style="color: var(--color-text-muted); margin-bottom: 0.4rem;">Complexity Flags</p>
+                        <p class="back-label text-text-muted mb-[0.4rem]">Complexity Flags</p>
                         <div class="tags-row">
                           {project.data.flags.map((flag) => (
                             <span
@@ -233,7 +230,6 @@ const activeDomains = [...new Set(projects.map((p) => p.data.domain))];
     overflow: hidden;
     flex-shrink: 0;
   }
-  .card-hero-img { width: 100%; height: 100%; object-fit: cover; }
   .card-hero-gradient { width: 100%; height: 100%; }
   .card-domain-badge {
     position: absolute;
