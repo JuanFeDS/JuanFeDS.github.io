@@ -66,7 +66,7 @@ const activeDomains = [...new Set(projects.map((p) => p.data.domain))];
 
                 {/* ── FRENTE ── */}
                 <div class="card-face card-front bg-surface border border-border">
-                  <div class="card-hero">
+                  <a href={`/projects/${project.id}`} class="card-hero" tabindex="-1" aria-hidden="true">
                     <div class="card-hero-gradient" style={`background: ${gradient};`} />
                     <span class="card-domain-badge" style={`background: color-mix(in srgb, ${color} 25%, rgba(0,0,0,0.6)); color: white;`}>
                       {domainLabel[project.data.domain]}
@@ -79,7 +79,7 @@ const activeDomains = [...new Set(projects.map((p) => p.data.domain))];
                         <span class="hero-stack-tag">+{project.data.stack.length - 3}</span>
                       )}
                     </div>
-                  </div>
+                  </a>
                   <div class="card-body">
                     <div class="flex items-center justify-between mb-2">
                       <span class="text-xs text-text-muted">
@@ -225,6 +225,7 @@ const activeDomains = [...new Set(projects.map((p) => p.data.domain))];
 
   /* Front hero */
   .card-hero {
+    display: block;
     position: relative;
     height: 130px;
     overflow: hidden;
