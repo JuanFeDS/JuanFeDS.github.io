@@ -88,6 +88,13 @@ defaults:
     values:
       layout: single
       author_profile: true
+  # _projects
+  - scope:
+      path: ""
+      type: projects
+    values:
+      layout: project
+      author_profile: true
 
 category_archive:
   type: liquid

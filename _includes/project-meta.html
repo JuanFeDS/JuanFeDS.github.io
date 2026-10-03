@@ -1,0 +1,63 @@
+{% assign slug = page.url | remove: '/proyectos/' | remove: '/' %}
+
+<div class="project-meta-card level-{{ page.level }}">
+
+  <div class="pmeta-hero level-{{ page.level }}">
+    <div class="pmeta-hero-left">
+      <span class="project-level-badge level-{{ page.level }}">L{{ page.level }} — {{ page.level_name }}</span>
+      {% if page.description %}
+        <p class="pmeta-description">{{ page.description }}</p>
+      {% endif %}
+    </div>
+    <div class="pmeta-hero-score level-{{ page.level }}">
+      <span class="pmeta-score-num">{{ page.score }}</span>
+      <span class="pmeta-score-den">/ 10</span>
+    </div>
+  </div>
+
+  <div class="pmeta-body">
+
+    {% if page.stack %}
+    <div class="pmeta-section">
+      <span class="pmeta-label">Stack</span>
+      <div class="pmeta-chips">
+        {% for tech in page.stack %}
+          <span class="stack-chip level-{{ page.level }}">{{ tech }}</span>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+    {% if page.flags %}
+    <div class="pmeta-section">
+      <span class="pmeta-label">Flags</span>
+      <div class="pmeta-chips">
+        {% for flag in page.flags %}
+          <span class="flag-chip">{{ flag | replace: '_', ' ' }}</span>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+    {% if page.complexity_breakdown %}
+    <div class="pmeta-section">
+      <span class="pmeta-label">Complejidad</span>
+      <div class="pmeta-complexity">
+        {% assign dims = "architecture,data,infra,ml" | split: "," %}
+        {% for dim in dims %}
+          {% assign val = page.complexity_breakdown[dim] %}
+          {% assign pct = val | times: 100 | divided_by: 3 %}
+          <div class="complexity-row">
+            <span class="complexity-dim">{{ dim }}</span>
+            <div class="complexity-track">
+              <div class="complexity-fill level-{{ page.level }}" style="width: {{ pct }}%"></div>
+            </div>
+            <span class="complexity-val">{{ val }}/3</span>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+  </div>
+</div>

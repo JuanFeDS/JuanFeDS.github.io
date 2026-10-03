@@ -1,4 +1,6 @@
-/* Blog */
+/* ═══════════════════════════════════════════════════════════
+   BLOG CARDS
+   ═══════════════════════════════════════════════════════════ */
 
 .post-cards {
   display: grid;
@@ -9,79 +11,424 @@
 
 .post-card {
   border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 8px;
+  border-radius: 12px;
   padding: 1rem;
-  background: var(--card-background, rgb(27, 31, 37));
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  transition: box-shadow 0.3s ease;
+  background: rgba(255,255,255,0.03);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
 
-.post-card:hover {
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+.post-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.3); transform: translateY(-2px); }
+.post-card h3    { margin-top: 0; margin-bottom: 0.5rem; }
+.post-card p     { margin-bottom: 0.5rem; color: rgb(255,255,255); }
+.post-card a     { text-decoration: none; color: #fff; }
+
+
+/* ═══════════════════════════════════════════════════════════
+   LEVEL COLORS — CSS custom properties
+   ═══════════════════════════════════════════════════════════ */
+
+.level-1 { --lc: #4caf50; --lc-rgb: 76,175,80;   --lc-text: #81c784; }
+.level-2 { --lc: #2196f3; --lc-rgb: 33,150,243;  --lc-text: #64b5f6; }
+.level-3 { --lc: #9c27b0; --lc-rgb: 156,39,176;  --lc-text: #ce93d8; }
+.level-4 { --lc: #ff9800; --lc-rgb: 255,152,0;   --lc-text: #ffb74d; }
+.level-5 { --lc: #f44336; --lc-rgb: 244,67,54;   --lc-text: #ef9a9a; }
+
+.project-level-badge {
+  display: inline-block;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.25rem 0.65rem;
+  border-radius: 6px;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  background: rgba(var(--lc-rgb), 0.12);
+  color: var(--lc-text);
+  border: 1px solid rgba(var(--lc-rgb), 0.3);
 }
 
-.post-card h3 {
-  margin-top: 0;
-  margin-bottom: 0.5rem;
-}
 
-.post-card p {
-  margin-bottom: 0.5rem;
-  color:rgb(255, 255, 255);
-}
+/* ═══════════════════════════════════════════════════════════
+   PROJECT LISTING — bento grid
+   ═══════════════════════════════════════════════════════════ */
 
-.post-card a {
-  text-decoration: none;
-  color: #fff;
+.projects-intro {
+  font-size: 1rem;
+  color: rgba(255,255,255,0.45);
+  margin-bottom: 2rem;
+  line-height: 1.6;
 }
-
-/* Proyectos */
 
 .projects-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
   padding: 0;
   list-style: none;
+  margin-top: 0;
 }
 
+@media (max-width: 900px) {
+  .projects-grid { grid-template-columns: repeat(2, 1fr); }
+  .card-featured { grid-column: span 2; }
+}
+
+@media (max-width: 580px) {
+  .projects-grid { grid-template-columns: 1fr; }
+  .card-featured { grid-column: span 1; }
+}
+
+/* Base card */
 .project-card {
-  background: var(--card-background, rgb(27, 31, 37));
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgb(0 0 0 / 0.1);
-  padding: 1rem;
+  background: rgba(255,255,255,0.025);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 16px;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  transition: transform 0.2s ease;
+  position: relative;
+  transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s ease;
+  cursor: pointer;
 }
 
+/* Top accent line */
+.project-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--lc);
+  border-radius: 16px 16px 0 0;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+  z-index: 1;
+}
+
+/* Subtle inner glow on hover */
 .project-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-5px) scale(1.01);
+  box-shadow: 0 20px 60px rgba(var(--lc-rgb), 0.18), 0 0 0 1px rgba(var(--lc-rgb), 0.15);
 }
 
-.project-image {
-  width: 100%;
-  height: 160px;
-  object-fit: cover;
-  border-radius: 6px;
-  margin-bottom: 0.75rem;
+.project-card:hover::before { opacity: 1; }
+
+/* Featured card (score >= 8): wider */
+.card-featured { grid-column: span 2; }
+
+/* Card content */
+.project-card-body {
+  padding: 1.25rem 1.4rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  flex: 1;
+  position: relative;
+  z-index: 0;
+}
+
+/* Background glow blob on featured */
+.card-featured .project-card-body::after {
+  content: '';
+  position: absolute;
+  top: -40px; right: -40px;
+  width: 180px; height: 180px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(var(--lc-rgb), 0.07) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.project-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.project-card-score {
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: #fff;
+  line-height: 1;
+}
+.project-card-score span {
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: rgba(255,255,255,0.25);
 }
 
 .project-title {
-  font-size: 1.2rem;
-  margin: 0 0 0.5rem;
-  color: #fff;
-  text-decoration: underline;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #e6edf3;
+  text-decoration: none;
+  line-height: 1.4;
+  display: block;
+  position: relative;
+  z-index: 1;
 }
+.card-featured .project-title { font-size: 1.2rem; }
+.project-title:hover           { color: var(--lc-text); }
 
 .project-excerpt {
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.38);
+  line-height: 1.6;
   flex-grow: 1;
-  color: #bbb;
-  margin-bottom: 0.75rem;
+  margin: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.project-card-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  position: relative;
+  z-index: 1;
+}
+
+.stack-tag {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.71rem;
+  color: rgba(255,255,255,0.3);
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 4px;
+  padding: 0.15rem 0.45rem;
 }
 
 .project-date {
-  font-size: 0.85rem;
-  color: #999;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.68rem;
+  color: rgba(255,255,255,0.2);
+  text-align: right;
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   PROJECT META CARD — individual page
+   ═══════════════════════════════════════════════════════════ */
+
+.project-meta-card {
+  border-radius: 20px;
+  overflow: hidden;
+  margin-bottom: 3rem;
+  border: 1px solid rgba(255,255,255,0.07);
+  position: relative;
+}
+
+/* Aurora hero */
+.pmeta-hero {
+  position: relative;
+  padding: 2.5rem 2.5rem 2rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.5rem;
+  background: #0d1117;
+  overflow: hidden;
+}
+
+/* Aurora glow blobs */
+.pmeta-hero::before {
+  content: '';
+  position: absolute;
+  top: -60px; left: -40px;
+  width: 320px; height: 320px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(var(--lc-rgb), 0.2) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.pmeta-hero::after {
+  content: '';
+  position: absolute;
+  bottom: -80px; right: 80px;
+  width: 240px; height: 240px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(var(--lc-rgb), 0.1) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.pmeta-hero-left {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  position: relative;
+  z-index: 1;
+}
+
+.pmeta-description {
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.45);
+  margin: 0.25rem 0 0;
+  line-height: 1.55;
+  max-width: 420px;
+}
+
+.pmeta-hero-score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  background: rgba(var(--lc-rgb), 0.1);
+  border: 2px solid rgba(var(--lc-rgb), 0.3);
+  box-shadow: 0 0 32px rgba(var(--lc-rgb), 0.15);
+}
+
+.pmeta-score-num {
+  font-size: 2.4rem;
+  font-weight: 900;
+  color: #fff;
+  line-height: 1;
+}
+
+.pmeta-score-den {
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.3);
+  margin-top: 0.1rem;
+}
+
+/* Body */
+.pmeta-body {
+  background: rgba(255,255,255,0.015);
+  border-top: 1px solid rgba(255,255,255,0.06);
+  padding: 1.5rem 2.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+}
+
+.pmeta-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.pmeta-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgba(255,255,255,0.22);
+}
+
+/* Chips */
+.pmeta-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.stack-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.09);
+  border-radius: 999px;
+  padding: 0.35rem 0.85rem;
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.75);
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.stack-chip:hover {
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(255,255,255,0.15);
+}
+
+.stack-chip::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--lc);
+  flex-shrink: 0;
+  box-shadow: 0 0 6px rgba(var(--lc-rgb), 0.6);
+}
+
+.flag-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: rgba(255,213,79,0.06);
+  border: 1px solid rgba(255,213,79,0.18);
+  border-radius: 999px;
+  padding: 0.35rem 0.85rem;
+  font-size: 0.82rem;
+  color: rgba(255,213,79,0.8);
+  text-transform: capitalize;
+}
+
+.flag-chip::before {
+  content: '#';
+  font-size: 0.75rem;
+  color: rgba(255,213,79,0.35);
+}
+
+/* Complexity bars */
+.pmeta-complexity {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.complexity-row {
+  display: grid;
+  grid-template-columns: 110px 1fr 36px;
+  align-items: center;
+  gap: 1rem;
+}
+
+.complexity-dim {
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.38);
+  text-transform: capitalize;
+}
+
+.complexity-track {
+  height: 4px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.complexity-fill {
+  height: 100%;
+  border-radius: 99px;
+  background: linear-gradient(90deg, rgba(var(--lc-rgb),0.5), var(--lc));
+}
+
+.complexity-val {
+  font-size: 0.7rem;
+  color: rgba(255,255,255,0.2);
+  text-align: right;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+/* Content section headings */
+.project-content h2 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-top: 2.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  color: rgba(255,255,255,0.85);
+}
+
+.project-content h3 {
+  font-size: 1rem;
+  color: rgba(255,255,255,0.65);
+}
+
+.project-content strong {
+  color: #fff;
 }
