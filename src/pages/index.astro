@@ -145,13 +145,13 @@ const stackGroups = [
             </p>
             <div class="mt-8 flex flex-wrap gap-3">
               <a
-                href="/projects"
+                href="/projects/"
                 class="rounded-full px-6 py-2.5 text-sm font-semibold text-white transition-opacity hover:opacity-90 bg-linear-to-br from-aurora-purple to-aurora-blue"
               >
                 Ver proyectos
               </a>
               <a
-                href="/about"
+                href="/about/"
                 class="rounded-full px-6 py-2.5 text-sm font-semibold transition-colors bg-surface-2 border border-border text-text"
               >
                 Sobre mí
@@ -172,7 +172,7 @@ const stackGroups = [
             />
             <div class="relative flex items-center justify-between">
               <span class="text-xs font-semibold uppercase tracking-widest text-text-muted">Complexity Profile</span>
-              <a href="/blog/the-scientist-complexity-framework" class="text-xs transition-opacity hover:opacity-70 text-aurora-purple">¿Qué es esto? →</a>
+              <a href="/blog/the-scientist-complexity-framework/" class="text-xs transition-opacity hover:opacity-70 text-aurora-purple">¿Qué es esto? →</a>
             </div>
             <p class="relative mt-2 text-xs leading-relaxed text-text-muted">
               Cada proyecto clasificado por nivel de sistema y scored en cuatro dimensiones: arquitectura, datos, infraestructura e IA.
@@ -295,7 +295,7 @@ const stackGroups = [
                 <div class="flex flex-wrap gap-1.5" data-stack-group={gi}>
                   {techs.map((tech, ti) => (
                     <a
-                      href={`/projects?tech=${encodeURIComponent(tech)}`}
+                      href={`/projects/?tech=${encodeURIComponent(tech)}`}
                       class={`stack-pill rounded-full px-3 py-1 text-xs font-medium transition-opacity hover:opacity-70${ti >= 3 ? " stack-overflow hidden" : ""}`}
                       style={`background: color-mix(in srgb, ${color} 10%, transparent); border: 1px solid color-mix(in srgb, ${color} 25%, transparent); color: var(--color-text); text-decoration: none;`}
                     >
@@ -323,11 +323,11 @@ const stackGroups = [
           <div class="col-span-12 md:col-span-8 rounded-3xl p-6 bg-surface border border-border">
             <div class="mb-5 flex items-center justify-between">
               <p class="text-xs font-semibold uppercase tracking-widest text-text-muted">Proyectos recientes</p>
-              <a href="/projects" class="text-xs text-aurora-purple">Ver todos →</a>
+              <a href="/projects/" class="text-xs text-aurora-purple">Ver todos →</a>
             </div>
             <div class="grid grid-cols-1 gap-4">
               {projects.map((p) => (
-                <a href={`/projects/${p.id}`} class="project-card group relative rounded-2xl overflow-hidden">
+                <a href={`/projects/${p.id}/`} class="project-card group relative rounded-2xl overflow-hidden">
 
                   <!-- Capa imagen (revelada con wipe diagonal) -->
                   <div class="project-img absolute inset-0">
@@ -374,12 +374,12 @@ const stackGroups = [
           >
             <div class="mb-5 flex items-center justify-between">
               <p class="text-xs font-semibold uppercase tracking-widest text-text-muted">Últimas entradas</p>
-              <a href="/blog" class="text-xs text-aurora-purple">Ver blog →</a>
+              <a href="/blog/" class="text-xs text-aurora-purple">Ver blog →</a>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
               {posts.map((post) => (
                 <a
-                  href={`/blog/${post.id}`}
+                  href={`/blog/${post.id}/`}
                   class="group flex flex-col justify-between gap-4 rounded-2xl p-5 transition-colors bg-surface border border-border"
                 >
                   <div>

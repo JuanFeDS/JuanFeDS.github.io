@@ -58,7 +58,7 @@ const formattedDate = new Date(date).toLocaleDateString("es-ES", {
       </>
     )}
     <div class="hero-inner">
-      <a href="/projects" class="breadcrumb">← Proyectos</a>
+      <a href="/projects/" class="breadcrumb">← Proyectos</a>
       <span class="hero-domain">{domainLabel[domain]}</span>
       <h1 class="hero-title">{title}</h1>
       {description && <p class="hero-desc">{description}</p>}
@@ -96,7 +96,7 @@ const formattedDate = new Date(date).toLocaleDateString("es-ES", {
       <div class="meta-block meta-chart">
         <div class="meta-label-row">
           <p class="meta-label">Complexity Breakdown</p>
-          <a href="/blog/the-scientist-complexity-framework" class="meta-help" title="¿Qué es esto?">?</a>
+          <a href="/blog/the-scientist-complexity-framework/" class="meta-help" title="¿Qué es esto?">?</a>
         </div>
         <div class="chart-grid">
           {dims.map(({ emoji, label, value }) => (
