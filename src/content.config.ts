@@ -57,6 +57,7 @@ const makeover_monday = defineCollection({
   loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/makeover-monday" }),
   schema: ({ image }) => z.object({
     title: z.string(),
+    seo_title: z.string().optional(),
     week: z.number().int().min(1).max(53),
     year: z.number().int().min(2020),
     description: z.string().optional(),

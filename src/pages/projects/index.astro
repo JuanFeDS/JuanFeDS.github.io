@@ -13,7 +13,10 @@ const projects = (await getCollection("projects"))
 const activeDomains = [...new Set(projects.map((p) => p.data.domain))];
 ---
 
-<PageLayout title="Proyectos">
+<PageLayout
+  title="Proyectos"
+  description="Proyectos de ciencia e ingeniería de datos, clasificados con The Scientist Complexity Framework."
+>
   <div class="mx-auto max-w-5xl px-6 py-16">
 
     <header class="mb-10">

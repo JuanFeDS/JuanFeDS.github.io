@@ -10,10 +10,11 @@ interface Props {
 
 const {
   title,
-  description = "Portafolio de ciencia e ingeniería de datos",
+  description = "Juan Felipe Martínez, Data Scientist & Data Engineer. Proyectos, artículos y visualizaciones de datos.",
   image = defaultAvatar.src,
 } = Astro.props;
 
+const fullTitle = title.includes("JuanFe Martínez") ? title : `${title} — JuanFe Martínez`;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const ogImageURL = new URL(image || "/avatar.jpg", Astro.site);
 
@@ -47,19 +48,19 @@ const personSchema = {
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalURL} />
-    <title>{title}</title>
+    <title>{fullTitle}</title>
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalURL} />
-    <meta property="og:title" content={title} />
+    <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImageURL} />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:url" content={canonicalURL} />
-    <meta name="twitter:title" content={title} />
+    <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageURL} />
 

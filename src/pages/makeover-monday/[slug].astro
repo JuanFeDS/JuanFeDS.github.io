@@ -13,7 +13,7 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { Content } = await render(entry);
-const { title, description, week, year, tool, source_url, dataset_url } = entry.data;
+const { title, seo_title, description, week, year, tool, source_url, dataset_url } = entry.data;
 
 const allEntries = (await getCollection("makeover_monday", ({ data }) => !data.draft))
   .sort((a, b) => a.data.year !== b.data.year ? a.data.year - b.data.year : a.data.week - b.data.week);
@@ -37,7 +37,10 @@ const prevGrad = prev ? gradients[prev.data.week % gradients.length] : null;
 const nextGrad = next ? gradients[next.data.week % gradients.length] : null;
 ---
 
-<BaseLayout title={`${title} · W${wk} ${year} — JuanFe`}>
+<BaseLayout
+  title={`${seo_title ?? title} · W${wk} ${year}`}
+  description={description ?? `Visualización de la semana ${wk} de ${year} del reto Makeover Monday.`}
+>
   <Nav />
   <main class="aurora-bg min-h-screen pt-20">
 
