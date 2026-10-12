@@ -31,7 +31,6 @@ const liveHost = liveUrl.host + liveUrl.pathname.replace(/\/$/, "");
   </a>
 
   <div class="tool-copy">
-    <p class="tool-eyebrow" style={`color: ${color};`}>Herramienta {String(index + 1).padStart(2, "0")}</p>
     <h2 class="tool-title font-display text-text">{title}</h2>
     <p class="tool-desc text-text-muted">{description}</p>
 
@@ -112,14 +111,7 @@ const liveHost = liveUrl.host + liveUrl.pathname.replace(/\/$/, "");
     flex: 1;
     flex-direction: column;
   }
-  .tool-eyebrow {
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-  }
   .tool-title {
-    margin-top: 0.35rem;
     font-size: 1.75rem;
     font-weight: 800;
     line-height: 1.05;
