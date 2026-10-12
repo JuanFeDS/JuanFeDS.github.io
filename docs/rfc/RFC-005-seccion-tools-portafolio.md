@@ -22,7 +22,8 @@ Una herramienta no encaja en la colección `projects`. Su esquema exige `domain`
 ## 3. Requisitos
 
 ### 3.1 Funcionales
-- **F1.** Una página `/tools/` con una tarjeta por herramienta.
+- **F1.** Una página `/tools/` con una tarjeta por herramienta, en cuadrícula.
+- **F6.** Un selector de 1 a 4 herramientas por fila (3 por defecto) que recuerda la elección del visitante en su navegador. En móvil siempre es 1 columna y el selector se oculta.
 - **F2.** Cada tarjeta muestra título, descripción corta, stack, captura (opcional), enlace para usarla y enlace al repo.
 - **F3.** Nueva entrada en la navegación del sitio.
 - **F4.** Agregar una herramienta es crear un archivo en `src/content/tools/`; no hay que tocar código.
@@ -38,7 +39,7 @@ Una herramienta no encaja en la colección `projects`. Su esquema exige `domain`
 
 - La sección de demos o laboratorios (se define en otro RFC, ver sección 9).
 - Páginas de detalle por herramienta (cada una enlaza a su propia app).
-- Buscador, filtros y etiquetas: con tres herramientas no hacen falta.
+- Buscador, filtros y etiquetas: con tres herramientas no hacen falta. El selector de columnas (F6) es solo de presentación.
 - Analítica de uso.
 - Herramientas privadas o con datos personales (`tools/`, `content_generator`).
 
@@ -128,6 +129,7 @@ const tools = defineCollection({
 7. La página se ve bien en tema claro, tema oscuro y móvil, y Juan la aprueba con capturas.
 8. La descripción de klip coincide con lo que es el repo.
 9. El sitio compila y se publica sin errores ni enlaces rotos nuevos.
+10. El selector cambia entre 1, 2, 3 y 4 columnas, recuerda la elección al recargar y en móvil la página queda en 1 columna.
 
 ## 9. Decisiones
 
