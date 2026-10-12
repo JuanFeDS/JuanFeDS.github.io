@@ -24,7 +24,7 @@ Una herramienta no encaja en la colección `projects`. Su esquema exige `domain`
 ### 3.1 Funcionales
 - **F1.** Una página `/tools/` con una tarjeta por herramienta, en cuadrícula.
 - **F6.** Un selector de 1 a 4 herramientas por fila (3 por defecto) que recuerda la elección del visitante en su navegador. En móvil siempre es 1 columna y el selector se oculta.
-- **F2.** Cada tarjeta muestra título, descripción corta, stack, captura (opcional), enlace para usarla y enlace al repo.
+- **F2.** Cada tarjeta muestra título, descripción completa, ilustración o captura, enlace para usarla y enlace al repo. El stack vive en el archivo de contenido pero no se muestra en la tarjeta.
 - **F3.** Nueva entrada en la navegación del sitio.
 - **F4.** Agregar una herramienta es crear un archivo en `src/content/tools/`; no hay que tocar código.
 - **F5.** Los tres pilotos publicados: Trazo, klip y pixeleria.
@@ -121,7 +121,7 @@ const tools = defineCollection({
 ## 8. Criterios de aceptación (con esto revisa Faro)
 
 1. `juanfeds.com/pixeleria` responde 200 y funciona.
-2. `juanfeds.com/tools/` lista Trazo, klip y pixeleria, cada una con descripción, stack, enlace de uso y enlace al repo.
+2. `juanfeds.com/tools/` lista Trazo, klip y pixeleria, cada una con descripción completa, enlace de uso y enlace al repo.
 3. Los seis enlaces (tres de uso, tres de repo) abren lo correcto.
 4. Agregar una herramienta nueva es crear un archivo en `src/content/tools/` y no requiere editar código.
 5. Una entrada con un campo inválido rompe el build con un mensaje claro.
