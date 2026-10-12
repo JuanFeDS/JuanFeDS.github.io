@@ -8,7 +8,7 @@ interface Props {
 }
 
 const { tool, index } = Astro.props;
-const { title, description, stack, live, github, image } = tool.data;
+const { title, description, live, github, image } = tool.data;
 
 const palettes = [
   { gradient: "linear-gradient(135deg, #8b5cf6 0%, #f472b6 100%)", color: "#8b5cf6" },
@@ -37,10 +37,6 @@ const liveHost = liveUrl.host + liveUrl.pathname.replace(/\/$/, "");
   <div class="tool-copy">
     <h2 class="tool-title font-display text-text">{title}</h2>
     <p class="tool-desc text-text-muted">{description}</p>
-
-    <ul class="tool-stack" aria-label="Stack">
-      {stack.map((tech) => <li>{tech}</li>)}
-    </ul>
 
     <div class="tool-actions">
       <a href={live} target="_blank" rel="noopener" class="tool-cta" style={`background: ${color};`}>
@@ -135,27 +131,6 @@ const liveHost = liveUrl.host + liveUrl.pathname.replace(/\/$/, "");
     margin-top: 0.5rem;
     font-size: 0.84rem;
     line-height: 1.55;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
-  .tool-stack {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.35rem;
-    margin-top: 0.75rem;
-    padding: 0;
-    list-style: none;
-  }
-  .tool-stack li {
-    padding: 0.15rem 0.55rem;
-    border-radius: 0.4rem;
-    font-family: monospace;
-    font-size: 0.7rem;
-    background: var(--color-surface-2);
-    color: var(--color-text-muted);
   }
 
   .tool-actions {
@@ -202,7 +177,7 @@ const liveHost = liveUrl.host + liveUrl.pathname.replace(/\/$/, "");
     }
     :global(.tools-grid[data-cols="1"]) .tool-actions { margin-top: 0; padding-top: 1.5rem; }
     :global(.tools-grid[data-cols="1"]) .tool-title { font-size: 2.25rem; }
-    :global(.tools-grid[data-cols="1"]) .tool-desc { font-size: 1rem; max-width: 46ch; -webkit-line-clamp: unset; display: block; }
+    :global(.tools-grid[data-cols="1"]) .tool-desc { font-size: 1rem; max-width: 46ch; }
   }
 
   @media (prefers-reduced-motion: reduce) {
