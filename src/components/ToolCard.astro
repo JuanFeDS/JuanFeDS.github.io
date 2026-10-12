@@ -1,0 +1,184 @@
+---
+import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  tool: CollectionEntry<"tools">;
+  index: number;
+}
+
+const { tool, index } = Astro.props;
+const { title, description, stack, live, github, image } = tool.data;
+
+const palettes = [
+  { gradient: "linear-gradient(135deg, #8b5cf6 0%, #f472b6 100%)", color: "#8b5cf6" },
+  { gradient: "linear-gradient(135deg, #14b8a6 0%, #3b82f6 100%)", color: "#14b8a6" },
+  { gradient: "linear-gradient(135deg, #f472b6 0%, #3b82f6 100%)", color: "#f472b6" },
+];
+const { gradient, color } = palettes[index % palettes.length];
+const reversed = index % 2 === 1;
+const liveHost = new URL(live).host + new URL(live).pathname.replace(/\/$/, "");
+---
+
+<article class={`tool ${reversed ? "tool--reversed" : ""}`}>
+  <a href={live} target="_blank" rel="noopener" class="tool-visual" style={`background: ${gradient}; --chars: ${title.length};`} aria-label={`Abrir ${title}`}>
+    {image ? (
+      <Image src={image} alt={`Captura de ${title}`} widths={[480, 800, 1200]} sizes="(max-width: 768px) 100vw, 560px" class="tool-shot" />
+    ) : (
+      <span class="tool-wordmark" aria-hidden="true">{title}</span>
+    )}
+    <span class="tool-url">{liveHost}</span>
+  </a>
+
+  <div class="tool-copy">
+    <p class="tool-eyebrow" style={`color: ${color};`}>Herramienta {String(index + 1).padStart(2, "0")}</p>
+    <h2 class="tool-title font-display text-text">{title}</h2>
+    <p class="tool-desc text-text-muted">{description}</p>
+
+    <ul class="tool-stack" aria-label="Stack">
+      {stack.map((tech) => <li>{tech}</li>)}
+    </ul>
+
+    <div class="tool-actions">
+      <a href={live} target="_blank" rel="noopener" class="tool-cta" style={`background: ${color};`}>
+        Usar ahora →
+      </a>
+      <a href={github} target="_blank" rel="noopener" class="tool-repo text-text-muted">
+        Ver código
+      </a>
+    </div>
+  </div>
+</article>
+
+<style>
+  .tool {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    align-items: center;
+    gap: clamp(1.5rem, 4vw, 3.5rem);
+  }
+  .tool--reversed .tool-visual { order: 2; }
+
+  .tool-visual {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    container-type: inline-size;
+    border-radius: 1.75rem;
+    text-decoration: none;
+    transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .tool-visual:hover { transform: translateY(-4px) rotate(-0.4deg); }
+  .tool-visual:focus-visible {
+    outline: 2px solid var(--color-aurora-purple);
+    outline-offset: 4px;
+  }
+
+  .tool-wordmark {
+    position: absolute;
+    left: -0.04em;
+    bottom: -0.18em;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: min(9.5rem, calc(150cqw / var(--chars)));
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: rgba(255, 255, 255, 0.92);
+    white-space: nowrap;
+    user-select: none;
+  }
+  .tool-shot {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .tool-url {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    padding: 0.2rem 0.65rem;
+    border-radius: 9999px;
+    font-family: monospace;
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.95);
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(6px);
+  }
+
+  .tool-eyebrow {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .tool-title {
+    margin-top: 0.5rem;
+    font-size: clamp(2rem, 4.5vw, 3rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+  }
+  .tool-desc {
+    margin-top: 1rem;
+    font-size: 1rem;
+    line-height: 1.65;
+    max-width: 46ch;
+  }
+
+  .tool-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 1.25rem;
+    padding: 0;
+    list-style: none;
+  }
+  .tool-stack li {
+    padding: 0.15rem 0.6rem;
+    border-radius: 0.4rem;
+    font-family: monospace;
+    font-size: 0.72rem;
+    background: var(--color-surface-2);
+    color: var(--color-text-muted);
+  }
+
+  .tool-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    margin-top: 1.75rem;
+  }
+  .tool-cta {
+    padding: 0.7rem 1.4rem;
+    border-radius: 0.9rem;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: white;
+    text-decoration: none;
+    transition: transform 0.15s, opacity 0.15s;
+  }
+  .tool-cta:hover { opacity: 0.9; transform: translateY(-2px); }
+  .tool-repo {
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    transition: color 0.15s;
+  }
+  .tool-repo:hover { color: var(--color-text); }
+
+  @media (max-width: 768px) {
+    .tool { grid-template-columns: 1fr; }
+    .tool--reversed .tool-visual { order: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tool-visual, .tool-cta { transition: none; }
+    .tool-visual:hover, .tool-cta:hover { transform: none; }
+  }
+</style>

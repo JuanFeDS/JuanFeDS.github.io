@@ -1,0 +1,32 @@
+---
+import { getCollection } from "astro:content";
+import PageLayout from "../../layouts/PageLayout.astro";
+import ToolCard from "../../components/ToolCard.astro";
+
+const tools = (await getCollection("tools"))
+  .filter((tool) => !tool.data.draft)
+  .sort((a, b) => a.data.order - b.data.order);
+---
+
+<PageLayout
+  title="Tools"
+  description="Herramientas web que construí y puedes usar ahora: Trazo para diagramas, Klip para pestañas y Pixelería para pixel art."
+>
+  <div class="mx-auto max-w-5xl px-6 py-16">
+    <header class="mb-16">
+      <p class="mb-2 text-sm font-medium text-aurora-teal">Herramientas</p>
+      <h1 class="text-4xl font-bold md:text-5xl font-display text-text">Tools</h1>
+      <p class="mt-4 max-w-2xl text-lg text-text-muted">
+        Apps pequeñas que ya funcionan y que puedes usar sin instalar nada. Cada una vive en su propio repositorio.
+      </p>
+    </header>
+
+    {tools.length === 0 ? (
+      <p class="text-text-muted">Próximamente...</p>
+    ) : (
+      <div class="flex flex-col gap-24">
+        {tools.map((tool, index) => <ToolCard tool={tool} index={index} />)}
+      </div>
+    )}
+  </div>
+</PageLayout>
