@@ -1,59 +1,61 @@
 ---
-const cell = 9;
-const halfSprite = [
-  "..o.....",
-  "..oo....",
-  ".ooXoooo",
-  "oXXXXXXX",
-  "oXXeeXXX",
-  "oXXeeXXX",
-  "oXXXXXXX",
-  "oXXXXooo",
-  "oXXXXXXX",
-  ".ooXXXXX",
-  "..oXoXoX",
-  "..oo.oo.",
-];
-const spriteX = (320 - 16 * cell) / 2;
-const spriteY = 22;
+const cell = 8;
+const columns = 40;
 
-const spriteCells = halfSprite.flatMap((row, rowIndex) =>
-  [...row].flatMap((char, columnIndex) => {
-    if (char === ".") return [];
-    const fill = char === "X" ? "#ffffff" : char === "e" ? "#2a1a5e" : "rgba(60, 20, 120, 0.6)";
-    return [columnIndex, 15 - columnIndex].map((mirrored) => ({
-      x: spriteX + mirrored * cell,
-      y: spriteY + rowIndex * cell,
-      fill,
-    }));
+const layers = [
+  { base: 8.5, amplitude: 2.4, frequency: 0.33, phase: 1.0, opacity: 0.22 },
+  { base: 6.0, amplitude: 2.0, frequency: 0.5, phase: 3.2, opacity: 0.36 },
+  { base: 3.2, amplitude: 1.2, frequency: 0.72, phase: 5.1, opacity: 0.55 },
+].map((layer) => ({
+  opacity: layer.opacity,
+  heights: Array.from({ length: columns }, (_, index) => {
+    const wave = Math.sin(index * layer.frequency + layer.phase) + 0.5 * Math.sin(index * layer.frequency * 2.3 + layer.phase * 1.7);
+    return Math.max(1, Math.round(layer.base + layer.amplitude * wave));
   }),
+}));
+
+const sunCenter = { column: 12, row: 12.5 };
+const sunRadius = 3.2;
+const sunCells = Array.from({ length: 9 }, (_, rowOffset) => rowOffset - 4).flatMap((rowOffset) =>
+  Array.from({ length: 9 }, (_, columnOffset) => columnOffset - 4)
+    .filter((columnOffset) => Math.hypot(columnOffset, rowOffset) <= sunRadius)
+    .map((columnOffset) => ({
+      x: (sunCenter.column + columnOffset) * cell,
+      y: (Math.floor(sunCenter.row) + rowOffset) * cell,
+    })),
 );
 
-const mountainHeights = [2, 2, 3, 3, 4, 5, 4, 4, 3, 2, 2, 3, 4, 4, 5, 6, 5, 4, 3, 3, 2, 2, 3, 4, 5, 4, 3, 3, 2, 2, 3, 3, 4, 3, 2, 2];
-const sunCells = [
-  [1, 0], [2, 0], [0, 1], [1, 1], [2, 1], [3, 1], [0, 2], [1, 2], [2, 2], [3, 2], [1, 3], [2, 3],
-];
-const stars = [[250, 24], [286, 48], [60, 100], [292, 96], [30, 70]];
+const ditherCells = Array.from({ length: 4 }, (_, row) => row + 9).flatMap((row) =>
+  Array.from({ length: columns }, (_, column) => column)
+    .filter((column) => (column + row) % 2 === 0)
+    .map((column) => ({ x: column * cell, y: row * cell, opacity: 0.1 + (row - 9) * 0.03 })),
+);
 ---
 
 <svg class="art" viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
-  {mountainHeights.map((height, index) => (
-    <rect x={index * cell} y={180 - height * cell} width={cell} height={height * cell} fill="rgba(255,255,255,0.2)" />
-  ))}
-
-  {sunCells.map(([column, row]) => (
-    <rect x={18 + column * 7} y={14 + row * 7} width="7" height="7" fill="rgba(255,255,255,0.85)" />
-  ))}
-
-  {stars.map(([x, y]) => (
-    <rect x={x} y={y} width="4" height="4" fill="rgba(255,255,255,0.7)" />
-  ))}
-
-  <g class="sprite">
-    {spriteCells.map((spriteCell) => (
-      <rect x={spriteCell.x} y={spriteCell.y} width={cell} height={cell} fill={spriteCell.fill} />
+  <g fill="#ffffff">
+    {ditherCells.map((ditherCell) => (
+      <rect x={ditherCell.x} y={ditherCell.y} width={cell} height={cell} opacity={ditherCell.opacity} />
     ))}
   </g>
+
+  <g class="sun" fill="rgba(255,255,255,0.9)">
+    {sunCells.map((sunCell) => (
+      <rect x={sunCell.x} y={sunCell.y} width={cell} height={cell} />
+    ))}
+  </g>
+
+  {layers.map((layer) => (
+    <g fill="#ffffff" opacity={layer.opacity}>
+      {layer.heights.map((height, index) => (
+        <rect x={index * cell} y={180 - height * cell} width={cell} height={height * cell} />
+      ))}
+    </g>
+  ))}
+
+  <rect x="20" y="16" width="76" height="22" rx="11" fill="#ffffff" />
+  <circle cx="34" cy="27" r="4" fill="#f472b6" />
+  <rect x="46" y="24" width="36" height="6" rx="3" fill="#8b5cf6" />
 </svg>
 
 <style>
@@ -65,12 +67,12 @@ const stars = [[250, 24], [286, 48], [60, 100], [292, 96], [30, 70]];
   }
 
   @media (prefers-reduced-motion: no-preference) {
-    .sprite {
-      animation: bob 0.9s steps(2) infinite alternate;
+    .sun {
+      animation: bob 1.2s steps(2) infinite alternate;
     }
     @keyframes bob {
       from { transform: translateY(0); }
-      to { transform: translateY(-5px); }
+      to { transform: translateY(-4px); }
     }
   }
 </style>
