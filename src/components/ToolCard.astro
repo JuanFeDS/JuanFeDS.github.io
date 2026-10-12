@@ -22,7 +22,7 @@ const liveUrl = new URL(live);
 const liveHost = liveUrl.host + liveUrl.pathname.replace(/\/$/, "");
 ---
 
-<article class="tool">
+<article class="tool" style={`--tool-color: ${color};`}>
   <a href={live} target="_blank" rel="noopener" class="tool-visual" style={`background: ${gradient}; --chars: ${title.length};`} aria-label={`Abrir ${title}`}>
     {image ? (
       <Image src={image} alt={`Captura de ${title}`} widths={[480, 800, 1200]} sizes="(max-width: 768px) 100vw, 560px" class="tool-shot" />
@@ -57,7 +57,18 @@ const liveHost = liveUrl.host + liveUrl.pathname.replace(/\/$/, "");
   .tool {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    border-radius: 1.5rem;
+    background: color-mix(in srgb, var(--tool-color) 10%, var(--color-surface));
+    transition: transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 0.3s ease;
+  }
+  :global(.dark) .tool {
+    background: color-mix(in srgb, var(--tool-color) 14%, var(--color-surface));
+  }
+  .tool:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 32px -16px color-mix(in srgb, var(--tool-color) 55%, transparent);
   }
 
   .tool-visual {
@@ -67,11 +78,9 @@ const liveHost = liveUrl.host + liveUrl.pathname.replace(/\/$/, "");
     aspect-ratio: 16 / 9;
     overflow: hidden;
     container-type: inline-size;
-    border-radius: 1.25rem;
+    border-radius: 1rem;
     text-decoration: none;
-    transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
   }
-  .tool-visual:hover { transform: translateY(-4px) rotate(-0.4deg); }
   .tool-visual:focus-visible {
     outline: 2px solid var(--color-aurora-purple);
     outline-offset: 4px;
@@ -114,6 +123,7 @@ const liveHost = liveUrl.host + liveUrl.pathname.replace(/\/$/, "");
     display: flex;
     flex: 1;
     flex-direction: column;
+    padding: 0.25rem 0.5rem 0.5rem;
   }
   .tool-title {
     font-size: 1.35rem;
@@ -179,7 +189,8 @@ const liveHost = liveUrl.host + liveUrl.pathname.replace(/\/$/, "");
     :global(.tools-grid[data-cols="1"]) .tool {
       flex-direction: row;
       align-items: center;
-      gap: 3rem;
+      gap: 2rem;
+      padding: 1rem;
     }
     :global(.tools-grid[data-cols="1"]) .tool-visual {
       flex: 0 0 42%;
@@ -187,6 +198,7 @@ const liveHost = liveUrl.host + liveUrl.pathname.replace(/\/$/, "");
     :global(.tools-grid[data-cols="1"]) .tool-copy {
       flex: 1;
       justify-content: center;
+      padding: 0.5rem 1rem 0.5rem 0;
     }
     :global(.tools-grid[data-cols="1"]) .tool-actions { margin-top: 0; padding-top: 1.5rem; }
     :global(.tools-grid[data-cols="1"]) .tool-title { font-size: 2.25rem; }
@@ -194,7 +206,7 @@ const liveHost = liveUrl.host + liveUrl.pathname.replace(/\/$/, "");
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .tool-visual, .tool-cta { transition: none; }
-    .tool-visual:hover, .tool-cta:hover { transform: none; }
+    .tool, .tool-cta { transition: none; }
+    .tool:hover, .tool-cta:hover { transform: none; }
   }
 </style>
