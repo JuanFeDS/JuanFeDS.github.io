@@ -7,7 +7,6 @@ const tools = (await getCollection("tools"))
   .filter((tool) => !tool.data.draft)
   .sort((a, b) => a.data.order - b.data.order);
 
-const columnOptions = [1, 2, 3, 4];
 const defaultColumns = 3;
 ---
 
@@ -26,20 +25,19 @@ const defaultColumns = 3;
           </p>
         </div>
 
-        <div class="cols-picker hidden md:flex" role="radiogroup" aria-label="Herramientas por fila">
-          <span class="text-xs text-text-muted">Por fila</span>
-          {columnOptions.map((count) => (
-            <button
-              type="button"
-              role="radio"
-              class="cols-btn"
-              data-cols={count}
-              aria-checked={count === defaultColumns ? "true" : "false"}
-              aria-label={`${count} por fila`}
-            >
-              {count}
-            </button>
-          ))}
+        <div class="cols-picker hidden md:flex">
+          <label for="cols-range" class="text-xs text-text-muted">Por fila</label>
+          <input
+            id="cols-range"
+            class="cols-range"
+            type="range"
+            min="1"
+            max="4"
+            step="1"
+            value={defaultColumns}
+            style={`--fill: ${((defaultColumns - 1) / 3) * 100}%;`}
+          />
+          <output id="cols-output" for="cols-range" class="cols-output">{defaultColumns}</output>
         </div>
       </header>
     </div>
@@ -85,29 +83,60 @@ const defaultColumns = 3;
 
   .cols-picker {
     align-items: center;
-    gap: 0.4rem;
+    gap: 0.75rem;
   }
-  .cols-btn {
-    width: 2.1rem;
-    height: 2.1rem;
-    border-radius: 9999px;
-    border: 1px solid var(--color-border);
-    background: var(--color-surface);
-    color: var(--color-text-muted);
-    font-size: 0.8125rem;
-    font-weight: 600;
+  .cols-output {
+    min-width: 1ch;
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+  .cols-range {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 9rem;
+    height: 1.5rem;
+    background: transparent;
     cursor: pointer;
-    transition: all 0.15s ease;
   }
-  .cols-btn:hover { color: var(--color-text); border-color: var(--color-text-muted); }
-  .cols-btn[aria-checked="true"] {
-    background: var(--color-text);
-    color: var(--color-bg);
-    border-color: var(--color-text);
+  .cols-range::-webkit-slider-runnable-track {
+    height: 6px;
+    border-radius: 9999px;
+    background: linear-gradient(to right, var(--color-aurora-purple) var(--fill), var(--color-border) var(--fill));
   }
-  .cols-btn:focus-visible {
+  .cols-range::-moz-range-track {
+    height: 6px;
+    border-radius: 9999px;
+    background: linear-gradient(to right, var(--color-aurora-purple) var(--fill), var(--color-border) var(--fill));
+  }
+  .cols-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    margin-top: -7px;
+    border-radius: 50%;
+    border: 3px solid var(--color-aurora-purple);
+    background: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+    transition: transform 0.15s;
+  }
+  .cols-range::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 3px solid var(--color-aurora-purple);
+    background: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+    transition: transform 0.15s;
+  }
+  .cols-range:hover::-webkit-slider-thumb { transform: scale(1.15); }
+  .cols-range:hover::-moz-range-thumb { transform: scale(1.15); }
+  .cols-range:focus-visible {
     outline: 2px solid var(--color-aurora-purple);
-    outline-offset: 2px;
+    outline-offset: 4px;
+    border-radius: 9999px;
   }
 </style>
 
@@ -115,14 +144,15 @@ const defaultColumns = 3;
   (function () {
     var STORAGE_KEY = "tools-cols";
     var grid = document.getElementById("tools-grid");
-    var buttons = document.querySelectorAll(".cols-btn");
-    if (!grid) return;
+    var range = document.getElementById("cols-range");
+    var output = document.getElementById("cols-output");
+    if (!grid || !range) return;
 
     function apply(count) {
       grid.dataset.cols = String(count);
-      buttons.forEach(function (button) {
-        button.setAttribute("aria-checked", String(button.dataset.cols === String(count)));
-      });
+      range.value = String(count);
+      range.style.setProperty("--fill", ((count - 1) / 3) * 100 + "%");
+      output.textContent = String(count);
     }
 
     try {
@@ -130,13 +160,11 @@ const defaultColumns = 3;
       if (saved && ["1", "2", "3", "4"].indexOf(saved) !== -1) apply(saved);
     } catch (error) {}
 
-    buttons.forEach(function (button) {
-      button.addEventListener("click", function () {
-        apply(button.dataset.cols);
-        try {
-          localStorage.setItem(STORAGE_KEY, button.dataset.cols);
-        } catch (error) {}
-      });
+    range.addEventListener("input", function () {
+      apply(range.value);
+      try {
+        localStorage.setItem(STORAGE_KEY, range.value);
+      } catch (error) {}
     });
   })();
 </script>
