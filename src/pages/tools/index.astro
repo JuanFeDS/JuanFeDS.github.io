@@ -6,6 +6,9 @@ import ToolCard from "../../components/ToolCard.astro";
 const tools = (await getCollection("tools"))
   .filter((tool) => !tool.data.draft)
   .sort((a, b) => a.data.order - b.data.order);
+
+const columnOptions = [1, 2, 3, 4];
+const defaultColumns = 3;
 ---
 
 <PageLayout
@@ -13,20 +16,109 @@ const tools = (await getCollection("tools"))
   description="Herramientas web que construí y puedes usar ahora: Trazo para diagramas, Klip para pestañas y Pixelería para pixel art."
 >
   <div class="mx-auto max-w-5xl px-6 py-16">
-    <header class="mb-16">
-      <p class="mb-2 text-sm font-medium text-aurora-teal">Herramientas</p>
-      <h1 class="text-4xl font-bold md:text-5xl font-display text-text">Tools</h1>
-      <p class="mt-4 max-w-2xl text-lg text-text-muted">
-        Apps pequeñas que ya funcionan y que puedes usar sin instalar nada. Cada una vive en su propio repositorio.
-      </p>
+    <header class="mb-12 flex flex-wrap items-end justify-between gap-6">
+      <div>
+        <p class="mb-2 text-sm font-medium text-aurora-teal">Herramientas</p>
+        <h1 class="text-4xl font-bold md:text-5xl font-display text-text">Tools</h1>
+        <p class="mt-4 max-w-2xl text-lg text-text-muted">
+          Apps pequeñas que ya funcionan y que puedes usar sin instalar nada. Cada una vive en su propio repositorio.
+        </p>
+      </div>
+
+      <div class="cols-picker hidden md:flex" role="radiogroup" aria-label="Herramientas por fila">
+        <span class="text-xs text-text-muted">Por fila</span>
+        {columnOptions.map((count) => (
+          <button
+            type="button"
+            role="radio"
+            class="cols-btn"
+            data-cols={count}
+            aria-checked={count === defaultColumns ? "true" : "false"}
+            aria-label={`${count} por fila`}
+          >
+            {count}
+          </button>
+        ))}
+      </div>
     </header>
 
     {tools.length === 0 ? (
       <p class="text-text-muted">Próximamente...</p>
     ) : (
-      <div class="flex flex-col gap-24">
+      <div class="tools-grid" id="tools-grid" data-cols={defaultColumns}>
         {tools.map((tool, index) => <ToolCard tool={tool} index={index} />)}
       </div>
     )}
   </div>
 </PageLayout>
+
+<style>
+  .tools-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem 1.5rem;
+  }
+  @media (min-width: 768px) {
+    .tools-grid[data-cols="1"] { grid-template-columns: 1fr; }
+    .tools-grid[data-cols="2"] { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .tools-grid[data-cols="3"] { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .tools-grid[data-cols="4"] { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  }
+
+  .cols-picker {
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .cols-btn {
+    width: 2.1rem;
+    height: 2.1rem;
+    border-radius: 9999px;
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+    color: var(--color-text-muted);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .cols-btn:hover { color: var(--color-text); border-color: var(--color-text-muted); }
+  .cols-btn[aria-checked="true"] {
+    background: var(--color-text);
+    color: var(--color-bg);
+    border-color: var(--color-text);
+  }
+  .cols-btn:focus-visible {
+    outline: 2px solid var(--color-aurora-purple);
+    outline-offset: 2px;
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var STORAGE_KEY = "tools-cols";
+    var grid = document.getElementById("tools-grid");
+    var buttons = document.querySelectorAll(".cols-btn");
+    if (!grid) return;
+
+    function apply(count) {
+      grid.dataset.cols = String(count);
+      buttons.forEach(function (button) {
+        button.setAttribute("aria-checked", String(button.dataset.cols === String(count)));
+      });
+    }
+
+    try {
+      var saved = localStorage.getItem(STORAGE_KEY);
+      if (saved && ["1", "2", "3", "4"].indexOf(saved) !== -1) apply(saved);
+    } catch (error) {}
+
+    buttons.forEach(function (button) {
+      button.addEventListener("click", function () {
+        apply(button.dataset.cols);
+        try {
+          localStorage.setItem(STORAGE_KEY, button.dataset.cols);
+        } catch (error) {}
+      });
+    });
+  })();
+</script>
