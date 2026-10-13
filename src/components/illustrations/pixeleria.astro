@@ -1,0 +1,79 @@
+---
+const cell = 8;
+const columns = 40;
+
+const layers = [
+  { base: 8.5, amplitude: 2.4, frequency: 0.33, phase: 1.0, opacity: 0.22, color: "#ffffff" },
+  { base: 6.0, amplitude: 2.0, frequency: 0.5, phase: 3.2, opacity: 0.36, color: "#ffffff" },
+  { base: 3.2, amplitude: 1.2, frequency: 0.72, phase: 5.1, opacity: 0.5, color: "#5b21b6" },
+].map((layer) => ({
+  opacity: layer.opacity,
+  color: layer.color,
+  heights: Array.from({ length: columns }, (_, index) => {
+    const wave = Math.sin(index * layer.frequency + layer.phase) + 0.5 * Math.sin(index * layer.frequency * 2.3 + layer.phase * 1.7);
+    return Math.max(1, Math.round(layer.base + layer.amplitude * wave));
+  }),
+}));
+
+const sunCenter = { column: 12, row: 12.5 };
+const sunRadius = 3.2;
+const sunCells = Array.from({ length: 9 }, (_, rowOffset) => rowOffset - 4).flatMap((rowOffset) =>
+  Array.from({ length: 9 }, (_, columnOffset) => columnOffset - 4)
+    .filter((columnOffset) => Math.hypot(columnOffset, rowOffset) <= sunRadius)
+    .map((columnOffset) => ({
+      x: (sunCenter.column + columnOffset) * cell,
+      y: (Math.floor(sunCenter.row) + rowOffset) * cell,
+    })),
+);
+
+const ditherCells = Array.from({ length: 4 }, (_, row) => row + 9).flatMap((row) =>
+  Array.from({ length: columns }, (_, column) => column)
+    .filter((column) => (column + row) % 2 === 0)
+    .map((column) => ({ x: column * cell, y: row * cell, opacity: 0.1 + (row - 9) * 0.03 })),
+);
+---
+
+<svg class="art" viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+  <g fill="#ffffff">
+    {ditherCells.map((ditherCell) => (
+      <rect x={ditherCell.x} y={ditherCell.y} width={cell} height={cell} opacity={ditherCell.opacity} />
+    ))}
+  </g>
+
+  <g class="sun" fill="rgba(255,255,255,0.9)">
+    {sunCells.map((sunCell) => (
+      <rect x={sunCell.x} y={sunCell.y} width={cell} height={cell} />
+    ))}
+  </g>
+
+  {layers.map((layer) => (
+    <g fill={layer.color} opacity={layer.opacity}>
+      {layer.heights.map((height, index) => (
+        <rect x={index * cell} y={180 - height * cell} width={cell} height={height * cell} />
+      ))}
+    </g>
+  ))}
+
+  <rect x="20" y="16" width="76" height="22" rx="11" fill="#ffffff" />
+  <circle cx="34" cy="27" r="4" fill="#f472b6" />
+  <rect x="46" y="24" width="36" height="6" rx="3" fill="#8b5cf6" />
+</svg>
+
+<style>
+  .art {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .sun {
+      animation: bob 1.2s steps(2) infinite alternate;
+    }
+    @keyframes bob {
+      from { transform: translateY(0); }
+      to { transform: translateY(-4px); }
+    }
+  }
+</style>

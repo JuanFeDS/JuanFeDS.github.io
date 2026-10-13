@@ -26,4 +26,4 @@ pnpm-debug.log*
 # Directories
 .vscode/
 .claude/
-tools/
+/tools/
