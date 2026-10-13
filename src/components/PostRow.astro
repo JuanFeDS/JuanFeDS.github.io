@@ -51,9 +51,9 @@ const formattedDate = new Date(date).toLocaleDateString("es-ES", { year: "numeri
 <style>
   .post-row {
     display: grid;
-    grid-template-columns: 15rem minmax(0, 1fr);
+    grid-template-columns: 16rem minmax(0, 1fr);
     gap: 1.5rem;
-    align-items: stretch;
+    align-items: center;
     text-decoration: none;
   }
 
@@ -62,8 +62,8 @@ const formattedDate = new Date(date).toLocaleDateString("es-ES", { year: "numeri
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    min-height: 11.5rem;
-    padding: 1rem 1.1rem;
+    aspect-ratio: 16 / 9;
+    padding: 0.9rem 1rem;
     overflow: hidden;
     border-radius: 1.25rem;
     transition: transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1);
@@ -106,10 +106,10 @@ const formattedDate = new Date(date).toLocaleDateString("es-ES", { year: "numeri
     position: relative;
     z-index: 1;
     display: -webkit-box;
-    -webkit-line-clamp: 4;
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    font-size: 1.55rem;
+    font-size: 1.4rem;
     font-weight: 800;
     line-height: 1.05;
     letter-spacing: -0.02em;
@@ -157,7 +157,6 @@ const formattedDate = new Date(date).toLocaleDateString("es-ES", { year: "numeri
 
   @media (max-width: 640px) {
     .post-row { grid-template-columns: 1fr; gap: 1rem; }
-    .post-cover { min-height: 9.5rem; }
   }
 
   @media (prefers-reduced-motion: reduce) {

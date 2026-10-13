@@ -12,7 +12,7 @@ const dimensions = [44, 30, 18, 36].map((height, index) => ({ x: 236 + index * 1
 const levelDots = [0, 1, 2, 3, 4].map((index) => ({ x: 164 + index * 11, filled: index < 3 }));
 ---
 
-<svg class="art" viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+<svg class="art" viewBox="27 20 272 152" preserveAspectRatio="xMidYMid meet" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
   {projects.map((project) => (
     <g class="project" style={`--delay: ${project.delay}ms;`}>
       <rect x="50" y={project.y} width="72" height="34" rx="9" fill="rgba(255,255,255,0.2)" stroke="rgba(255,255,255,0.7)" stroke-width="1.5" />
