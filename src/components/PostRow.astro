@@ -10,6 +10,9 @@ interface Props {
 const { post } = Astro.props;
 const { title, description, date, tags, image } = post.data;
 
+const illustrations = import.meta.glob<{ default: any }>("./post-illustrations/*.astro", { eager: true });
+const Illustration = illustrations[`./post-illustrations/${post.id}.astro`]?.default;
+
 const [colorA, colorB] = postColors(tags);
 const deep = (color: string) => `color-mix(in srgb, ${color} 72%, #000)`;
 const gradient = `linear-gradient(135deg, ${deep(colorA)} 0%, ${deep(colorB)} 100%)`;
@@ -21,6 +24,8 @@ const formattedDate = new Date(date).toLocaleDateString("es-ES", { year: "numeri
   <div class="post-cover" style={`background: ${gradient};`}>
     {image ? (
       <Image src={image} alt="" widths={[360, 640]} sizes="(max-width: 768px) 100vw, 240px" class="post-cover-img" />
+    ) : Illustration ? (
+      <Illustration />
     ) : (
       <>
         <span class="post-cover-tag">{tags[0] ? tagLabel(tags[0]) : "Blog"}</span>
