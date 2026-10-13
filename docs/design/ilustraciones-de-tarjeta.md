@@ -162,8 +162,9 @@ La lista del blog usa **filas con portada** (`PostRow.astro`) dentro del ancho d
 
 - Igual que en Tools y Proyectos, cada entrada puede tener su **dibujo**: `src/components/post-illustrations/<id>.astro`, donde `<id>` es el nombre del archivo de la entrada (`programar-era-ia.mdx` → `programar-era-ia.astro`). `PostRow.astro` lo busca solo.
 - Orden de preferencia: `image` del contenido → dibujo propio → portada tipográfica. Una entrada nueva nunca queda sin portada.
-- Con dibujo no se superpone texto (ni titular ni pastilla de etiqueta): el título y las etiquetas ya están al lado.
-- El recorte cambia con el ancho: la portada mide unos 240×184 px en escritorio y se ve más ancha en móvil, así que lo importante va entre `x = 45` y `275`, y entre `y = 15` y `165`.
+- Con dibujo no se superpone texto (ni titular ni pastilla de etiqueta): el título y las etiquetas ya están al lado. En la portada tipográfica el titular se limita a 3 líneas.
+- **Proporción y encuadre:** la portada es siempre **16:9** (256×144 px en escritorio, ancho completo en móvil), igual que en Tools. El `viewBox` del SVG se ajusta al contenido del dibujo con un margen de entre el 8 % y el 10 % por cada lado (por ejemplo `viewBox="24 14 272 152"` para una escena que ocupa de `x = 48` a `272`), con `preserveAspectRatio="xMidYMid meet"`. No se usa un lienzo fijo de 320×180 con `slice`: si el contenido no tiene la misma proporción que la portada, queda pegado a los lados y con mucho aire arriba y abajo.
+- **Cómo comprobarlo:** medir el margen real entre el contenido y el borde de la portada. Los márgenes izquierdo y derecho deben quedar parecidos entre sí y no estar por debajo de unos 20 px.
 - El dibujo es una **escena con varios elementos** (cuatro o más piezas que se relacionan), no un único icono grande. Dos intentos con un solo símbolo central (un gráfico de barras y una ventana de editor genéricos, y después un radar y unos corchetes `< >`) se descartaron: se sentían de otra familia que las escenas de Tools y Proyectos.
 - Tiene que **contar de qué trata la entrada** y destacar un elemento que mande (blanco opaco). Los vigentes:
   - *Framework de complejidad:* tres mini tarjetas de proyecto que convergen en una escalera de cinco niveles con el nivel 3 en blanco, cuatro barras de dimensiones y una pastilla con cinco puntos de nivel.
