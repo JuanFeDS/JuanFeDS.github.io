@@ -34,9 +34,9 @@ const allTags = [...new Set(posts.flatMap((p) => p.data.tags))].sort();
     {posts.length === 0 ? (
       <p class="text-text-muted">Próximamente...</p>
     ) : (
-      <ol class="flex flex-col gap-10" id="posts-list">
-        {posts.map((post) => (
-          <li data-tags={post.data.tags.join(",")}>
+      <ol class="flex flex-col" id="posts-list">
+        {posts.map((post, index) => (
+          <li class={index === 0 ? "post-item is-first" : "post-item"} data-tags={post.data.tags.join(",")}>
             <PostRow post={post} />
           </li>
         ))}
@@ -47,6 +47,16 @@ const allTags = [...new Set(posts.flatMap((p) => p.data.tags))].sort();
 </PageLayout>
 
 <style>
+  .post-item {
+    margin-top: 2.5rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--color-border);
+  }
+  .post-item.is-first {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: 0;
+  }
   .tag-filters {
     display: flex;
     flex-wrap: wrap;
@@ -88,7 +98,10 @@ const allTags = [...new Set(posts.flatMap((p) => p.data.tags))].sort();
       items.forEach((item) => {
         const tags = item.dataset.tags?.split(",") ?? [];
         item.style.display = tag === "all" || tags.includes(tag) ? "" : "none";
+        item.classList.remove("is-first");
       });
+      const firstVisible = [...items].find((item) => item.style.display !== "none");
+      firstVisible?.classList.add("is-first");
     });
   });
 </script>
