@@ -2,7 +2,7 @@
 import type { ImageMetadata } from "astro";
 import { Image } from "astro:assets";
 import PageLayout from "./PageLayout.astro";
-import { domainLabel, domainGradient, domainColor, levelDot, flagLabel } from "../lib/taxonomy";
+import { domainLabel, domainHeroGradient, domainColor, levelDot, flagLabel } from "../lib/taxonomy";
 
 interface ComplexityBreakdown {
   architecture: number;
@@ -40,7 +40,7 @@ const dims = [
 ];
 
 const color    = domainColor[domain];
-const gradient = domainGradient[domain];
+const gradient = domainHeroGradient[domain];
 
 const formattedDate = new Date(date).toLocaleDateString("es-ES", {
   year: "numeric", month: "long", day: "numeric",
@@ -63,7 +63,7 @@ const formattedDate = new Date(date).toLocaleDateString("es-ES", {
       <h1 class="hero-title">{title}</h1>
       {description && <p class="hero-desc">{description}</p>}
       {demo && (
-        <a href={demo} target="_blank" rel="noopener" class="app-cta" style={`--cta-color: ${color};`}>
+        <a href={demo} target="_blank" rel="noopener" class="app-cta" style={`--cta-color: color-mix(in srgb, ${color} 45%, #0f0f1a);`}>
           <span class="app-cta-dot" />
           Ver app en vivo
           <span class="app-cta-arrow">↗</span>
@@ -117,7 +117,7 @@ const formattedDate = new Date(date).toLocaleDateString("es-ES", {
             <p class="meta-label">Complexity Flags</p>
             <div class="flags-row">
               {flags.map((flag) => (
-                <span class="flag-tag" style={`color: ${color}; background: ${color}18; border-color: ${color}33;`}>
+                <span class="flag-tag" style={`color: color-mix(in srgb, ${color} 45%, var(--color-text)); background: ${color}18; border-color: ${color}33;`}>
                   {flagLabel[flag]}
                 </span>
               ))}

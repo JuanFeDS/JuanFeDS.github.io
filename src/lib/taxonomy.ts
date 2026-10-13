@@ -16,6 +16,16 @@ export const domainGradient: Record<string, string> = {
   "mobile":           "linear-gradient(135deg, #22c55e 0%, #0ea5e9 100%)",
 };
 
+// Variante más profunda de domainGradient para superficies con texto blanco encima (contraste >= 4.5:1).
+export const domainHeroGradient: Record<string, string> = {
+  "data-engineering": "linear-gradient(135deg, #0f766e 0%, #2563eb 100%)",
+  "machine-learning": "linear-gradient(135deg, #7c3aed 0%, #db2777 100%)",
+  "ai":               "linear-gradient(135deg, #db2777 0%, #6d28d9 100%)",
+  "analytics":        "linear-gradient(135deg, #2563eb 0%, #0f766e 100%)",
+  "web":              "linear-gradient(135deg, #c2410c 0%, #db2777 100%)",
+  "mobile":           "linear-gradient(135deg, #15803d 0%, #0369a1 100%)",
+};
+
 export const domainColor: Record<string, string> = {
   "data-engineering": "#14b8a6",
   "machine-learning": "#8b5cf6",
