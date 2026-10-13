@@ -92,7 +92,31 @@ Ningún par de dominios comparte color.
 - La descripción del frente no se recorta y se oscurece en tema claro, igual que en Tools.
 - La tarjeta mantiene el volteo. El dorso conserva el gráfico de complejidad del Scientist Framework.
 
+## Páginas de sección
+
+Patrón de página que usa `/tools/` y que debe reutilizarse en las demás secciones.
+
+### Cabecera con banda aurora
+
+- Una banda a todo el ancho detrás del título, con tres degradados radiales suaves mezclados con transparencia: morado (34 %, arriba a la izquierda), turquesa (30 %, arriba a la derecha) y rosa (26 %, abajo al centro). Los tres usan los colores aurora del sitio.
+- La banda sube bajo la barra de navegación (`margin-top: -5rem` y `padding-top: 5rem`), así que el desenfoque de la barra deja ver el color.
+- Contenido de la cabecera dentro de `max-w-5xl`: etiqueta de sección en turquesa (`text-sm`), título y subtítulo en `text-lg` con color atenuado.
+- **Título:** `font-display`, negrita, `clamp(3rem, 8vw, 5.5rem)`, `line-height: 1` y `letter-spacing: -0.03em`. La relación con el cuerpo es de más de 4:1; un título de 36 px no genera jerarquía.
+
+### Cuadrícula de tarjetas
+
+- Separación de `2.25rem` entre filas y `1.25rem` entre columnas.
+- En escritorio el número de columnas lo elige el visitante con un **deslizador** de 1 a 4 (3 por defecto). En móvil la cuadrícula es siempre de 1 columna y el deslizador se oculta.
+- Con 1 columna la tarjeta pasa a horizontal (imagen al 42 % de ancho) para no crecer demasiado.
+
+### Deslizador de columnas
+
+- Control de rango nativo (`input[type=range]`, `min=1`, `max=4`, `step=1`) con la barra de 6 px y la parte recorrida en morado; el punto es blanco, de 20 px, con borde morado de 3 px.
+- Muestra el número actual a la derecha, con etiqueta "Por fila" a la izquierda.
+- Recuerda la elección en `localStorage` (`tools-cols`). El acceso va dentro de `try/catch`: la página funciona igual si el navegador bloquea el almacenamiento.
+
 ## Pendiente
 
 - Añadir una ilustración propia a cada proyecto nuevo (NLP_WoT, Pega un Grito…); mientras tanto sale el respaldo por dominio.
 - Usar el icono y el color de dominio en el detalle de proyecto y en la portada, que hoy solo heredan el degradado.
+- Aplicar la cabecera con banda aurora a `/projects/` y al resto de secciones (blog, Vizs); hoy solo la tiene `/tools/`.
