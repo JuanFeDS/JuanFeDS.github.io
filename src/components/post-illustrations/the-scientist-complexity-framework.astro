@@ -1,0 +1,66 @@
+---
+const stepWidth = 16;
+const stepGap = 6;
+const steps = [18, 34, 50, 66, 82].map((height, index) => ({
+  x: 52 + index * (stepWidth + stepGap),
+  y: 150 - height,
+  height,
+  focal: index === 2,
+  delay: index * 90,
+}));
+const dimensions = [
+  { y: 70, fill: 62 },
+  { y: 92, fill: 40 },
+  { y: 114, fill: 26 },
+  { y: 136, fill: 50 },
+];
+---
+
+<svg class="art" viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+  <line x1="46" y1="150" x2="162" y2="150" stroke="rgba(255,255,255,0.45)" stroke-width="1.5" stroke-linecap="round" />
+
+  {steps.map((step) => (
+    <rect
+      class="step"
+      style={`--delay: ${step.delay}ms;`}
+      x={step.x}
+      y={step.y}
+      width={stepWidth}
+      height={step.height}
+      rx="5"
+      fill={step.focal ? "#ffffff" : "rgba(255,255,255,0.22)"}
+      stroke={step.focal ? "none" : "rgba(255,255,255,0.7)"}
+      stroke-width="1.5"
+    />
+  ))}
+
+  {dimensions.map((dimension) => (
+    <g>
+      <circle cx="182" cy={dimension.y + 3.5} r="3.5" fill="rgba(255,255,255,0.9)" />
+      <rect x="192" y={dimension.y} width="76" height="7" rx="3.5" fill="rgba(255,255,255,0.22)" />
+      <rect x="192" y={dimension.y} width={dimension.fill} height="7" rx="3.5" fill="rgba(255,255,255,0.92)" />
+    </g>
+  ))}
+</svg>
+
+<style>
+  .art {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .step {
+      transform-box: fill-box;
+      transform-origin: bottom;
+      animation: grow 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+      animation-delay: var(--delay);
+    }
+    @keyframes grow {
+      from { transform: scaleY(0); }
+      to { transform: scaleY(1); }
+    }
+  }
+</style>
