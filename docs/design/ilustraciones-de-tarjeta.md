@@ -77,6 +77,21 @@ Cada dominio tiene un color, un degradado y un icono propios. Los define `src/li
 
 Ningún par de dominios comparte color.
 
+### Degradado para texto blanco
+
+El degradado de la tabla es brillante y sirve para las **tarjetas**, donde solo hay formas decorativas. Donde hay **texto blanco encima** (cabecera del detalle de proyecto, cuña de la portada) se usa `domainHeroGradient`, una variante más profunda del mismo par de tonos que da entre 4.6:1 y 7.1:1 de contraste en ambos extremos.
+
+| Dominio | Degradado profundo |
+|---|---|
+| Data engineering | `#0f766e` → `#2563eb` |
+| Machine learning | `#7c3aed` → `#db2777` |
+| AI | `#db2777` → `#6d28d9` |
+| Analytics | `#2563eb` → `#0f766e` |
+| Web | `#c2410c` → `#db2777` |
+| Mobile | `#15803d` → `#0369a1` |
+
+Regla: el color puro del dominio no se usa como **texto**, ni blanco sobre el degradado brillante. El texto de acento mezcla el color del dominio con `--color-text` al 45 %, igual que en el reverso de las tarjetas.
+
 ### Imagen de la tarjeta
 
 - La ilustración es **propia por proyecto**: `src/components/project-illustrations/<id>.astro`, donde `<id>` es el nombre del `.mdx`. `ProjectArt.astro` la busca solo.
@@ -118,5 +133,5 @@ Patrón de página que usa `/tools/` y que debe reutilizarse en las demás secci
 ## Pendiente
 
 - Añadir una ilustración propia a cada proyecto nuevo (NLP_WoT, Pega un Grito…); mientras tanto sale el respaldo por dominio.
-- Usar el icono y el color de dominio en el detalle de proyecto y en la portada, que hoy solo heredan el degradado.
+- Usar el icono de dominio en el detalle de proyecto y en la portada; el color ya se aplica con el degradado profundo.
 - Aplicar la cabecera con banda aurora a `/projects/` y al resto de secciones (blog, Vizs); hoy solo la tiene `/tools/`.
