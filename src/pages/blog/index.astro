@@ -1,6 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import PageLayout from "../../layouts/PageLayout.astro";
+import SectionHero from "../../components/SectionHero.astro";
 
 const posts = (await getCollection("blog"))
   .filter((post) => !post.data.draft)
@@ -13,19 +14,11 @@ const allTags = [...new Set(posts.flatMap((p) => p.data.tags))].sort();
   title="Blog"
   description="Artículos sobre ciencia de datos, ingeniería, herramientas y la industria tech."
 >
-  <div class="mx-auto max-w-3xl px-6 py-16">
+  <SectionHero eyebrow="Escritura" title="Blog" accent="purple" width="3xl">
+    Opiniones, reflexiones y divulgación sobre datos, tecnología y lo que me llama la atención.
+  </SectionHero>
 
-    <header class="mb-10">
-      <p class="mb-2 text-sm font-medium text-aurora-purple">Escritura</p>
-      <h1
-        class="text-4xl font-bold md:text-5xl font-display text-text"
-      >
-        Blog
-      </h1>
-      <p class="mt-4 text-lg text-text-muted">
-        Opiniones, reflexiones y divulgación sobre datos, tecnología y lo que me llama la atención.
-      </p>
-    </header>
+  <div class="mx-auto max-w-3xl px-6 pb-16">
 
     {allTags.length > 0 && (
       <div class="tag-filters" id="tag-filters">
