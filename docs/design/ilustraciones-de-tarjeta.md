@@ -111,6 +111,22 @@ Regla: el color puro del dominio no se usa como **texto**, ni blanco sobre el de
 
 Patrón de página que usa `/tools/` y que debe reutilizarse en las demás secciones.
 
+### Componente `SectionHero`
+
+La cabecera vive en `src/components/SectionHero.astro`. Se usa así:
+
+```astro
+<SectionHero eyebrow="Escritura" title="Blog" accent="purple" width="3xl">
+  Texto descriptivo de la sección.
+  <div slot="aside">...controles opcionales a la derecha...</div>
+</SectionHero>
+```
+
+- `accent`: color de la etiqueta de sección (`purple`, `teal`, `pink` o `blue`).
+- `width`: ancho del contenido, `5xl` por defecto. Debe coincidir con el contenedor de la página (`3xl` para el blog).
+- Después del componente, el contenido de la página usa su propio contenedor con `pb-16` (sin `pt`, porque la cabecera ya lleva el espacio).
+- Hoy la usan `/tools/` y `/blog/`.
+
 ### Cabecera con banda aurora
 
 - Una banda a todo el ancho detrás del título, con tres degradados radiales suaves mezclados con transparencia: morado (34 %, arriba a la izquierda), turquesa (30 %, arriba a la derecha) y rosa (26 %, abajo al centro). Los tres usan los colores aurora del sitio.
@@ -134,4 +150,4 @@ Patrón de página que usa `/tools/` y que debe reutilizarse en las demás secci
 
 - Añadir una ilustración propia a cada proyecto nuevo (NLP_WoT, Pega un Grito…); mientras tanto sale el respaldo por dominio.
 - Usar el icono de dominio en el detalle de proyecto y en la portada; el color ya se aplica con el degradado profundo.
-- Aplicar la cabecera con banda aurora a `/projects/` y al resto de secciones (blog, Vizs); hoy solo la tiene `/tools/`.
+- Aplicar `SectionHero` a `/projects/` y a Vizs; ya la usan `/tools/` y `/blog/`.
