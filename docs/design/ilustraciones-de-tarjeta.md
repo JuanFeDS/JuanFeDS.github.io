@@ -146,8 +146,28 @@ La cabecera vive en `src/components/SectionHero.astro`. Se usa así:
 - Muestra el número actual a la derecha, con etiqueta "Por fila" a la izquierda.
 - Recuerda la elección en `localStorage` (`tools-cols`). El acceso va dentro de `try/catch`: la página funciona igual si el navegador bloquea el almacenamiento.
 
+## Blog
+
+La lista del blog usa **filas con portada** (`PostRow.astro`) dentro del ancho de lectura (`max-w-3xl`): la portada a la izquierda y, en móvil, encima del texto.
+
+### Portada tipográfica
+
+- Cada entrada sin imagen propia muestra una portada con degradado y su **titular** en tipografía grande: el título hasta los dos puntos (`"Programar en la era de la IA: ..."` → `Programar en la era de la IA`), en blanco, negrita y con un máximo de 4 líneas.
+- Arriba a la izquierda, una pastilla con la primera etiqueta. Un velo de luz en la esquina superior izquierda da volumen.
+- El degradado va del color de la **primera etiqueta** al de la **segunda**. Si solo hay una etiqueta, o las dos comparten color, el segundo tono es un compañero (rosa; morado si la primera ya es rosa).
+- Cada color se oscurece al 72 % hacia negro para que el titular blanco cumpla el contraste de texto grande (de 4.0:1 a 7.1:1).
+- Si la entrada trae `image` en su contenido, la imagen sustituye a la portada tipográfica.
+
+### Etiquetas
+
+- `src/lib/blog-tags.ts` define el nombre visible y el color de cada etiqueta (`inteligencia-artificial` → "Inteligencia artificial", rosa; `programacion` → "Programación", azul; `meta` → "Meta", morado; `engineering` → "Ingeniería", turquesa; `windsurf` → ámbar; `ides` → verde).
+- Una etiqueta que no esté en el mapa sale con el nombre humanizado (guiones a espacios, primera letra en mayúscula) y el morado por defecto, así que nada se rompe si se olvida registrarla.
+- Los filtros de la página y las pastillas de cada entrada usan los mismos nombres. El texto de la pastilla mezcla su color con `--color-text` al 45 % sobre un tinte del 16 %.
+- El valor interno de la etiqueta en el contenido (`tags: ["programacion"]`) no cambia; solo cambia cómo se muestra.
+
 ## Pendiente
 
 - Añadir una ilustración propia a cada proyecto nuevo (NLP_WoT, Pega un Grito…); mientras tanto sale el respaldo por dominio.
 - Usar el icono de dominio en el detalle de proyecto y en la portada; el color ya se aplica con el degradado profundo.
 - Aplicar `SectionHero` a `/projects/` y a Vizs; ya la usan `/tools/` y `/blog/`.
+- Usar `tagLabel` en la portada, donde cada entrada reciente muestra hoy el valor interno de su primera etiqueta.
