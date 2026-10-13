@@ -111,6 +111,22 @@ Regla: el color puro del dominio no se usa como **texto**, ni blanco sobre el de
 
 Patrón de página que usa `/tools/` y que debe reutilizarse en las demás secciones.
 
+### Componente `SectionHero`
+
+La cabecera vive en `src/components/SectionHero.astro`. Se usa así:
+
+```astro
+<SectionHero eyebrow="Escritura" title="Blog" accent="purple" width="3xl">
+  Texto descriptivo de la sección.
+  <div slot="aside">...controles opcionales a la derecha...</div>
+</SectionHero>
+```
+
+- `accent`: color de la etiqueta de sección (`purple`, `teal`, `pink` o `blue`).
+- `width`: ancho del contenido, `5xl` por defecto. Debe coincidir con el contenedor de la página (`3xl` para el blog).
+- Después del componente, el contenido de la página usa su propio contenedor con `pb-16` (sin `pt`, porque la cabecera ya lleva el espacio).
+- Hoy la usan `/tools/`, `/blog/` y `/projects/`.
+
 ### Cabecera con banda aurora
 
 - Una banda a todo el ancho detrás del título, con tres degradados radiales suaves mezclados con transparencia: morado (34 %, arriba a la izquierda), turquesa (30 %, arriba a la derecha) y rosa (26 %, abajo al centro). Los tres usan los colores aurora del sitio.
@@ -130,8 +146,51 @@ Patrón de página que usa `/tools/` y que debe reutilizarse en las demás secci
 - Muestra el número actual a la derecha, con etiqueta "Por fila" a la izquierda.
 - Recuerda la elección en `localStorage` (`tools-cols`). El acceso va dentro de `try/catch`: la página funciona igual si el navegador bloquea el almacenamiento.
 
+## Blog
+
+La lista del blog usa **filas con portada** (`PostRow.astro`) dentro del ancho de lectura (`max-w-3xl`): la portada a la izquierda y, en móvil, encima del texto.
+
+### Portada tipográfica
+
+- Cada entrada sin imagen propia muestra una portada con degradado y su **titular** en tipografía grande: el título hasta los dos puntos (`"Programar en la era de la IA: ..."` → `Programar en la era de la IA`), en blanco, negrita y con un máximo de 4 líneas.
+- Arriba a la izquierda, una pastilla con la primera etiqueta. Un velo de luz en la esquina superior izquierda da volumen.
+- El degradado va del color de la **primera etiqueta** al de la **segunda**. Si solo hay una etiqueta, o las dos comparten color, el segundo tono es un compañero (rosa; morado si la primera ya es rosa).
+- Cada color se oscurece al 72 % hacia negro para que el titular blanco cumpla el contraste de texto grande (de 4.0:1 a 7.1:1).
+- Si la entrada trae `image` en su contenido, la imagen sustituye a la portada tipográfica.
+
+### Ilustración propia
+
+- Igual que en Tools y Proyectos, cada entrada puede tener su **dibujo**: `src/components/post-illustrations/<id>.astro`, donde `<id>` es el nombre del archivo de la entrada (`programar-era-ia.mdx` → `programar-era-ia.astro`). `PostRow.astro` lo busca solo.
+- Orden de preferencia: `image` del contenido → dibujo propio → portada tipográfica. Una entrada nueva nunca queda sin portada.
+- Con dibujo no se superpone texto (ni titular ni pastilla de etiqueta): el título y las etiquetas ya están al lado. En la portada tipográfica el titular se limita a 3 líneas.
+- **Proporción y encuadre:** la portada es siempre **16:9** (256×144 px en escritorio, ancho completo en móvil), igual que en Tools. El `viewBox` del SVG se ajusta al contenido del dibujo con un margen de entre el 8 % y el 10 % por cada lado (por ejemplo `viewBox="24 14 272 152"` para una escena que ocupa de `x = 48` a `272`), con `preserveAspectRatio="xMidYMid meet"`. No se usa un lienzo fijo de 320×180 con `slice`: si el contenido no tiene la misma proporción que la portada, queda pegado a los lados y con mucho aire arriba y abajo.
+- **Cómo comprobarlo:** medir el margen real entre el contenido y el borde de la portada. Los márgenes izquierdo y derecho deben quedar parecidos entre sí y no estar por debajo de unos 20 px.
+- El dibujo es una **escena con varios elementos** (cuatro o más piezas que se relacionan), no un único icono grande. Dos intentos con un solo símbolo central (un gráfico de barras y una ventana de editor genéricos, y después un radar y unos corchetes `< >`) se descartaron: se sentían de otra familia que las escenas de Tools y Proyectos.
+- Tiene que **contar de qué trata la entrada** y destacar un elemento que mande (blanco opaco). Los vigentes:
+  - *Framework de complejidad:* tres mini tarjetas de proyecto que convergen en una escalera de cinco niveles con el nivel 3 en blanco, cuatro barras de dimensiones y una pastilla con cinco puntos de nivel.
+  - *Programar con IA:* un editor con barra lateral de archivos, líneas de código, una línea sugerida con borde discontinuo, el cursor del usuario y una burbuja del asistente con su destello.
+
+### Etiquetas
+
+- `src/lib/blog-tags.ts` define el nombre visible y el color de cada etiqueta (`inteligencia-artificial` → "Inteligencia artificial", rosa; `programacion` → "Programación", azul; `meta` → "Meta", morado; `engineering` → "Ingeniería", turquesa; `windsurf` → ámbar; `ides` → verde).
+- Una etiqueta que no esté en el mapa sale con el nombre humanizado (guiones a espacios, primera letra en mayúscula) y el morado por defecto, así que nada se rompe si se olvida registrarla.
+- Los filtros de la página y las pastillas de cada entrada usan los mismos nombres. El texto de la pastilla mezcla su color con `--color-text` al 45 % sobre un tinte del 16 %.
+- El valor interno de la etiqueta en el contenido (`tags: ["programacion"]`) no cambia; solo cambia cómo se muestra.
+
+### Página de entrada
+
+La entrada abierta (`PostLayout.astro`) tiene su propia cabecera (`PostHero.astro`) en lugar de un bloque de texto.
+
+- **Banda tintada por entrada:** el mismo recurso de la banda aurora, pero con los colores de las dos primeras etiquetas de la entrada (`--c1` y `--c2`) en vez de morado, turquesa y rosa. Sube bajo la barra de navegación.
+- **Contenido:** enlace "← Blog", etiquetas de color (`TagPills`), titular de `clamp(2rem, 4.2vw, 3.1rem)`, descripción, y una línea con la fecha y el **tiempo de lectura** (palabras entre 200 por minuto; los bloques de código no cuentan). En escritorio, el **dibujo de la entrada** va grande a la derecha; en móvil va encima del título.
+- **Mismo dibujo que el listado:** la cabecera usa `PostCover.astro`, así que respeta el orden `image` → dibujo propio → portada tipográfica. Un dibujo flojo se nota más en grande: por eso las reglas de escena y de encuadre de arriba valen también aquí.
+- **Barra de progreso de lectura:** una línea de 3 px fija arriba del todo, con el degradado de la entrada, que avanza desde que el cuerpo del artículo entra en pantalla hasta que termina (0 al principio, 1 al final del texto).
+- El cuerpo se mantiene en `max-w-3xl`, más estrecho que la cabecera (`max-w-5xl`), para que la lectura sea cómoda.
+- Componentes compartidos: `PostCover` (portada), `TagPills` (etiquetas) y `readingMinutes` en `src/lib/reading-time.ts`. `PostRow` y `PostHero` los usan.
+
 ## Pendiente
 
 - Añadir una ilustración propia a cada proyecto nuevo (NLP_WoT, Pega un Grito…); mientras tanto sale el respaldo por dominio.
 - Usar el icono de dominio en el detalle de proyecto y en la portada; el color ya se aplica con el degradado profundo.
-- Aplicar la cabecera con banda aurora a `/projects/` y al resto de secciones (blog, Vizs); hoy solo la tiene `/tools/`.
+- Aplicar `SectionHero` a `/projects/` y a Vizs; ya la usan `/tools/` y `/blog/`.
+- Usar `tagLabel` en la portada, donde cada entrada reciente muestra hoy el valor interno de su primera etiqueta.

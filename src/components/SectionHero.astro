@@ -1,0 +1,48 @@
+---
+interface Props {
+  eyebrow: string;
+  title: string;
+  accent?: "purple" | "teal" | "pink" | "blue";
+  width?: "3xl" | "5xl";
+}
+
+const { eyebrow, title, accent = "teal", width = "5xl" } = Astro.props;
+
+const accentClass = {
+  purple: "text-aurora-purple",
+  teal: "text-aurora-teal",
+  pink: "text-aurora-pink",
+  blue: "text-aurora-blue",
+}[accent];
+const widthClass = { "3xl": "max-w-3xl", "5xl": "max-w-5xl" }[width];
+---
+
+<section class="section-hero">
+  <div class={`mx-auto ${widthClass} px-6 pt-16 pb-14`}>
+    <header class="flex flex-wrap items-end justify-between gap-6">
+      <div>
+        <p class={`mb-2 text-sm font-medium ${accentClass}`}>{eyebrow}</p>
+        <h1 class="section-title font-bold font-display text-text">{title}</h1>
+        <p class="mt-4 max-w-2xl text-lg text-text-muted"><slot /></p>
+      </div>
+      <slot name="aside" />
+    </header>
+  </div>
+</section>
+
+<style>
+  .section-hero {
+    margin-top: -5rem;
+    padding-top: 5rem;
+    margin-bottom: 1rem;
+    background:
+      radial-gradient(ellipse 60% 90% at 12% 25%, color-mix(in srgb, var(--color-aurora-purple) 34%, transparent), transparent 70%),
+      radial-gradient(ellipse 55% 80% at 88% 10%, color-mix(in srgb, var(--color-aurora-teal) 30%, transparent), transparent 70%),
+      radial-gradient(ellipse 50% 70% at 62% 100%, color-mix(in srgb, var(--color-aurora-pink) 26%, transparent), transparent 70%);
+  }
+  .section-title {
+    font-size: clamp(3rem, 8vw, 5.5rem);
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+</style>

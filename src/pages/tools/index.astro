@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content";
 import PageLayout from "../../layouts/PageLayout.astro";
 import ToolCard from "../../components/ToolCard.astro";
+import SectionHero from "../../components/SectionHero.astro";
 
 const tools = (await getCollection("tools"))
   .filter((tool) => !tool.data.draft)
@@ -14,34 +15,23 @@ const defaultColumns = 3;
   title="Tools"
   description="Herramientas web que construí y puedes usar ahora: Trazo para diagramas, Klip para pestañas y Pixelería para pixel art."
 >
-  <section class="tools-hero">
-    <div class="mx-auto max-w-5xl px-6 pt-16 pb-14">
-      <header class="flex flex-wrap items-end justify-between gap-6">
-        <div>
-          <p class="mb-2 text-sm font-medium text-aurora-teal">Herramientas</p>
-          <h1 class="tools-title font-bold font-display text-text">Tools</h1>
-          <p class="mt-4 max-w-2xl text-lg text-text-muted">
-            Apps pequeñas que ya funcionan y que puedes usar sin instalar nada. Cada una vive en su propio repositorio.
-          </p>
-        </div>
-
-        <div class="cols-picker hidden md:flex">
-          <label for="cols-range" class="text-xs text-text-muted">Por fila</label>
-          <input
-            id="cols-range"
-            class="cols-range"
-            type="range"
-            min="1"
-            max="4"
-            step="1"
-            value={defaultColumns}
-            style={`--fill: ${((defaultColumns - 1) / 3) * 100}%;`}
-          />
-          <output id="cols-output" for="cols-range" class="cols-output">{defaultColumns}</output>
-        </div>
-      </header>
+  <SectionHero eyebrow="Herramientas" title="Tools" accent="teal">
+    Apps pequeñas que ya funcionan y que puedes usar sin instalar nada. Cada una vive en su propio repositorio.
+    <div slot="aside" class="cols-picker hidden md:flex">
+      <label for="cols-range" class="text-xs text-text-muted">Por fila</label>
+      <input
+        id="cols-range"
+        class="cols-range"
+        type="range"
+        min="1"
+        max="4"
+        step="1"
+        value={defaultColumns}
+        style={`--fill: ${((defaultColumns - 1) / 3) * 100}%;`}
+      />
+      <output id="cols-output" for="cols-range" class="cols-output">{defaultColumns}</output>
     </div>
-  </section>
+  </SectionHero>
 
   <div class="mx-auto max-w-5xl px-6 pb-16">
     {tools.length === 0 ? (
@@ -55,20 +45,6 @@ const defaultColumns = 3;
 </PageLayout>
 
 <style>
-  .tools-hero {
-    margin-top: -5rem;
-    padding-top: 5rem;
-    margin-bottom: 1rem;
-    background:
-      radial-gradient(ellipse 60% 90% at 12% 25%, color-mix(in srgb, var(--color-aurora-purple) 34%, transparent), transparent 70%),
-      radial-gradient(ellipse 55% 80% at 88% 10%, color-mix(in srgb, var(--color-aurora-teal) 30%, transparent), transparent 70%),
-      radial-gradient(ellipse 50% 70% at 62% 100%, color-mix(in srgb, var(--color-aurora-pink) 26%, transparent), transparent 70%);
-  }
-  .tools-title {
-    font-size: clamp(3rem, 8vw, 5.5rem);
-    line-height: 1;
-    letter-spacing: -0.03em;
-  }
   .tools-grid {
     display: grid;
     grid-template-columns: 1fr;

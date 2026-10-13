@@ -1,0 +1,77 @@
+---
+import type { CollectionEntry } from "astro:content";
+import PostCover from "./PostCover.astro";
+import TagPills from "./TagPills.astro";
+
+interface Props {
+  post: CollectionEntry<"blog">;
+}
+
+const { post } = Astro.props;
+const { title, description, date, tags } = post.data;
+const formattedDate = new Date(date).toLocaleDateString("es-ES", { year: "numeric", month: "short", day: "numeric" });
+---
+
+<a href={`/blog/${post.id}/`} class="post-row group">
+  <PostCover post={post} />
+
+  <div class="post-copy">
+    {tags.length > 0 && (
+      <div class="post-tags">
+        <TagPills tags={tags} />
+      </div>
+    )}
+    <h2 class="post-title font-display text-text">{title}</h2>
+    <p class="post-desc text-text-muted">{description}</p>
+    <time datetime={date} class="post-date text-text-muted">{formattedDate}</time>
+  </div>
+</a>
+
+<style>
+  .post-row {
+    display: grid;
+    grid-template-columns: 16rem minmax(0, 1fr);
+    gap: 1.5rem;
+    align-items: center;
+    text-decoration: none;
+  }
+
+  .post-row:hover :global(.post-cover) { transform: translateY(-3px) rotate(-0.5deg); }
+  .post-row:focus-visible {
+    outline: 2px solid var(--color-aurora-purple);
+    outline-offset: 6px;
+    border-radius: 1.25rem;
+  }
+
+  .post-copy {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 0;
+  }
+  .post-tags { margin-bottom: 0.6rem; }
+  .post-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1.25;
+  }
+  .post-row:hover .post-title { text-decoration: underline; text-underline-offset: 4px; }
+  .post-desc {
+    margin-top: 0.4rem;
+    font-size: 0.9rem;
+    line-height: 1.55;
+  }
+  .post-date {
+    margin-top: 0.75rem;
+    font-size: 0.78rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  @media (max-width: 640px) {
+    .post-row { grid-template-columns: 1fr; gap: 1rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .post-row:hover :global(.post-cover) { transform: none; }
+  }
+</style>
