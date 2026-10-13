@@ -164,7 +164,10 @@ La lista del blog usa **filas con portada** (`PostRow.astro`) dentro del ancho d
 - Orden de preferencia: `image` del contenido → dibujo propio → portada tipográfica. Una entrada nueva nunca queda sin portada.
 - Con dibujo no se superpone texto (ni titular ni pastilla de etiqueta): el título y las etiquetas ya están al lado.
 - El recorte cambia con el ancho: la portada mide unos 240×184 px en escritorio y se ve más ancha en móvil, así que lo importante va entre `x = 45` y `275`, y entre `y = 15` y `165`.
-- El dibujo tiene que **contar de qué trata la entrada** con un elemento que mande, no solo decorar. Un primer intento (un gráfico de barras y una ventana de editor genéricos) se descartó porque podían pertenecer a cualquier artículo. Los vigentes: un radar de las cuatro dimensiones con el perfil en blanco opaco (el framework de complejidad) y unos corchetes `< >` con un destello grande en el centro (programar con IA).
+- El dibujo es una **escena con varios elementos** (cuatro o más piezas que se relacionan), no un único icono grande. Dos intentos con un solo símbolo central (un gráfico de barras y una ventana de editor genéricos, y después un radar y unos corchetes `< >`) se descartaron: se sentían de otra familia que las escenas de Tools y Proyectos.
+- Tiene que **contar de qué trata la entrada** y destacar un elemento que mande (blanco opaco). Los vigentes:
+  - *Framework de complejidad:* tres mini tarjetas de proyecto que convergen en una escalera de cinco niveles con el nivel 3 en blanco, cuatro barras de dimensiones y una pastilla con cinco puntos de nivel.
+  - *Programar con IA:* un editor con barra lateral de archivos, líneas de código, una línea sugerida con borde discontinuo, el cursor del usuario y una burbuja del asistente con su destello.
 
 ### Etiquetas
 
