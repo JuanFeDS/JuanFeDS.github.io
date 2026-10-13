@@ -1,0 +1,80 @@
+---
+const categories = [
+  { y: 30, bar: 28, active: true },
+  { y: 56, bar: 36, active: false },
+  { y: 82, bar: 24, active: false },
+  { y: 108, bar: 32, active: false },
+];
+const columns = [88, 163, 238];
+const rows = [54, 110];
+const tiles = rows.flatMap((y, rowIndex) =>
+  columns.map((x, columnIndex) => ({ x, y, focal: rowIndex === 0 && columnIndex === 1, delay: (rowIndex * 3 + columnIndex) * 70 })),
+);
+---
+
+<svg class="art" viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+  {categories.map((category) => (
+    <g>
+      <rect
+        x="18"
+        y={category.y}
+        width="58"
+        height="18"
+        rx="9"
+        fill={category.active ? "#ffffff" : "rgba(255,255,255,0.22)"}
+        stroke={category.active ? "none" : "rgba(255,255,255,0.7)"}
+        stroke-width="1.5"
+      />
+      {category.active && <circle cx="29" cy={category.y + 9} r="3.5" fill="#f472b6" />}
+      <rect
+        x={category.active ? 38 : 28}
+        y={category.y + 6.5}
+        width={category.bar}
+        height="5"
+        rx="2.5"
+        fill={category.active ? "#f59e0b" : "rgba(255,255,255,0.9)"}
+      />
+    </g>
+  ))}
+
+  {tiles.map((tile) => (
+    <g class="tile" style={`--delay: ${tile.delay}ms;`}>
+      <rect
+        x={tile.x}
+        y={tile.y}
+        width="66"
+        height="48"
+        rx="9"
+        fill={tile.focal ? "#ffffff" : "rgba(255,255,255,0.22)"}
+        stroke={tile.focal ? "none" : "rgba(255,255,255,0.7)"}
+        stroke-width="1.5"
+      />
+      <path
+        d={`M${tile.x + 28} ${tile.y + 12} L${tile.x + 41} ${tile.y + 20} L${tile.x + 28} ${tile.y + 28} Z`}
+        fill={tile.focal ? "#f59e0b" : "rgba(255,255,255,0.9)"}
+      />
+      <rect x={tile.x + 9} y={tile.y + 36} width="38" height="5" rx="2.5" fill={tile.focal ? "#f59e0b" : "rgba(255,255,255,0.9)"} opacity={tile.focal ? 0.5 : 1} />
+      {tile.focal && <circle cx={tile.x + 56} cy={tile.y + 10} r="4" fill="#f472b6" />}
+    </g>
+  ))}
+</svg>
+
+<style>
+  .art {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .tile {
+      animation: rise 0.55s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+      animation-delay: var(--delay);
+    }
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  }
+</style>
