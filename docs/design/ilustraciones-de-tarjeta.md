@@ -58,8 +58,41 @@ Cada degradado combina dos tonos separados, nunca variaciones de uno solo.
 
 Orden de preferencia en la tarjeta: `image` del contenido → ilustración → nombre de la herramienta en grande (respaldo sin código).
 
-## Pendiente para Proyectos
+## Proyectos
 
-- Los proyectos ya tienen su propio mapa de color por dominio en `src/lib/taxonomy.ts` (`domainGradient`, `domainColor`). Habrá que decidir si el degradado de la tarjeta sale de ahí en lugar de asignarse por posición.
-- Definir qué ilustra un proyecto, ya que no es una herramienta con interfaz propia: por dominio, por proyecto o por nivel.
-- Revisar si el marco teñido convive con el volteo de tarjeta que usan hoy.
+Las tarjetas de proyecto siguen las mismas reglas, con estas diferencias.
+
+### Color e icono por dominio
+
+Cada dominio tiene un color, un degradado y un icono propios. Los define `src/lib/taxonomy.ts` y los dibuja `DomainIcon.astro` (iconos de línea de 24×24).
+
+| Dominio | Color | Degradado | Icono |
+|---|---|---|---|
+| Data engineering | `#14b8a6` | turquesa → azul | tubería con nodos |
+| Machine learning | `#8b5cf6` | morado → rosa | red neuronal |
+| AI | `#f472b6` | rosa → morado | destello |
+| Analytics | `#3b82f6` | azul → turquesa | barras ascendentes |
+| Web | `#f59e0b` | ámbar → rosa | ventana de navegador |
+| Mobile | `#22c55e` | verde → celeste | teléfono |
+
+Ningún par de dominios comparte color.
+
+### Imagen de la tarjeta
+
+- La ilustración es **propia por proyecto**: `src/components/project-illustrations/<id>.astro`, donde `<id>` es el nombre del `.mdx`. `ProjectArt.astro` la busca solo.
+- Orden de preferencia: `image` del contenido → ilustración propia → **respaldo por dominio** (icono grande blanco sobre el degradado, con dos círculos translúcidos). Un proyecto nuevo nunca queda con un hueco.
+- Proporción 2:1 en la tarjeta. El lienzo del SVG sigue siendo 320×180 y con `slice` se recortan unos 10 puntos arriba y abajo, así que lo importante va entre `y = 10` y `y = 170`.
+- La **insignia de dominio** (pastilla blanca con icono de color y nombre) va arriba a la derecha y ocupa el lugar de la pastilla de URL en Tools. Zona libre: aproximadamente `x > 225` e `y < 45`.
+- Lo ilustrado cuenta algo real del proyecto: Spaceship Titanic muestra la curva de experimentos y la fuga de datos detectada; YT Organizer, la barra de categorías y la cuadrícula de vídeos.
+
+### Marco y reverso
+
+- Frente y reverso comparten el marco teñido con `--card-color` (22 % en claro, 14 % en oscuro para el frente; 14 % y 10 % para el reverso).
+- Los textos de acento del reverso (etiqueta de nivel, insignia de dominio y banderas) mezclan el color del dominio con `--color-text` al 45 %. El color puro del dominio, sobre todo ámbar y verde, no llega a 4.5:1 sobre el tinte. Con la mezcla quedan entre 6.5:1 y 8.7:1.
+- La descripción del frente no se recorta y se oscurece en tema claro, igual que en Tools.
+- La tarjeta mantiene el volteo. El dorso conserva el gráfico de complejidad del Scientist Framework.
+
+## Pendiente
+
+- Añadir una ilustración propia a cada proyecto nuevo (NLP_WoT, Pega un Grito…); mientras tanto sale el respaldo por dominio.
+- Usar el icono y el color de dominio en el detalle de proyecto y en la portada, que hoy solo heredan el degradado.
