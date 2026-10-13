@@ -83,7 +83,7 @@ Ningún par de dominios comparte color.
 - Orden de preferencia: `image` del contenido → ilustración propia → **respaldo por dominio** (icono grande blanco sobre el degradado, con dos círculos translúcidos). Un proyecto nuevo nunca queda con un hueco.
 - Proporción 2:1 en la tarjeta. El lienzo del SVG sigue siendo 320×180 y con `slice` se recortan unos 10 puntos arriba y abajo, así que lo importante va entre `y = 10` y `y = 170`.
 - La **insignia de dominio** (pastilla blanca con icono de color y nombre) va arriba a la derecha y ocupa el lugar de la pastilla de URL en Tools. Zona libre: aproximadamente `x > 225` e `y < 45`.
-- Lo ilustrado cuenta algo real del proyecto: Spaceship Titanic muestra la curva de experimentos y la fuga de datos detectada; YT Organizer, la barra de categorías y la cuadrícula de vídeos.
+- Lo ilustrado cuenta algo real del proyecto: Spaceship Titanic muestra la curva de experimentos que mejora hasta el mejor score; YT Organizer, la barra de categorías y la cuadrícula de vídeos. Si un elemento no significa nada concreto en ese proyecto, no se dibuja: la pastilla blanca solo aparece donde representa algo (la categoría activa de YT Organizer).
 
 ### Marco y reverso
 
