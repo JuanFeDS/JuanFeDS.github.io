@@ -5,7 +5,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Nav from "../components/Nav.astro";
 import avatar from "../assets/avatar.jpg";
 import {
-  domainLabel, domainGradient, levelName, levelColor, levelDesc,
+  domainLabel, domainHeroGradient, levelName, levelColor, levelDesc,
   matrixDims, techCategoryMap, categoryOrder, categoryColor,
 } from "../lib/taxonomy";
 
@@ -333,7 +333,7 @@ const stackGroups = [
                   <div class="project-img absolute inset-0">
                     {p.data.image
                       ? <Image src={p.data.image} alt={p.data.title} width={p.data.image.width} height={p.data.image.height} class="w-full h-full object-cover" />
-                      : <div class="w-full h-full" style={`background: ${domainGradient[p.data.domain]};`} />
+                      : <div class="w-full h-full" style={`background: ${domainHeroGradient[p.data.domain]};`} />
                     }
                   </div>
 

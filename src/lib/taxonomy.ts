@@ -12,8 +12,18 @@ export const domainGradient: Record<string, string> = {
   "machine-learning": "linear-gradient(135deg, #8b5cf6 0%, #f472b6 100%)",
   "ai":               "linear-gradient(135deg, #f472b6 0%, #8b5cf6 100%)",
   "analytics":        "linear-gradient(135deg, #3b82f6 0%, #14b8a6 100%)",
-  "web":              "linear-gradient(135deg, #14b8a6 0%, #8b5cf6 100%)",
-  "mobile":           "linear-gradient(135deg, #8b5cf6 0%, #3b82f6 100%)",
+  "web":              "linear-gradient(135deg, #f59e0b 0%, #f472b6 100%)",
+  "mobile":           "linear-gradient(135deg, #22c55e 0%, #0ea5e9 100%)",
+};
+
+// Variante más profunda de domainGradient para superficies con texto blanco encima (contraste >= 4.5:1).
+export const domainHeroGradient: Record<string, string> = {
+  "data-engineering": "linear-gradient(135deg, #0f766e 0%, #2563eb 100%)",
+  "machine-learning": "linear-gradient(135deg, #7c3aed 0%, #db2777 100%)",
+  "ai":               "linear-gradient(135deg, #db2777 0%, #6d28d9 100%)",
+  "analytics":        "linear-gradient(135deg, #2563eb 0%, #0f766e 100%)",
+  "web":              "linear-gradient(135deg, #c2410c 0%, #db2777 100%)",
+  "mobile":           "linear-gradient(135deg, #15803d 0%, #0369a1 100%)",
 };
 
 export const domainColor: Record<string, string> = {
@@ -21,8 +31,8 @@ export const domainColor: Record<string, string> = {
   "machine-learning": "#8b5cf6",
   "ai":               "#f472b6",
   "analytics":        "#3b82f6",
-  "web":              "#14b8a6",
-  "mobile":           "#8b5cf6",
+  "web":              "#f59e0b",
+  "mobile":           "#22c55e",
 };
 
 export const levelName: Record<number, string> = {
