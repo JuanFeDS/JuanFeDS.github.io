@@ -1,0 +1,92 @@
+---
+import type { CollectionEntry } from "astro:content";
+import PostCover from "./PostCover.astro";
+import TagPills from "./TagPills.astro";
+import { postColors } from "../lib/blog-tags";
+import { readingMinutes } from "../lib/reading-time";
+
+interface Props {
+  post: CollectionEntry<"blog">;
+}
+
+const { post } = Astro.props;
+const { title, description, date, tags } = post.data;
+
+const [colorA, colorB] = postColors(tags);
+const minutes = readingMinutes(post.body);
+const formattedDate = new Date(date).toLocaleDateString("es-ES", { year: "numeric", month: "long", day: "numeric" });
+---
+
+<section class="post-hero" style={`--c1: ${colorA}; --c2: ${colorB};`}>
+  <div class="mx-auto max-w-5xl px-6 pt-14 pb-12">
+    <a href="/blog/" class="back text-text-muted">← Blog</a>
+
+    <div class="hero-grid">
+      <div class="hero-text">
+        <TagPills tags={tags} size="md" />
+        <h1 class="hero-title font-display text-text">{title}</h1>
+        {description && <p class="hero-desc text-text-muted">{description}</p>}
+        <p class="hero-meta text-text-muted">
+          <time datetime={date}>{formattedDate}</time>
+          <span aria-hidden="true">·</span>
+          <span>{minutes} min de lectura</span>
+        </p>
+      </div>
+
+      <div class="hero-art">
+        <PostCover post={post} />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .post-hero {
+    margin-top: -5rem;
+    padding-top: 5rem;
+    background:
+      radial-gradient(ellipse 60% 100% at 10% 20%, color-mix(in srgb, var(--c1) 34%, transparent), transparent 70%),
+      radial-gradient(ellipse 55% 90% at 90% 15%, color-mix(in srgb, var(--c2) 30%, transparent), transparent 70%),
+      radial-gradient(ellipse 50% 70% at 55% 100%, color-mix(in srgb, var(--c2) 22%, transparent), transparent 70%);
+  }
+  .back {
+    display: inline-block;
+    font-size: 0.85rem;
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+  .back:hover { color: var(--color-text); }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    align-items: center;
+    gap: 2.5rem;
+    margin-top: 1.5rem;
+  }
+  .hero-title {
+    margin-top: 1rem;
+    font-size: clamp(2rem, 4.2vw, 3.1rem);
+    font-weight: 700;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+  }
+  .hero-desc {
+    margin-top: 1rem;
+    font-size: 1.125rem;
+    line-height: 1.55;
+  }
+  .hero-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-top: 1.25rem;
+    font-size: 0.85rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  @media (max-width: 768px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+    .hero-art { order: -1; }
+  }
+</style>

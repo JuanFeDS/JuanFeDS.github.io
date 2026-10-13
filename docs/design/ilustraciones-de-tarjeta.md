@@ -177,6 +177,17 @@ La lista del blog usa **filas con portada** (`PostRow.astro`) dentro del ancho d
 - Los filtros de la página y las pastillas de cada entrada usan los mismos nombres. El texto de la pastilla mezcla su color con `--color-text` al 45 % sobre un tinte del 16 %.
 - El valor interno de la etiqueta en el contenido (`tags: ["programacion"]`) no cambia; solo cambia cómo se muestra.
 
+### Página de entrada
+
+La entrada abierta (`PostLayout.astro`) tiene su propia cabecera (`PostHero.astro`) en lugar de un bloque de texto.
+
+- **Banda tintada por entrada:** el mismo recurso de la banda aurora, pero con los colores de las dos primeras etiquetas de la entrada (`--c1` y `--c2`) en vez de morado, turquesa y rosa. Sube bajo la barra de navegación.
+- **Contenido:** enlace "← Blog", etiquetas de color (`TagPills`), titular de `clamp(2rem, 4.2vw, 3.1rem)`, descripción, y una línea con la fecha y el **tiempo de lectura** (palabras entre 200 por minuto; los bloques de código no cuentan). En escritorio, el **dibujo de la entrada** va grande a la derecha; en móvil va encima del título.
+- **Mismo dibujo que el listado:** la cabecera usa `PostCover.astro`, así que respeta el orden `image` → dibujo propio → portada tipográfica. Un dibujo flojo se nota más en grande: por eso las reglas de escena y de encuadre de arriba valen también aquí.
+- **Barra de progreso de lectura:** una línea de 3 px fija arriba del todo, con el degradado de la entrada, que avanza desde que el cuerpo del artículo entra en pantalla hasta que termina (0 al principio, 1 al final del texto).
+- El cuerpo se mantiene en `max-w-3xl`, más estrecho que la cabecera (`max-w-5xl`), para que la lectura sea cómoda.
+- Componentes compartidos: `PostCover` (portada), `TagPills` (etiquetas) y `readingMinutes` en `src/lib/reading-time.ts`. `PostRow` y `PostHero` los usan.
+
 ## Pendiente
 
 - Añadir una ilustración propia a cada proyecto nuevo (NLP_WoT, Pega un Grito…); mientras tanto sale el respaldo por dominio.

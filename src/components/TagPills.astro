@@ -1,0 +1,42 @@
+---
+import { tagColor, tagLabel } from "../lib/blog-tags";
+
+interface Props {
+  tags: string[];
+  size?: "sm" | "md";
+}
+
+const { tags, size = "sm" } = Astro.props;
+---
+
+{tags.length > 0 && (
+  <ul class={`tag-pills tag-pills--${size}`} aria-label="Etiquetas">
+    {tags.map((tag) => (
+      <li style={`--tag-color: ${tagColor(tag)};`}>{tagLabel(tag)}</li>
+    ))}
+  </ul>
+)}
+
+<style>
+  .tag-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .tag-pills li {
+    padding: 0.1rem 0.6rem;
+    border-radius: 9999px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: color-mix(in srgb, var(--tag-color) 45%, var(--color-text));
+    background: color-mix(in srgb, var(--tag-color) 16%, transparent);
+  }
+  .tag-pills--md { gap: 0.5rem; }
+  .tag-pills--md li {
+    padding: 0.2rem 0.8rem;
+    font-size: 0.8rem;
+  }
+</style>
