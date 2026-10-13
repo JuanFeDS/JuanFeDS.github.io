@@ -1,0 +1,85 @@
+---
+const files = [
+  { y: 58, bar: 30, active: true },
+  { y: 76, bar: 24, active: false },
+  { y: 94, bar: 34, active: false },
+  { y: 112, bar: 20, active: false },
+];
+const codeLines = [
+  { x: 128, y: 62, width: 70 },
+  { x: 140, y: 78, width: 96 },
+  { x: 140, y: 94, width: 60 },
+  { x: 128, y: 128, width: 44 },
+];
+---
+
+<svg class="art" viewBox="24 14 272 152" preserveAspectRatio="xMidYMid meet" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+  <rect x="48" y="26" width="224" height="128" rx="12" fill="rgba(255,255,255,0.18)" stroke="rgba(255,255,255,0.7)" stroke-width="1.5" />
+
+  <g fill="rgba(255,255,255,0.85)">
+    <circle cx="62" cy="40" r="2.8" />
+    <circle cx="73" cy="40" r="2.8" />
+    <circle cx="84" cy="40" r="2.8" />
+  </g>
+  <line x1="116" y1="50" x2="116" y2="148" stroke="rgba(255,255,255,0.35)" stroke-width="1.2" />
+
+  {files.map((file) => (
+    <g>
+      {file.active && <rect x="54" y={file.y - 5} width="56" height="16" rx="8" fill="#ffffff" />}
+      <rect x="60" y={file.y - 1} width="7" height="7" rx="2" fill={file.active ? "#8b5cf6" : "rgba(255,255,255,0.6)"} />
+      <rect x="72" y={file.y} width={file.bar} height="5" rx="2.5" fill={file.active ? "rgba(139,92,246,0.7)" : "rgba(255,255,255,0.85)"} />
+    </g>
+  ))}
+
+  <g fill="rgba(255,255,255,0.92)">
+    {codeLines.map((line) => (
+      <rect x={line.x} y={line.y} width={line.width} height="6" rx="3" />
+    ))}
+  </g>
+  <rect class="ghost" x="140" y="108" width="88" height="9" rx="4.5" fill="none" stroke="rgba(255,255,255,0.85)" stroke-width="1.5" stroke-dasharray="4 4" />
+
+  <g class="cursor">
+    <path transform="translate(226 100)" d="M0 0 L0 15 L4.2 11.2 L7 17.5 L9.6 16.4 L6.8 10.2 L12.4 10.2 Z" fill="#ffffff" stroke="rgba(0,0,0,0.3)" stroke-width="1" stroke-linejoin="round" />
+  </g>
+
+  <rect x="196" y="126" width="68" height="26" rx="13" fill="#ffffff" />
+  <g transform="translate(210 139) scale(0.95) translate(-12 -10)">
+    <path class="spark" d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z" fill="#f472b6" />
+  </g>
+  <rect x="223" y="132" width="32" height="5" rx="2.5" fill="rgba(139,92,246,0.75)" />
+  <rect x="223" y="141" width="22" height="5" rx="2.5" fill="rgba(139,92,246,0.35)" />
+</svg>
+
+<style>
+  .art {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .ghost {
+      animation: march 1.4s linear infinite;
+    }
+    @keyframes march {
+      to { stroke-dashoffset: -16; }
+    }
+    .spark {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: pulse 1.2s ease-in-out infinite alternate;
+    }
+    @keyframes pulse {
+      from { scale: 0.88; }
+      to { scale: 1.1; }
+    }
+    .cursor {
+      animation: nudge 1.4s ease-in-out infinite alternate;
+    }
+    @keyframes nudge {
+      from { transform: translate(0, 0); }
+      to { transform: translate(-6px, 4px); }
+    }
+  }
+</style>
