@@ -158,6 +158,14 @@ La lista del blog usa **filas con portada** (`PostRow.astro`) dentro del ancho d
 - Cada color se oscurece al 72 % hacia negro para que el titular blanco cumpla el contraste de texto grande (de 4.0:1 a 7.1:1).
 - Si la entrada trae `image` en su contenido, la imagen sustituye a la portada tipográfica.
 
+### Ilustración propia
+
+- Igual que en Tools y Proyectos, cada entrada puede tener su **dibujo**: `src/components/post-illustrations/<id>.astro`, donde `<id>` es el nombre del archivo de la entrada (`programar-era-ia.mdx` → `programar-era-ia.astro`). `PostRow.astro` lo busca solo.
+- Orden de preferencia: `image` del contenido → dibujo propio → portada tipográfica. Una entrada nueva nunca queda sin portada.
+- Con dibujo no se superpone texto (ni titular ni pastilla de etiqueta): el título y las etiquetas ya están al lado.
+- El recorte cambia con el ancho: la portada mide unos 240×184 px en escritorio y se ve más ancha en móvil, así que lo importante va entre `x = 45` y `275`, y entre `y = 15` y `165`.
+- El dibujo tiene que **contar de qué trata la entrada** con un elemento que mande, no solo decorar. Un primer intento (un gráfico de barras y una ventana de editor genéricos) se descartó porque podían pertenecer a cualquier artículo. Los vigentes: un radar de las cuatro dimensiones con el perfil en blanco opaco (el framework de complejidad) y unos corchetes `< >` con un destello grande en el centro (programar con IA).
+
 ### Etiquetas
 
 - `src/lib/blog-tags.ts` define el nombre visible y el color de cada etiqueta (`inteligencia-artificial` → "Inteligencia artificial", rosa; `programacion` → "Programación", azul; `meta` → "Meta", morado; `engineering` → "Ingeniería", turquesa; `windsurf` → ámbar; `ides` → verde).
