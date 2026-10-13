@@ -34,3 +34,25 @@ Formato `tipo emoji: descripción en inglés`, por ejemplo `docs 📝: add RFC-0
 ## RFC
 
 Los diseños de cambios grandes viven en `docs/rfc/RFC-NNN-<tema>.md`.
+
+## CI y protección de ramas
+
+- **CI:** `.github/workflows/ci.yml` corre `npm run check` y `npm run build` en cada PR hacia `develop` y `main`, y en los push a `develop`. El job se llama **Validate**.
+- **Protección de `main`** (configurada en GitHub, no vive en el repo):
+  - PR obligatorio, con 0 aprobaciones (hay un solo mantenedor).
+  - Check requerido: **Validate**.
+  - Aplica también a administradores: no hay push directo a `main`.
+  - Force push y borrado de la rama bloqueados.
+- **`develop`:** pendiente de protegerse con las mismas reglas.
+
+Para aplicarla de nuevo en otro repositorio:
+
+```bash
+echo '{"required_status_checks":{"strict":false,"contexts":["Validate"]},"enforce_admins":true,"required_pull_request_reviews":{"required_approving_review_count":0},"restrictions":null,"allow_force_pushes":false,"allow_deletions":false}' | gh api -X PUT repos/<usuario>/<repo>/branches/main/protection --input -
+```
+
+Para comprobar el estado actual (solo lectura):
+
+```bash
+gh api repos/<usuario>/<repo>/branches/main/protection
+```

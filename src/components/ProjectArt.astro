@@ -1,0 +1,84 @@
+---
+import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+import DomainIcon from "./DomainIcon.astro";
+import { domainColor, domainGradient, domainLabel } from "../lib/taxonomy";
+
+interface Props {
+  project: CollectionEntry<"projects">;
+}
+
+const { project } = Astro.props;
+const { domain, title, image } = project.data;
+
+const illustrations = import.meta.glob<{ default: any }>("./project-illustrations/*.astro", { eager: true });
+const Illustration = illustrations[`./project-illustrations/${project.id}.astro`]?.default;
+---
+
+<div class="art" style={`background: ${domainGradient[domain]};`}>
+  {image ? (
+    <Image src={image} alt={`Imagen de ${title}`} widths={[480, 800, 1200]} sizes="(max-width: 768px) 100vw, 480px" class="art-shot" />
+  ) : Illustration ? (
+    <Illustration />
+  ) : (
+    <div class="art-fallback">
+      <DomainIcon domain={domain} size={96} strokeWidth={1.4} />
+    </div>
+  )}
+  <span class="art-badge">
+    <span class="art-badge-icon" style={`color: ${domainColor[domain]};`}>
+      <DomainIcon domain={domain} size={14} strokeWidth={2.2} />
+    </span>
+    {domainLabel[domain]}
+  </span>
+</div>
+
+<style>
+  .art {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+  .art-shot {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .art-fallback {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    color: rgba(255, 255, 255, 0.92);
+  }
+  .art-fallback::before,
+  .art-fallback::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.14);
+  }
+  .art-fallback::before { width: 9rem; height: 9rem; left: 12%; bottom: -3.5rem; }
+  .art-fallback::after { width: 5rem; height: 5rem; right: 14%; top: 1.5rem; }
+  .art-fallback :global(svg) { position: relative; z-index: 1; }
+
+  .art-badge {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.2rem 0.65rem 0.2rem 0.5rem;
+    border-radius: 9999px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: #0f0f1a;
+    background: rgba(255, 255, 255, 0.95);
+  }
+  .art-badge-icon { display: inline-flex; }
+</style>
