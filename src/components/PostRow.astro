@@ -1,46 +1,25 @@
 ---
-import { Image } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
-import { postColors, tagColor, tagLabel } from "../lib/blog-tags";
+import PostCover from "./PostCover.astro";
+import TagPills from "./TagPills.astro";
 
 interface Props {
   post: CollectionEntry<"blog">;
 }
 
 const { post } = Astro.props;
-const { title, description, date, tags, image } = post.data;
-
-const illustrations = import.meta.glob<{ default: any }>("./post-illustrations/*.astro", { eager: true });
-const Illustration = illustrations[`./post-illustrations/${post.id}.astro`]?.default;
-
-const [colorA, colorB] = postColors(tags);
-const deep = (color: string) => `color-mix(in srgb, ${color} 72%, #000)`;
-const gradient = `linear-gradient(135deg, ${deep(colorA)} 0%, ${deep(colorB)} 100%)`;
-const headline = title.split(":")[0];
+const { title, description, date, tags } = post.data;
 const formattedDate = new Date(date).toLocaleDateString("es-ES", { year: "numeric", month: "short", day: "numeric" });
 ---
 
 <a href={`/blog/${post.id}/`} class="post-row group">
-  <div class="post-cover" style={`background: ${gradient};`}>
-    {image ? (
-      <Image src={image} alt="" widths={[360, 640]} sizes="(max-width: 768px) 100vw, 240px" class="post-cover-img" />
-    ) : Illustration ? (
-      <Illustration />
-    ) : (
-      <>
-        <span class="post-cover-tag">{tags[0] ? tagLabel(tags[0]) : "Blog"}</span>
-        <span class="post-cover-headline font-display">{headline}</span>
-      </>
-    )}
-  </div>
+  <PostCover post={post} />
 
   <div class="post-copy">
     {tags.length > 0 && (
-      <ul class="post-tags" aria-label="Etiquetas">
-        {tags.map((tag) => (
-          <li style={`--tag-color: ${tagColor(tag)};`}>{tagLabel(tag)}</li>
-        ))}
-      </ul>
+      <div class="post-tags">
+        <TagPills tags={tags} />
+      </div>
     )}
     <h2 class="post-title font-display text-text">{title}</h2>
     <p class="post-desc text-text-muted">{description}</p>
@@ -57,63 +36,11 @@ const formattedDate = new Date(date).toLocaleDateString("es-ES", { year: "numeri
     text-decoration: none;
   }
 
-  .post-cover {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    aspect-ratio: 16 / 9;
-    padding: 0.9rem 1rem;
-    overflow: hidden;
-    border-radius: 1.25rem;
-    transition: transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1);
-  }
-  .post-cover::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(120% 90% at 0% 0%, rgba(255, 255, 255, 0.22), transparent 60%);
-    pointer-events: none;
-  }
-  .post-row:hover .post-cover { transform: translateY(-3px) rotate(-0.5deg); }
+  .post-row:hover :global(.post-cover) { transform: translateY(-3px) rotate(-0.5deg); }
   .post-row:focus-visible {
     outline: 2px solid var(--color-aurora-purple);
     outline-offset: 6px;
     border-radius: 1.25rem;
-  }
-
-  .post-cover-img {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  .post-cover-tag {
-    position: relative;
-    z-index: 1;
-    align-self: flex-start;
-    padding: 0.15rem 0.6rem;
-    border-radius: 9999px;
-    font-size: 0.62rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.95);
-    background: rgba(0, 0, 0, 0.28);
-  }
-  .post-cover-headline {
-    position: relative;
-    z-index: 1;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    font-size: 1.4rem;
-    font-weight: 800;
-    line-height: 1.05;
-    letter-spacing: -0.02em;
-    color: #ffffff;
   }
 
   .post-copy {
@@ -122,22 +49,7 @@ const formattedDate = new Date(date).toLocaleDateString("es-ES", { year: "numeri
     justify-content: center;
     min-width: 0;
   }
-  .post-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-    margin: 0 0 0.6rem;
-    padding: 0;
-    list-style: none;
-  }
-  .post-tags li {
-    padding: 0.1rem 0.6rem;
-    border-radius: 9999px;
-    font-size: 0.7rem;
-    font-weight: 600;
-    color: color-mix(in srgb, var(--tag-color) 45%, var(--color-text));
-    background: color-mix(in srgb, var(--tag-color) 16%, transparent);
-  }
+  .post-tags { margin-bottom: 0.6rem; }
   .post-title {
     font-size: 1.25rem;
     font-weight: 700;
@@ -160,7 +72,6 @@ const formattedDate = new Date(date).toLocaleDateString("es-ES", { year: "numeri
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .post-cover { transition: none; }
-    .post-row:hover .post-cover { transform: none; }
+    .post-row:hover :global(.post-cover) { transform: none; }
   }
 </style>
