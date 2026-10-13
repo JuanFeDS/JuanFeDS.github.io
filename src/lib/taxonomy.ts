@@ -12,8 +12,8 @@ export const domainGradient: Record<string, string> = {
   "machine-learning": "linear-gradient(135deg, #8b5cf6 0%, #f472b6 100%)",
   "ai":               "linear-gradient(135deg, #f472b6 0%, #8b5cf6 100%)",
   "analytics":        "linear-gradient(135deg, #3b82f6 0%, #14b8a6 100%)",
-  "web":              "linear-gradient(135deg, #14b8a6 0%, #8b5cf6 100%)",
-  "mobile":           "linear-gradient(135deg, #8b5cf6 0%, #3b82f6 100%)",
+  "web":              "linear-gradient(135deg, #f59e0b 0%, #f472b6 100%)",
+  "mobile":           "linear-gradient(135deg, #22c55e 0%, #0ea5e9 100%)",
 };
 
 export const domainColor: Record<string, string> = {
@@ -21,8 +21,8 @@ export const domainColor: Record<string, string> = {
   "machine-learning": "#8b5cf6",
   "ai":               "#f472b6",
   "analytics":        "#3b82f6",
-  "web":              "#14b8a6",
-  "mobile":           "#8b5cf6",
+  "web":              "#f59e0b",
+  "mobile":           "#22c55e",
 };
 
 export const levelName: Record<number, string> = {
