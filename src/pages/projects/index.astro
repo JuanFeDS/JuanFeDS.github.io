@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content";
 import PageLayout from "../../layouts/PageLayout.astro";
 import ProjectArt from "../../components/ProjectArt.astro";
+import SectionHero from "../../components/SectionHero.astro";
 import {
   domainLabel, domainGradient, domainColor, levelDot,
   flagLabelShort as flagLabel, flagDescription,
@@ -18,17 +19,11 @@ const activeDomains = [...new Set(projects.map((p) => p.data.domain))];
   title="Proyectos"
   description="Proyectos de ciencia e ingeniería de datos, clasificados con The Scientist Complexity Framework."
 >
-  <div class="mx-auto max-w-5xl px-6 py-16">
+  <SectionHero eyebrow="Trabajo" title="Proyectos" accent="teal">
+    Apps web, mobile, modelos de ML, pipelines de datos y aplicaciones con IA.
+  </SectionHero>
 
-    <header class="mb-10">
-      <p class="mb-2 text-sm font-medium text-aurora-teal">Trabajo</p>
-      <h1 class="text-4xl font-bold md:text-5xl font-display text-text">
-        Proyectos
-      </h1>
-      <p class="mt-4 text-lg text-text-muted">
-        Apps web, mobile, modelos de ML, pipelines de datos y aplicaciones con IA.
-      </p>
-    </header>
+  <div class="mx-auto max-w-5xl px-6 pb-16">
 
     <div id="tech-filter-banner" class="hidden mb-4 flex items-center gap-2 text-sm text-text-muted">
       <span>Filtrando por stack:</span>
