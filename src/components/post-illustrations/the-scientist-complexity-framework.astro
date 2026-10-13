@@ -1,49 +1,61 @@
 ---
-const center = { x: 160, y: 86 };
-const maxRadius = 54;
-const rings = [18, 36, 54];
-const diamond = (radius: number) =>
-  `${center.x},${center.y - radius} ${center.x + radius},${center.y} ${center.x},${center.y + radius} ${center.x - radius},${center.y}`;
-
-const values = { top: 4, right: 3, bottom: 2, left: 3 };
-const scale = (value: number) => (value / 5) * maxRadius;
-const profile = [
-  [center.x, center.y - scale(values.top)],
-  [center.x + scale(values.right), center.y],
-  [center.x, center.y + scale(values.bottom)],
-  [center.x - scale(values.left), center.y],
-];
-const profilePoints = profile.map(([x, y]) => `${x},${y}`).join(" ");
-
-const levelDots = [0, 1, 2, 3, 4].map((index) => ({ x: 130 + index * 15, filled: index < 3 }));
+const projects = [34, 78, 122].map((y, index) => ({ y, delay: index * 120, bar: [38, 30, 44][index] }));
+const arrows = [51, 95, 139].map((y) => `M122 ${y} C134 ${y} 130 95 144 95`);
+const steps = [14, 26, 38, 50, 62].map((height, index) => ({
+  x: 152 + index * 15,
+  y: 126 - height,
+  height,
+  focal: index === 2,
+  delay: index * 90,
+}));
+const dimensions = [44, 30, 18, 36].map((height, index) => ({ x: 236 + index * 11, y: 126 - height, height }));
+const levelDots = [0, 1, 2, 3, 4].map((index) => ({ x: 164 + index * 11, filled: index < 3 }));
 ---
 
 <svg class="art" viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
-  <polygon points={diamond(maxRadius)} fill="rgba(255,255,255,0.1)" />
+  {projects.map((project) => (
+    <g class="project" style={`--delay: ${project.delay}ms;`}>
+      <rect x="50" y={project.y} width="72" height="34" rx="9" fill="rgba(255,255,255,0.2)" stroke="rgba(255,255,255,0.7)" stroke-width="1.5" />
+      <circle cx="63" cy={project.y + 11} r="3.5" fill="rgba(255,255,255,0.95)" />
+      <rect x="73" y={project.y + 8.5} width={project.bar} height="5" rx="2.5" fill="rgba(255,255,255,0.92)" />
+      <rect x="59" y={project.y + 19} width="52" height="4" rx="2" fill="rgba(255,255,255,0.5)" />
+      <rect x="59" y={project.y + 26} width="34" height="4" rx="2" fill="rgba(255,255,255,0.5)" />
+    </g>
+  ))}
 
-  <g fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="1.2" stroke-linejoin="round">
-    {rings.map((radius) => <polygon points={diamond(radius)} />)}
+  <g fill="none" stroke="rgba(255,255,255,0.85)" stroke-width="2" stroke-linecap="round">
+    {arrows.map((path) => <path d={path} />)}
   </g>
-  <g stroke="rgba(255,255,255,0.35)" stroke-width="1.2" stroke-linecap="round">
-    <line x1={center.x} y1={center.y - maxRadius} x2={center.x} y2={center.y + maxRadius} />
-    <line x1={center.x - maxRadius} y1={center.y} x2={center.x + maxRadius} y2={center.y} />
-  </g>
+  <path d="M146 95 l-7 -5 v10 z" fill="#ffffff" />
 
-  <polygon class="profile" points={profilePoints} fill="rgba(255,255,255,0.92)" stroke="#ffffff" stroke-width="3" stroke-linejoin="round" />
-  <g fill="#ffffff" stroke="rgba(0,0,0,0.18)" stroke-width="1">
-    {profile.map(([x, y]) => <circle cx={x} cy={y} r="5" />)}
-  </g>
-
-  {levelDots.map((dot) => (
-    <circle
-      cx={dot.x}
-      cy="156"
-      r="4.5"
-      fill={dot.filled ? "#ffffff" : "none"}
-      stroke={dot.filled ? "none" : "rgba(255,255,255,0.75)"}
+  <line x1="150" y1="130" x2="228" y2="130" stroke="rgba(255,255,255,0.45)" stroke-width="1.5" stroke-linecap="round" />
+  {steps.map((step) => (
+    <rect
+      class="step"
+      style={`--delay: ${step.delay}ms;`}
+      x={step.x}
+      y={step.y}
+      width="11"
+      height={step.height}
+      rx="4"
+      fill={step.focal ? "#ffffff" : "rgba(255,255,255,0.22)"}
+      stroke={step.focal ? "none" : "rgba(255,255,255,0.7)"}
       stroke-width="1.5"
     />
   ))}
+
+  <rect x="150" y="138" width="78" height="20" rx="10" fill="#ffffff" />
+  {levelDots.map((dot) => (
+    <circle cx={dot.x} cy="148" r="3.2" fill={dot.filled ? "#8b5cf6" : "rgba(139,92,246,0.28)"} />
+  ))}
+
+  {dimensions.map((bar) => (
+    <rect x={bar.x} y={bar.y} width="7" height={bar.height} rx="3.5" fill="rgba(255,255,255,0.92)" />
+  ))}
+  <line x1="232" y1="130" x2="276" y2="130" stroke="rgba(255,255,255,0.45)" stroke-width="1.5" stroke-linecap="round" />
+  <g fill="rgba(255,255,255,0.7)">
+    {dimensions.map((bar) => <circle cx={bar.x + 3.5} cy="142" r="2.5" />)}
+  </g>
 </svg>
 
 <style>
@@ -55,14 +67,23 @@ const levelDots = [0, 1, 2, 3, 4].map((index) => ({ x: 130 + index * 15, filled:
   }
 
   @media (prefers-reduced-motion: no-preference) {
-    .profile {
+    .project {
+      animation: slide 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+      animation-delay: var(--delay);
+    }
+    @keyframes slide {
+      from { opacity: 0; transform: translateX(-10px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    .step {
       transform-box: fill-box;
-      transform-origin: center;
-      animation: grow 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+      transform-origin: bottom;
+      animation: grow 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+      animation-delay: var(--delay);
     }
     @keyframes grow {
-      from { transform: scale(0.15); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
+      from { transform: scaleY(0); }
+      to { transform: scaleY(1); }
     }
   }
 </style>
