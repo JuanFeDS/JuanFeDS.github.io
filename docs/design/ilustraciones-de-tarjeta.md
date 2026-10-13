@@ -125,7 +125,7 @@ La cabecera vive en `src/components/SectionHero.astro`. Se usa así:
 - `accent`: color de la etiqueta de sección (`purple`, `teal`, `pink` o `blue`).
 - `width`: ancho del contenido, `5xl` por defecto. Debe coincidir con el contenedor de la página (`3xl` para el blog).
 - Después del componente, el contenido de la página usa su propio contenedor con `pb-16` (sin `pt`, porque la cabecera ya lleva el espacio).
-- Hoy la usan `/tools/` y `/blog/`.
+- Hoy la usan `/tools/`, `/blog/` y `/projects/`.
 
 ### Cabecera con banda aurora
 
