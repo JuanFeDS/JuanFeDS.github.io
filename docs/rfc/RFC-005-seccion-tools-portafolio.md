@@ -2,7 +2,7 @@
 
 | Campo | Valor |
 |---|---|
-| Estado | 🟡 Borrador: faltan las respuestas de Juan a la sección 9 |
+| Estado | ✅ Aprobado el 2026-10-12 (decisiones en la sección 9) |
 | Autor | Faro |
 | Constructor | Juan + Claude, en el repo `Portafolio` (Astro) |
 | Misión | M1, paso nuevo (`MISIONES.md`) |
@@ -22,8 +22,9 @@ Una herramienta no encaja en la colección `projects`. Su esquema exige `domain`
 ## 3. Requisitos
 
 ### 3.1 Funcionales
-- **F1.** Una página `/tools/` con una tarjeta por herramienta.
-- **F2.** Cada tarjeta muestra título, descripción corta, stack, captura (opcional), enlace para usarla y enlace al repo.
+- **F1.** Una página `/tools/` con una tarjeta por herramienta, en cuadrícula.
+- **F6.** Un deslizador de 1 a 4 herramientas por fila (3 por defecto) que recuerda la elección del visitante en su navegador. En móvil siempre es 1 columna y el deslizador se oculta.
+- **F2.** Cada tarjeta muestra título, descripción completa, ilustración o captura, enlace para usarla y enlace al repo. El stack vive en el archivo de contenido pero no se muestra en la tarjeta.
 - **F3.** Nueva entrada en la navegación del sitio.
 - **F4.** Agregar una herramienta es crear un archivo en `src/content/tools/`; no hay que tocar código.
 - **F5.** Los tres pilotos publicados: Trazo, klip y pixeleria.
@@ -38,7 +39,7 @@ Una herramienta no encaja en la colección `projects`. Su esquema exige `domain`
 
 - La sección de demos o laboratorios (se define en otro RFC, ver sección 9).
 - Páginas de detalle por herramienta (cada una enlaza a su propia app).
-- Buscador, filtros y etiquetas: con tres herramientas no hacen falta.
+- Buscador, filtros y etiquetas: con tres herramientas no hacen falta. El deslizador de columnas (F6) es solo de presentación.
 - Analítica de uso.
 - Herramientas privadas o con datos personales (`tools/`, `content_generator`).
 
@@ -94,10 +95,10 @@ const tools = defineCollection({
 | Herramienta | Repo | En vivo | Qué falta |
 |---|---|---|---|
 | Trazo | `JuanFeDS/trazo` | `juanfeds.com/trazo` ✅ | Una captura para la tarjeta |
-| klip | `JuanFeDS/klip` | `juanfeds.com/klip` responde 200 ✅ | Revisar que siga funcionando; último push, agosto de 2025 |
-| pixeleria | `JuanFeDS/pixeleria` | `juanfeds.com/pixeleria` da 404 ❌ | Activar GitHub Pages. Es HTML, JS y CSS sin dependencias ni build, así que se publica tal cual |
+| klip | `JuanFeDS/klip` | `juanfeds.com/klip` responde 200 ✅ | Revisar que siga funcionando; último push, agosto de 2025. Es una app web |
+| pixeleria | `JuanFeDS/pixeleria` | `juanfeds.com/pixeleria/` responde 200 ✅ (verificado el 2026-10-12, tras activar Pages) | Nada |
 
-**Discrepancia por resolver:** `PROYECTOS.md` describe klip como "extensión de navegador", pero su README lo describe como aplicación web (React, Vite, Tailwind, localStorage). La tarjeta debe decir la verdad.
+**Discrepancia resuelta:** klip es una aplicación web (confirmado por Juan el 2026-10-12). `PROYECTOS.md` la describe como extensión de navegador y debe corregirse en Faro.
 
 ### 5.3 Alternativas descartadas
 - **Meter las herramientas en `projects`:** fuerza el marco de complejidad donde no corresponde (sección 2).
@@ -112,7 +113,7 @@ const tools = defineCollection({
 
 ## 7. Hitos
 
-- **H1.** Publicar pixeleria en GitHub Pages y revisar klip.
+- **H1.** ~~Publicar pixeleria en GitHub Pages~~ (hecho) y revisar klip.
 - **H2.** Colección `tools`, esquema y las tres entradas.
 - **H3.** Página `/tools/`, tarjeta y entrada en la navegación, con revisión visual.
 - **H4.** Capturas, ajuste de diseño y despliegue.
@@ -120,7 +121,7 @@ const tools = defineCollection({
 ## 8. Criterios de aceptación (con esto revisa Faro)
 
 1. `juanfeds.com/pixeleria` responde 200 y funciona.
-2. `juanfeds.com/tools/` lista Trazo, klip y pixeleria, cada una con descripción, stack, enlace de uso y enlace al repo.
+2. `juanfeds.com/tools/` lista Trazo, klip y pixeleria, cada una con descripción completa, enlace de uso y enlace al repo.
 3. Los seis enlaces (tres de uso, tres de repo) abren lo correcto.
 4. Agregar una herramienta nueva es crear un archivo en `src/content/tools/` y no requiere editar código.
 5. Una entrada con un campo inválido rompe el build con un mensaje claro.
@@ -128,11 +129,12 @@ const tools = defineCollection({
 7. La página se ve bien en tema claro, tema oscuro y móvil, y Juan la aprueba con capturas.
 8. La descripción de klip coincide con lo que es el repo.
 9. El sitio compila y se publica sin errores ni enlaces rotos nuevos.
+10. El deslizador cambia entre 1, 2, 3 y 4 columnas, recuerda la elección al recargar y en móvil la página queda en 1 columna.
 
-## 9. Preguntas abiertas
+## 9. Decisiones
 
-1. **¿klip es una aplicación web o una extensión de navegador?** El README dice aplicación web; `PROYECTOS.md` dice extensión. ¿Se queda como web o es plan convertirla?
-2. **¿Pixeleria queda en `juanfeds.com/pixeleria`?** Es la URL que sale al activar Pages en su repo.
-3. **Sección de demos o laboratorios.** Lo que Juan describe (explorar tecnologías con ejemplos puntuales, sin armar un proyecto) coincide con el tipo `lab` de la convención de nombres, no con `demo`. Se resuelve en un RFC aparte, después de Tools.
-4. **¿Tools pasa por delante del MVP de NLP_WoT como "Próximo" de M1?**
-5. **¿Y el lector de PDF?** No aparece en repos ni en notas; si existe, dónde vive, para decidir si entra después de los pilotos.
+1. **klip es una aplicación web**, no una extensión. La tarjeta lo dice así.
+2. **pixeleria queda en `juanfeds.com/pixeleria/`**, ya publicada.
+3. **Labs va en un RFC aparte**, después de Tools. Corresponde al tipo `lab` de la convención de nombres.
+4. **Tools pasa adelante del MVP de NLP_WoT** como "Próximo" de M1. Faro ya lo sabe.
+5. **El lector de PDF queda para después**; no entra en este RFC.

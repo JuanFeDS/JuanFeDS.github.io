@@ -1,0 +1,170 @@
+---
+import { getCollection } from "astro:content";
+import PageLayout from "../../layouts/PageLayout.astro";
+import ToolCard from "../../components/ToolCard.astro";
+
+const tools = (await getCollection("tools"))
+  .filter((tool) => !tool.data.draft)
+  .sort((a, b) => a.data.order - b.data.order);
+
+const defaultColumns = 3;
+---
+
+<PageLayout
+  title="Tools"
+  description="Herramientas web que construí y puedes usar ahora: Trazo para diagramas, Klip para pestañas y Pixelería para pixel art."
+>
+  <section class="tools-hero">
+    <div class="mx-auto max-w-5xl px-6 pt-16 pb-14">
+      <header class="flex flex-wrap items-end justify-between gap-6">
+        <div>
+          <p class="mb-2 text-sm font-medium text-aurora-teal">Herramientas</p>
+          <h1 class="tools-title font-bold font-display text-text">Tools</h1>
+          <p class="mt-4 max-w-2xl text-lg text-text-muted">
+            Apps pequeñas que ya funcionan y que puedes usar sin instalar nada. Cada una vive en su propio repositorio.
+          </p>
+        </div>
+
+        <div class="cols-picker hidden md:flex">
+          <label for="cols-range" class="text-xs text-text-muted">Por fila</label>
+          <input
+            id="cols-range"
+            class="cols-range"
+            type="range"
+            min="1"
+            max="4"
+            step="1"
+            value={defaultColumns}
+            style={`--fill: ${((defaultColumns - 1) / 3) * 100}%;`}
+          />
+          <output id="cols-output" for="cols-range" class="cols-output">{defaultColumns}</output>
+        </div>
+      </header>
+    </div>
+  </section>
+
+  <div class="mx-auto max-w-5xl px-6 pb-16">
+    {tools.length === 0 ? (
+      <p class="text-text-muted">Próximamente...</p>
+    ) : (
+      <div class="tools-grid" id="tools-grid" data-cols={defaultColumns}>
+        {tools.map((tool, index) => <ToolCard tool={tool} index={index} />)}
+      </div>
+    )}
+  </div>
+</PageLayout>
+
+<style>
+  .tools-hero {
+    margin-top: -5rem;
+    padding-top: 5rem;
+    margin-bottom: 1rem;
+    background:
+      radial-gradient(ellipse 60% 90% at 12% 25%, color-mix(in srgb, var(--color-aurora-purple) 34%, transparent), transparent 70%),
+      radial-gradient(ellipse 55% 80% at 88% 10%, color-mix(in srgb, var(--color-aurora-teal) 30%, transparent), transparent 70%),
+      radial-gradient(ellipse 50% 70% at 62% 100%, color-mix(in srgb, var(--color-aurora-pink) 26%, transparent), transparent 70%);
+  }
+  .tools-title {
+    font-size: clamp(3rem, 8vw, 5.5rem);
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+  .tools-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.25rem 1.25rem;
+  }
+  @media (min-width: 768px) {
+    .tools-grid[data-cols="1"] { grid-template-columns: 1fr; }
+    .tools-grid[data-cols="2"] { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .tools-grid[data-cols="3"] { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .tools-grid[data-cols="4"] { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  }
+
+  .cols-picker {
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .cols-output {
+    min-width: 1ch;
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+  .cols-range {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 9rem;
+    height: 1.5rem;
+    background: transparent;
+    cursor: pointer;
+  }
+  .cols-range::-webkit-slider-runnable-track {
+    height: 6px;
+    border-radius: 9999px;
+    background: linear-gradient(to right, var(--color-aurora-purple) var(--fill), var(--color-border) var(--fill));
+  }
+  .cols-range::-moz-range-track {
+    height: 6px;
+    border-radius: 9999px;
+    background: linear-gradient(to right, var(--color-aurora-purple) var(--fill), var(--color-border) var(--fill));
+  }
+  .cols-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    margin-top: -7px;
+    border-radius: 50%;
+    border: 3px solid var(--color-aurora-purple);
+    background: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+    transition: transform 0.15s;
+  }
+  .cols-range::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 3px solid var(--color-aurora-purple);
+    background: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+    transition: transform 0.15s;
+  }
+  .cols-range:hover::-webkit-slider-thumb { transform: scale(1.15); }
+  .cols-range:hover::-moz-range-thumb { transform: scale(1.15); }
+  .cols-range:focus-visible {
+    outline: 2px solid var(--color-aurora-purple);
+    outline-offset: 4px;
+    border-radius: 9999px;
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var STORAGE_KEY = "tools-cols";
+    var grid = document.getElementById("tools-grid");
+    var range = document.getElementById("cols-range");
+    var output = document.getElementById("cols-output");
+    if (!grid || !range) return;
+
+    function apply(count) {
+      grid.dataset.cols = String(count);
+      range.value = String(count);
+      range.style.setProperty("--fill", ((count - 1) / 3) * 100 + "%");
+      output.textContent = String(count);
+    }
+
+    try {
+      var saved = localStorage.getItem(STORAGE_KEY);
+      if (saved && ["1", "2", "3", "4"].indexOf(saved) !== -1) apply(saved);
+    } catch (error) {}
+
+    range.addEventListener("input", function () {
+      apply(range.value);
+      try {
+        localStorage.setItem(STORAGE_KEY, range.value);
+      } catch (error) {}
+    });
+  })();
+</script>

@@ -70,4 +70,18 @@ const makeover_monday = defineCollection({
   }),
 });
 
-export const collections = { blog, projects, makeover_monday };
+const tools = defineCollection({
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/tools" }),
+  schema: ({ image }) => z.object({
+    title: z.string(),
+    description: z.string(),
+    stack: z.array(z.string()),
+    live: z.string().url(),
+    github: z.string().url(),
+    image: image().optional(),
+    order: z.number().int().default(100),
+    draft: z.boolean().optional().default(false),
+  }),
+});
+
+export const collections = { blog, projects, makeover_monday, tools };
