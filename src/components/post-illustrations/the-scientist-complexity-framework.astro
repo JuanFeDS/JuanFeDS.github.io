@@ -1,45 +1,48 @@
 ---
-const stepWidth = 16;
-const stepGap = 6;
-const steps = [18, 34, 50, 66, 82].map((height, index) => ({
-  x: 52 + index * (stepWidth + stepGap),
-  y: 150 - height,
-  height,
-  focal: index === 2,
-  delay: index * 90,
-}));
-const dimensions = [
-  { y: 70, fill: 62 },
-  { y: 92, fill: 40 },
-  { y: 114, fill: 26 },
-  { y: 136, fill: 50 },
+const center = { x: 160, y: 86 };
+const maxRadius = 54;
+const rings = [18, 36, 54];
+const diamond = (radius: number) =>
+  `${center.x},${center.y - radius} ${center.x + radius},${center.y} ${center.x},${center.y + radius} ${center.x - radius},${center.y}`;
+
+const values = { top: 4, right: 3, bottom: 2, left: 3 };
+const scale = (value: number) => (value / 5) * maxRadius;
+const profile = [
+  [center.x, center.y - scale(values.top)],
+  [center.x + scale(values.right), center.y],
+  [center.x, center.y + scale(values.bottom)],
+  [center.x - scale(values.left), center.y],
 ];
+const profilePoints = profile.map(([x, y]) => `${x},${y}`).join(" ");
+
+const levelDots = [0, 1, 2, 3, 4].map((index) => ({ x: 130 + index * 15, filled: index < 3 }));
 ---
 
 <svg class="art" viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
-  <line x1="46" y1="150" x2="162" y2="150" stroke="rgba(255,255,255,0.45)" stroke-width="1.5" stroke-linecap="round" />
+  <polygon points={diamond(maxRadius)} fill="rgba(255,255,255,0.1)" />
 
-  {steps.map((step) => (
-    <rect
-      class="step"
-      style={`--delay: ${step.delay}ms;`}
-      x={step.x}
-      y={step.y}
-      width={stepWidth}
-      height={step.height}
-      rx="5"
-      fill={step.focal ? "#ffffff" : "rgba(255,255,255,0.22)"}
-      stroke={step.focal ? "none" : "rgba(255,255,255,0.7)"}
+  <g fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="1.2" stroke-linejoin="round">
+    {rings.map((radius) => <polygon points={diamond(radius)} />)}
+  </g>
+  <g stroke="rgba(255,255,255,0.35)" stroke-width="1.2" stroke-linecap="round">
+    <line x1={center.x} y1={center.y - maxRadius} x2={center.x} y2={center.y + maxRadius} />
+    <line x1={center.x - maxRadius} y1={center.y} x2={center.x + maxRadius} y2={center.y} />
+  </g>
+
+  <polygon class="profile" points={profilePoints} fill="rgba(255,255,255,0.92)" stroke="#ffffff" stroke-width="3" stroke-linejoin="round" />
+  <g fill="#ffffff" stroke="rgba(0,0,0,0.18)" stroke-width="1">
+    {profile.map(([x, y]) => <circle cx={x} cy={y} r="5" />)}
+  </g>
+
+  {levelDots.map((dot) => (
+    <circle
+      cx={dot.x}
+      cy="156"
+      r="4.5"
+      fill={dot.filled ? "#ffffff" : "none"}
+      stroke={dot.filled ? "none" : "rgba(255,255,255,0.75)"}
       stroke-width="1.5"
     />
-  ))}
-
-  {dimensions.map((dimension) => (
-    <g>
-      <circle cx="182" cy={dimension.y + 3.5} r="3.5" fill="rgba(255,255,255,0.9)" />
-      <rect x="192" y={dimension.y} width="76" height="7" rx="3.5" fill="rgba(255,255,255,0.22)" />
-      <rect x="192" y={dimension.y} width={dimension.fill} height="7" rx="3.5" fill="rgba(255,255,255,0.92)" />
-    </g>
   ))}
 </svg>
 
@@ -52,15 +55,14 @@ const dimensions = [
   }
 
   @media (prefers-reduced-motion: no-preference) {
-    .step {
+    .profile {
       transform-box: fill-box;
-      transform-origin: bottom;
-      animation: grow 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
-      animation-delay: var(--delay);
+      transform-origin: center;
+      animation: grow 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
     }
     @keyframes grow {
-      from { transform: scaleY(0); }
-      to { transform: scaleY(1); }
+      from { transform: scale(0.15); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
     }
   }
 </style>
