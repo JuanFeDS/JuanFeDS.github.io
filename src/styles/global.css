@@ -13,6 +13,7 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* marca v0.5.0 emite los breakpoints como var(), que una media query no admite; mismos valores, literales */
 @theme {
   --breakpoint-sm: 40rem;
   --breakpoint-md: 48rem;
@@ -20,92 +21,25 @@
   --breakpoint-xl: 80rem;
 }
 
-
-@theme {
-  --font-display: var(--marca-tipografia-familia-titulares);
-  --font-body: var(--marca-tipografia-familia-cuerpo);
-
-  /* Aurora accent colors */
-  --color-aurora-purple: #8b5cf6;
-  --color-aurora-teal: #14b8a6;
-  --color-aurora-blue: #3b82f6;
-  --color-aurora-pink: #f472b6;
-
-  /* Light mode */
-  --color-bg: #f5f5f8;
-  --color-surface: #ffffff;
-  --color-surface-2: #ebebf0;
-  --color-border: #e2e2ea;
-  --color-text: #0f0f1a;
-  --color-text-muted: #6b6b80;
-
-  /* Dark mode overrides applied via .dark class */
-}
-
 :root {
   color-scheme: light dark;
-
-  /* Level colors — accessible on light backgrounds */
-  --level-1: #15803d;
-  --level-2: #1d4ed8;
-  --level-3: #92400e;
-  --level-4: #c2410c;
-  --level-5: #b91c1c;
-
-  /* Category colors — accessible on light backgrounds */
-  --color-cat-frontend: #be185d;
-  --color-cat-cloud:    #c2410c;
 }
 
 html {
-  font-family: var(--font-body);
-  background-color: var(--color-bg);
-  color: var(--color-text);
-  transition: background-color 0.3s ease, color 0.3s ease;
+  font-family: var(--marca-tipografia-familia-cuerpo);
+  background-color: var(--marca-fondo-pagina);
+  color: var(--marca-texto-principal);
 }
 
-html.dark {
-  --color-bg: #07070f;
-  --color-surface: #0f0f1a;
-  --color-surface-2: #16162a;
-  --color-border: #1e1e35;
-  --color-text: #e8e8f0;
-  --color-text-muted: #7878a0;
-
-  /* Level colors — vivid on dark backgrounds */
-  --level-1: #22c55e;
-  --level-2: #3b82f6;
-  --level-3: #eab308;
-  --level-4: #f97316;
-  --level-5: #ef4444;
-
-  /* Category colors — vivid on dark backgrounds */
-  --color-cat-frontend: #f472b6;
-  --color-cat-cloud:    #fb923c;
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    transition: background-color 0.3s var(--marca-movimiento-curva-continua), color 0.3s var(--marca-movimiento-curva-continua);
+  }
 }
 
-/* Aurora background */
-.aurora-bg {
-  position: relative;
-  overflow: hidden;
-}
-
-.aurora-bg::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(ellipse at 15% 40%, color-mix(in srgb, var(--color-aurora-purple) 15%, transparent), transparent 55%),
-    radial-gradient(ellipse at 85% 15%, color-mix(in srgb, var(--color-aurora-teal) 12%, transparent), transparent 55%),
-    radial-gradient(ellipse at 60% 85%, color-mix(in srgb, var(--color-aurora-blue) 10%, transparent), transparent 55%);
-  pointer-events: none;
-  z-index: 0;
-  animation: aurora-shift 12s ease-in-out infinite alternate;
-}
-
-@keyframes aurora-shift {
-  0%   { opacity: 0.8; transform: scale(1)   translateY(0px); }
-  100% { opacity: 1;   transform: scale(1.05) translateY(-20px); }
+/* Aurora: solo como fondo de página o de portada, nunca en componentes */
+.fondo-aurora {
+  background-image: var(--marca-fondo-aurora);
 }
 
 /* Grain texture */
@@ -133,10 +67,10 @@ html.dark {
 }
 
 .prose h1, .prose h2, .prose h3 {
-  font-family: var(--font-display);
+  font-family: var(--marca-tipografia-familia-titulares);
   font-weight: 700;
   line-height: 1.2;
-  color: var(--color-text);
+  color: var(--marca-texto-principal);
   margin-top: 2em;
   margin-bottom: 0.5em;
 }
@@ -147,22 +81,27 @@ html.dark {
 
 .prose p {
   margin-bottom: 1.25em;
-  color: var(--color-text);
+  color: var(--marca-texto-principal);
   text-align: justify;
   hyphens: auto;
 }
 
+.prose code,
+.prose pre {
+  font-family: var(--marca-tipografia-familia-mono);
+}
+
 .prose code {
-  background: var(--color-surface-2);
-  border: 1px solid var(--color-border);
+  background: var(--marca-fondo-elevado);
+  border: 1px solid var(--marca-borde-suave);
   padding: 0.15em 0.4em;
   border-radius: 4px;
   font-size: 0.875em;
 }
 
 .prose pre {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
+  background: var(--marca-fondo-superficie);
+  border: 1px solid var(--marca-borde-suave);
   border-radius: 12px;
   padding: 1.25rem;
   overflow-x: auto;
@@ -172,12 +111,12 @@ html.dark {
 .prose hr {
   border: none;
   height: 1px;
-  background: linear-gradient(to right, transparent, var(--color-border) 20%, var(--color-border) 80%, transparent);
+  background: var(--marca-borde-suave);
   margin: 2em 0;
 }
 
 .prose a {
-  color: var(--color-aurora-purple);
+  color: var(--marca-marca-texto);
   text-decoration: underline;
   text-underline-offset: 3px;
 }
@@ -189,11 +128,11 @@ html.dark {
   margin-bottom: 1.5em;
   border-radius: 0.75rem;
   overflow: hidden;
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--marca-borde-suave);
 }
 
 .prose thead {
-  background: var(--color-surface-2);
+  background: var(--marca-fondo-elevado);
 }
 
 .prose th {
@@ -203,14 +142,14 @@ html.dark {
   font-weight: 700;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  color: var(--color-text-muted);
-  border-bottom: 1px solid var(--color-border);
+  color: var(--marca-texto-secundario);
+  border-bottom: 1px solid var(--marca-borde-suave);
 }
 
 .prose td {
   padding: 0.65rem 1rem;
-  color: var(--color-text);
-  border-bottom: 1px solid var(--color-border);
+  color: var(--marca-texto-principal);
+  border-bottom: 1px solid var(--marca-borde-suave);
   vertical-align: top;
   line-height: 1.5;
 }
@@ -220,5 +159,5 @@ html.dark {
 }
 
 .prose tbody tr:hover {
-  background: var(--color-surface-2);
+  background: var(--marca-fondo-elevado);
 }
