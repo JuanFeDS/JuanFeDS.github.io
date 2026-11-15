@@ -285,7 +285,7 @@ const stackGroups = [
           <div class="absolute inset-0 pointer-events-none opacity-10"
             style="background: radial-gradient(ellipse at 80% 20%, var(--marca-violeta-400) 0%, transparent 65%);" />
 
-          <p class="relative text-xs font-semibold uppercase tracking-widest text-texto-secundario">Stack</p>
+          <p class="relative text-xs font-bold uppercase tracking-widest text-texto-secundario">Stack</p>
 
           <div class="relative flex flex-col gap-4">
             {stackGroups.map(({ label, color, techs }, gi) => (
@@ -321,7 +321,7 @@ const stackGroups = [
         {projects.length > 0 && (
           <div class="col-span-12 md:col-span-8 rounded-3xl p-6 bg-fondo-superficie border border-borde-suave">
             <div class="mb-5 flex items-center justify-between">
-              <p class="text-xs font-semibold uppercase tracking-widest text-texto-secundario">Proyectos recientes</p>
+              <p class="text-xs font-bold uppercase tracking-widest text-texto-secundario">Proyectos recientes</p>
               <a href="/projects/" class="text-xs text-marca-texto">Ver todos →</a>
             </div>
             <div class="grid grid-cols-1 gap-4">
@@ -372,7 +372,7 @@ const stackGroups = [
             style="background: linear-gradient(135deg, color-mix(in oklch, var(--marca-azul-500) 8%, var(--marca-fondo-superficie)), var(--marca-fondo-superficie)); border: 1px solid var(--marca-borde-suave);"
           >
             <div class="mb-5 flex items-center justify-between">
-              <p class="text-xs font-semibold uppercase tracking-widest text-texto-secundario">Últimas entradas</p>
+              <p class="text-xs font-bold uppercase tracking-widest text-texto-secundario">Últimas entradas</p>
               <a href="/blog/" class="text-xs text-marca-texto">Ver blog →</a>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
@@ -384,12 +384,12 @@ const stackGroups = [
                   <div>
                     {post.data.tags?.length > 0 && (
                       <span
-                        class="mb-3 inline-block rounded-full px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide bg-marca-suave text-marca-sobre-suave"
+                        class="mb-3 inline-block rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide bg-marca-suave text-marca-sobre-suave"
                       >
                         {post.data.tags[0]}
                       </span>
                     )}
-                    <p class="font-semibold leading-snug group-hover:underline font-titulares text-texto-principal">{post.data.title}</p>
+                    <p class="font-bold leading-snug group-hover:underline font-titulares text-texto-principal">{post.data.title}</p>
                     <p class="mt-2 text-sm leading-relaxed text-texto-secundario">{post.data.description}</p>
                   </div>
                   <div class="flex items-center justify-between">
