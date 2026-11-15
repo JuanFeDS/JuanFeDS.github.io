@@ -44,11 +44,11 @@ export const levelName: Record<number, string> = {
 };
 
 export const levelColor: Record<number, string> = {
-  1: "var(--marca-nivel-1)",
-  2: "var(--marca-nivel-2)",
-  3: "var(--marca-nivel-3)",
-  4: "var(--marca-nivel-4)",
-  5: "var(--marca-nivel-5)",
+  1: "var(--nivel-sitio-1)",
+  2: "var(--nivel-sitio-2)",
+  3: "var(--nivel-sitio-3)",
+  4: "var(--nivel-sitio-4)",
+  5: "var(--nivel-sitio-5)",
 };
 
 export const levelDot: Record<number, string> = {
