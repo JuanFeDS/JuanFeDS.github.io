@@ -25,9 +25,9 @@ const activeDomains = [...new Set(projects.map((p) => p.data.domain))];
 
   <div class="mx-auto max-w-5xl px-6 pb-16">
 
-    <div id="tech-filter-banner" class="hidden mb-4 flex items-center gap-2 text-sm text-text-muted">
+    <div id="tech-filter-banner" class="hidden mb-4 flex items-center gap-2 text-sm text-texto-secundario">
       <span>Filtrando por stack:</span>
-      <span id="tech-filter-label" class="rounded-full px-3 py-0.5 text-xs font-semibold bg-surface-2 border border-border text-text"></span>
+      <span id="tech-filter-label" class="rounded-full px-3 py-0.5 text-xs font-semibold bg-fondo-elevado border border-borde-suave text-texto-principal"></span>
       <a href="/projects/" class="text-xs transition-opacity hover:opacity-70 text-aurora-purple">× limpiar</a>
     </div>
 
@@ -39,7 +39,7 @@ const activeDomains = [...new Set(projects.map((p) => p.data.domain))];
     </div>
 
     {projects.length === 0 ? (
-      <p class="text-text-muted">Próximamente...</p>
+      <p class="text-texto-secundario">Próximamente...</p>
     ) : (
       <div class="projects-grid" id="projects-grid">
         {projects.map((project) => {
@@ -71,15 +71,15 @@ const activeDomains = [...new Set(projects.map((p) => p.data.domain))];
                   </a>
                   <div class="card-body">
                     <div class="flex items-center justify-between mb-2">
-                      <span class="text-xs text-text-muted">
+                      <span class="text-xs text-texto-secundario">
                         {levelDot[project.data.level]} {project.data.level_name}
                       </span>
                       <span class="flip-hint">detalle →</span>
                     </div>
-                    <h2 class="card-title font-display text-text">
+                    <h2 class="card-title font-titulares text-texto-principal">
                       {project.data.title}
                     </h2>
-                    <p class="card-desc text-text-muted">
+                    <p class="card-desc text-texto-secundario">
                       {project.data.description}
                     </p>
                   </div>
@@ -103,7 +103,7 @@ const activeDomains = [...new Set(projects.map((p) => p.data.domain))];
                     <div class="back-header">
                       <div>
                         <p class="back-label back-label--accent">Nivel base</p>
-                        <p class="back-level text-text">
+                        <p class="back-level text-texto-principal">
                           {levelDot[project.data.level]} Nivel {project.data.level} — {project.data.level_name}
                         </p>
                       </div>
@@ -127,7 +127,7 @@ const activeDomains = [...new Set(projects.map((p) => p.data.domain))];
                     {/* Complexity flags */}
                     {project.data.flags.length > 0 && (
                       <div>
-                        <p class="back-label text-text-muted mb-[0.4rem]">Complexity Flags</p>
+                        <p class="back-label text-texto-secundario mb-[0.4rem]">Complexity Flags</p>
                         <div class="tags-row">
                           {project.data.flags.map((flag) => (
                             <span
@@ -212,13 +212,13 @@ const activeDomains = [...new Set(projects.map((p) => p.data.domain))];
   }
   .card-back {
     transform: rotateY(180deg);
-    background: color-mix(in srgb, var(--card-color) 14%, var(--color-surface));
+    background: color-mix(in srgb, var(--card-color) 14%, var(--marca-fondo-superficie));
   }
   :global(.dark) .card-back {
-    background: color-mix(in srgb, var(--card-color) 10%, var(--color-surface));
+    background: color-mix(in srgb, var(--card-color) 10%, var(--marca-fondo-superficie));
   }
   .back-label--accent {
-    color: color-mix(in srgb, var(--card-color) 45%, var(--color-text));
+    color: color-mix(in srgb, var(--card-color) 45%, var(--marca-texto-principal));
   }
 
   /* Front hero */
@@ -232,10 +232,10 @@ const activeDomains = [...new Set(projects.map((p) => p.data.domain))];
   }
   .card-front {
     padding: 0.75rem;
-    background: color-mix(in srgb, var(--card-color) 22%, var(--color-surface));
+    background: color-mix(in srgb, var(--card-color) 22%, var(--marca-fondo-superficie));
   }
   :global(.dark) .card-front {
-    background: color-mix(in srgb, var(--card-color) 14%, var(--color-surface));
+    background: color-mix(in srgb, var(--card-color) 14%, var(--marca-fondo-superficie));
   }
 
   /* Front body */
@@ -251,7 +251,7 @@ const activeDomains = [...new Set(projects.map((p) => p.data.domain))];
     line-height: 1.5;
   }
   :global(html:not(.dark)) .card-desc {
-    color: color-mix(in srgb, var(--color-text) 78%, var(--color-bg));
+    color: color-mix(in srgb, var(--marca-texto-principal) 78%, var(--marca-fondo-pagina));
   }
   .front-cta {
     position: absolute;
@@ -270,7 +270,7 @@ const activeDomains = [...new Set(projects.map((p) => p.data.domain))];
 
   .flip-hint {
     font-size: 0.62rem;
-    color: var(--color-text-muted);
+    color: var(--marca-texto-secundario);
     opacity: 0.5;
     user-select: none;
   }
@@ -293,7 +293,7 @@ const activeDomains = [...new Set(projects.map((p) => p.data.domain))];
   .back-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 0.75rem; }
   .back-domain-badge {
     flex-shrink: 0;
-    color: color-mix(in srgb, var(--card-color) 45%, var(--color-text));
+    color: color-mix(in srgb, var(--card-color) 45%, var(--marca-texto-principal));
     background: color-mix(in srgb, var(--card-color) 18%, transparent);
     border: 1px solid color-mix(in srgb, var(--card-color) 35%, transparent);
     padding: 0.2rem 0.65rem;
@@ -303,25 +303,25 @@ const activeDomains = [...new Set(projects.map((p) => p.data.domain))];
     white-space: nowrap;
   }
   .back-label { font-size: 0.6rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 0.15rem; }
-  .back-level { font-size: 0.88rem; font-weight: 700; font-family: var(--font-display); line-height: 1.2; margin-bottom: 0.15rem; }
+  .back-level { font-size: 0.88rem; font-weight: 700; font-family: var(--marca-tipografia-familia-titulares); line-height: 1.2; margin-bottom: 0.15rem; }
   .back-summary {
     font-size: 0.68rem;
     line-height: 1.5;
-    color: var(--color-text-muted);
+    color: var(--marca-texto-secundario);
     font-style: italic;
-    border-left: 2px solid var(--color-border);
+    border-left: 2px solid var(--marca-borde-suave);
     padding-left: 0.5rem;
   }
 
   /* Bar chart */
   .chart-section { display: flex; flex-direction: column; gap: 0.28rem; }
   .chart-row { display: flex; align-items: center; gap: 0.5rem; }
-  .chart-label { width: 6.5rem; font-size: 0.62rem; color: var(--color-text-muted); flex-shrink: 0; }
+  .chart-label { width: 6.5rem; font-size: 0.62rem; color: var(--marca-texto-secundario); flex-shrink: 0; }
   .chart-track {
     flex: 1;
     height: 5px;
     border-radius: 9999px;
-    background: var(--color-surface-2);
+    background: var(--marca-fondo-elevado);
     overflow: hidden;
   }
   .chart-fill { height: 100%; border-radius: 9999px; }
@@ -332,7 +332,7 @@ const activeDomains = [...new Set(projects.map((p) => p.data.domain))];
     font-weight: 600;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: var(--color-text-muted);
+    color: var(--marca-texto-secundario);
     margin-bottom: 0.3rem;
   }
   .tags-row { display: flex; flex-wrap: wrap; gap: 0.3rem; }
@@ -340,17 +340,17 @@ const activeDomains = [...new Set(projects.map((p) => p.data.domain))];
     padding: 0.1rem 0.5rem;
     border-radius: 0.35rem;
     font-size: 0.65rem;
-    font-family: monospace;
-    background: var(--color-surface-2);
-    color: var(--color-text-muted);
-    border: 1px solid var(--color-border);
+    font-family: var(--marca-tipografia-familia-mono);
+    background: var(--marca-fondo-elevado);
+    color: var(--marca-texto-secundario);
+    border: 1px solid var(--marca-borde-suave);
   }
   .flag-tag {
     padding: 0.1rem 0.5rem;
     border-radius: 9999px;
     font-size: 0.65rem;
     border: 1px solid color-mix(in srgb, var(--card-color) 30%, transparent);
-    color: color-mix(in srgb, var(--card-color) 45%, var(--color-text));
+    color: color-mix(in srgb, var(--card-color) 45%, var(--marca-texto-principal));
     background: color-mix(in srgb, var(--card-color) 14%, transparent);
     cursor: default;
   }
@@ -376,13 +376,13 @@ const activeDomains = [...new Set(projects.map((p) => p.data.domain))];
     padding: 0.35rem 0.75rem;
     border-radius: 0.75rem;
     font-size: 0.72rem;
-    background: var(--color-surface-2);
-    color: var(--color-text-muted);
-    border: 1px solid var(--color-border);
+    background: var(--marca-fondo-elevado);
+    color: var(--marca-texto-secundario);
+    border: 1px solid var(--marca-borde-suave);
     text-decoration: none;
     transition: color 0.15s;
   }
-  .btn-secondary:hover { color: var(--color-text); }
+  .btn-secondary:hover { color: var(--marca-texto-principal); }
 
   /* Filters */
   .filter-btn {
@@ -390,14 +390,14 @@ const activeDomains = [...new Set(projects.map((p) => p.data.domain))];
     border-radius: 9999px;
     font-size: 0.8125rem;
     font-weight: 500;
-    border: 1px solid var(--color-border);
-    background: var(--color-surface);
-    color: var(--color-text-muted);
+    border: 1px solid var(--marca-borde-suave);
+    background: var(--marca-fondo-superficie);
+    color: var(--marca-texto-secundario);
     cursor: pointer;
     transition: all 0.15s ease;
   }
-  .filter-btn:hover { color: var(--color-text); border-color: var(--color-text-muted); }
-  .filter-btn.active { background: var(--color-text); color: var(--color-bg); border-color: var(--color-text); }
+  .filter-btn:hover { color: var(--marca-texto-principal); border-color: var(--marca-texto-secundario); }
+  .filter-btn.active { background: var(--marca-texto-principal); color: var(--marca-fondo-pagina); border-color: var(--marca-texto-principal); }
 </style>
 
 <script>
@@ -444,9 +444,9 @@ const activeDomains = [...new Set(projects.map((p) => p.data.domain))];
   Object.assign(tooltip.style, {
     position:      "fixed",
     zIndex:        "9999",
-    background:    "var(--color-surface)",
-    color:         "var(--color-text)",
-    border:        "1px solid var(--color-border)",
+    background:    "var(--marca-fondo-superficie)",
+    color:         "var(--marca-texto-principal)",
+    border:        "1px solid var(--marca-borde-suave)",
     borderRadius:  "0.5rem",
     padding:       "0.3rem 0.6rem",
     fontSize:      "0.65rem",

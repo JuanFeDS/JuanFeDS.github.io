@@ -80,7 +80,7 @@ const stackGroups = [
 
         <!-- Hero card — full width -->
         <div
-          class="col-span-12 md:col-span-8 rounded-3xl p-8 md:p-12 mt-0 md:-mt-10 md:grid md:grid-cols-[auto_1fr] md:gap-x-8 bg-surface border border-border"
+          class="col-span-12 md:col-span-8 rounded-3xl p-8 md:p-12 mt-0 md:-mt-10 md:grid md:grid-cols-[auto_1fr] md:gap-x-8 bg-fondo-superficie border border-borde-suave"
         >
           <!-- Badge (fila 1, ancho completo) -->
           <div class="md:col-span-2 md:row-start-1">
@@ -94,7 +94,7 @@ const stackGroups = [
             <div
               class="p-0.5 rounded-full bg-linear-to-br from-aurora-purple to-aurora-teal"
             >
-              <div class="w-24 h-24 rounded-full overflow-hidden bg-surface-2">
+              <div class="w-24 h-24 rounded-full overflow-hidden bg-fondo-elevado">
                 <Image
                   src={avatar}
                   alt="JuanFe Martínez"
@@ -111,7 +111,7 @@ const stackGroups = [
             <div
               class="p-0.5 rounded-full bg-linear-to-br from-aurora-purple to-aurora-teal"
             >
-              <div class="w-40 h-40 rounded-full overflow-hidden bg-surface-2">
+              <div class="w-40 h-40 rounded-full overflow-hidden bg-fondo-elevado">
                 <Image
                   src={avatar}
                   alt="JuanFe Martínez"
@@ -126,7 +126,7 @@ const stackGroups = [
           <!-- H1 (col 2, fila 2) -->
           <div class="mt-3 md:mt-0 md:col-start-2 md:row-start-2 md:pt-3">
             <h1
-              class="text-5xl font-bold leading-tight md:text-6xl lg:text-7xl font-display text-text"
+              class="text-5xl font-bold leading-tight md:text-6xl lg:text-7xl font-titulares text-texto-principal"
             >
               Hola, soy<br />
               <span
@@ -139,7 +139,7 @@ const stackGroups = [
 
           <!-- Description + buttons (fila 3, ancho completo) -->
           <div class="mt-6 md:col-span-2 md:row-start-3">
-            <p class="text-lg text-text-muted">
+            <p class="text-lg text-texto-secundario">
               Curioso por naturaleza, apasionado por aprender, construir y compartir.
               Combino ciencia de datos e ingeniería para resolver problemas reales a gran escala.
             </p>
@@ -152,7 +152,7 @@ const stackGroups = [
               </a>
               <a
                 href="/about/"
-                class="rounded-full px-6 py-2.5 text-sm font-semibold transition-colors bg-surface-2 border border-border text-text"
+                class="rounded-full px-6 py-2.5 text-sm font-semibold transition-colors bg-fondo-elevado border border-borde-suave text-texto-principal"
               >
                 Sobre mí
               </a>
@@ -162,7 +162,7 @@ const stackGroups = [
 
         <!-- Complexity Profile card -->
         <div
-          class="col-span-12 md:col-span-4 rounded-3xl flex flex-col mt-0 md:-mt-10 bg-surface border border-border"
+          class="col-span-12 md:col-span-4 rounded-3xl flex flex-col mt-0 md:-mt-10 bg-fondo-superficie border border-borde-suave"
         >
           <!-- Header -->
           <div class="relative px-6 pt-5 pb-2">
@@ -171,10 +171,10 @@ const stackGroups = [
               style="background: radial-gradient(ellipse at 70% 0%, var(--color-aurora-teal) 0%, transparent 70%);"
             />
             <div class="relative flex items-center justify-between">
-              <span class="text-xs font-semibold uppercase tracking-widest text-text-muted">Complexity Profile</span>
+              <span class="text-xs font-semibold uppercase tracking-widest text-texto-secundario">Complexity Profile</span>
               <a href="/blog/the-scientist-complexity-framework/" class="text-xs transition-opacity hover:opacity-70 text-aurora-purple">¿Qué es esto? →</a>
             </div>
-            <p class="relative mt-2 text-xs leading-relaxed text-text-muted">
+            <p class="relative mt-2 text-xs leading-relaxed text-texto-secundario">
               Cada proyecto clasificado por nivel de sistema y scored en cuatro dimensiones: arquitectura, datos, infraestructura e IA.
             </p>
           </div>
@@ -182,7 +182,7 @@ const stackGroups = [
           <!-- Level distribution -->
           <div class="flex-1 flex flex-col justify-center px-5 py-4">
             <div class="flex items-center gap-1.5 mb-3">
-              <p class="text-[9px] font-bold uppercase tracking-widest text-text-muted">Distribución por nivel</p>
+              <p class="text-[9px] font-bold uppercase tracking-widest text-texto-secundario">Distribución por nivel</p>
               <div class="matrix-help" tabindex="0">
                 <span class="matrix-help-icon">?</span>
                 <div class="matrix-help-popup">
@@ -205,7 +205,7 @@ const stackGroups = [
                     title={levelName[level]}
                     style={`color: ${levelColor[level]};`}
                   >{level}</span>
-                  <div class="flex-1 h-2 rounded-full overflow-hidden bg-surface-2">
+                  <div class="flex-1 h-2 rounded-full overflow-hidden bg-fondo-elevado">
                     <div
                       class="h-full rounded-full"
                       style={`width: ${count > 0 ? Math.max(count / maxLevelCount * 100, 5) : 0}%; background: ${levelColor[level]};`}
@@ -213,7 +213,7 @@ const stackGroups = [
                   </div>
                   <span
                     class="text-[10px] font-bold w-3 flex-shrink-0 tabular-nums text-right"
-                    style={`color: ${count > 0 ? levelColor[level] : "var(--color-border)"};`}
+                    style={`color: ${count > 0 ? levelColor[level] : "var(--marca-borde-suave)"};`}
                   >{count}</span>
                 </div>
               ))}
@@ -221,9 +221,9 @@ const stackGroups = [
           </div>
 
           <!-- Footer: matriz niveles × dimensiones -->
-          <div class="px-4 pt-3 pb-4 border-t border-border">
+          <div class="px-4 pt-3 pb-4 border-t border-borde-suave">
             <div class="flex items-center gap-1.5 mb-2">
-              <p class="text-[9px] font-bold uppercase tracking-widest text-text-muted">Score promedio por nivel</p>
+              <p class="text-[9px] font-bold uppercase tracking-widest text-texto-secundario">Score promedio por nivel</p>
               <div class="matrix-help" tabindex="0">
                 <span class="matrix-help-icon">?</span>
                 <div class="matrix-help-popup">
@@ -280,13 +280,13 @@ const stackGroups = [
 
         <!-- Stack card -->
         <div
-          class="col-span-12 md:col-span-4 rounded-3xl p-6 flex flex-col gap-5 relative overflow-hidden bg-surface border border-border"
+          class="col-span-12 md:col-span-4 rounded-3xl p-6 flex flex-col gap-5 relative overflow-hidden bg-fondo-superficie border border-borde-suave"
         >
           <!-- Glow -->
           <div class="absolute inset-0 pointer-events-none opacity-10"
             style="background: radial-gradient(ellipse at 80% 20%, var(--color-aurora-purple) 0%, transparent 65%);" />
 
-          <p class="relative text-xs font-semibold uppercase tracking-widest text-text-muted">Stack</p>
+          <p class="relative text-xs font-semibold uppercase tracking-widest text-texto-secundario">Stack</p>
 
           <div class="relative flex flex-col gap-4">
             {stackGroups.map(({ label, color, techs }, gi) => (
@@ -297,7 +297,7 @@ const stackGroups = [
                     <a
                       href={`/projects/?tech=${encodeURIComponent(tech)}`}
                       class={`stack-pill rounded-full px-3 py-1 text-xs font-medium transition-opacity hover:opacity-70${ti >= 3 ? " stack-overflow hidden" : ""}`}
-                      style={`background: color-mix(in srgb, ${color} 10%, transparent); border: 1px solid color-mix(in srgb, ${color} 25%, transparent); color: var(--color-text); text-decoration: none;`}
+                      style={`background: color-mix(in srgb, ${color} 10%, transparent); border: 1px solid color-mix(in srgb, ${color} 25%, transparent); color: var(--marca-texto-principal); text-decoration: none;`}
                     >
                       {tech}
                     </a>
@@ -320,9 +320,9 @@ const stackGroups = [
 
         <!-- Featured projects -->
         {projects.length > 0 && (
-          <div class="col-span-12 md:col-span-8 rounded-3xl p-6 bg-surface border border-border">
+          <div class="col-span-12 md:col-span-8 rounded-3xl p-6 bg-fondo-superficie border border-borde-suave">
             <div class="mb-5 flex items-center justify-between">
-              <p class="text-xs font-semibold uppercase tracking-widest text-text-muted">Proyectos recientes</p>
+              <p class="text-xs font-semibold uppercase tracking-widest text-texto-secundario">Proyectos recientes</p>
               <a href="/projects/" class="text-xs text-aurora-purple">Ver todos →</a>
             </div>
             <div class="grid grid-cols-1 gap-4">
@@ -347,12 +347,12 @@ const stackGroups = [
                       <span class="project-domain block text-[10px] font-bold uppercase tracking-widest mb-0.5">
                         {domainLabel[p.data.domain]}
                       </span>
-                      <p class="project-title font-bold text-sm leading-snug font-display">
+                      <p class="project-title font-bold text-sm leading-snug font-titulares">
                         {p.data.title}
                       </p>
                     </div>
                     <!-- Divisor -->
-                    <div class="project-divider h-8 w-px flex-shrink-0 bg-border" />
+                    <div class="project-divider h-8 w-px flex-shrink-0 bg-borde-suave" />
                     <!-- 70% derecha: descripción -->
                     <div class="flex-1 min-w-0">
                       <p class="project-desc text-sm leading-snug line-clamp-2">
@@ -370,17 +370,17 @@ const stackGroups = [
         {posts.length > 0 && (
           <div
             class="col-span-12 rounded-3xl p-6"
-            style="background: linear-gradient(135deg, color-mix(in srgb, var(--color-aurora-purple) 8%, var(--color-surface)), var(--color-surface)); border: 1px solid var(--color-border);"
+            style="background: linear-gradient(135deg, color-mix(in srgb, var(--color-aurora-purple) 8%, var(--marca-fondo-superficie)), var(--marca-fondo-superficie)); border: 1px solid var(--marca-borde-suave);"
           >
             <div class="mb-5 flex items-center justify-between">
-              <p class="text-xs font-semibold uppercase tracking-widest text-text-muted">Últimas entradas</p>
+              <p class="text-xs font-semibold uppercase tracking-widest text-texto-secundario">Últimas entradas</p>
               <a href="/blog/" class="text-xs text-aurora-purple">Ver blog →</a>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
               {posts.map((post) => (
                 <a
                   href={`/blog/${post.id}/`}
-                  class="group flex flex-col justify-between gap-4 rounded-2xl p-5 transition-colors bg-surface border border-border"
+                  class="group flex flex-col justify-between gap-4 rounded-2xl p-5 transition-colors bg-fondo-superficie border border-borde-suave"
                 >
                   <div>
                     {post.data.tags?.length > 0 && (
@@ -390,11 +390,11 @@ const stackGroups = [
                         {post.data.tags[0]}
                       </span>
                     )}
-                    <p class="font-semibold leading-snug group-hover:underline font-display text-text">{post.data.title}</p>
-                    <p class="mt-2 text-sm leading-relaxed text-text-muted">{post.data.description}</p>
+                    <p class="font-semibold leading-snug group-hover:underline font-titulares text-texto-principal">{post.data.title}</p>
+                    <p class="mt-2 text-sm leading-relaxed text-texto-secundario">{post.data.description}</p>
                   </div>
                   <div class="flex items-center justify-between">
-                    <time class="text-xs text-text-muted">
+                    <time class="text-xs text-texto-secundario">
                       {new Date(post.data.date).toLocaleDateString("es-ES", { year: "numeric", month: "short", day: "numeric" })}
                     </time>
                     <span class="text-xs font-medium transition-transform group-hover:translate-x-1 inline-block text-aurora-purple">Leer →</span>
@@ -410,7 +410,7 @@ const stackGroups = [
   </main>
 
   <footer
-    class="border-t px-6 py-10 text-center text-sm border-border text-text-muted"
+    class="border-t px-6 py-10 text-center text-sm border-borde-suave text-texto-secundario"
   >
     <p>&copy; {new Date().getFullYear()} 🧪JuanFeDS &mdash; Hecho con Astro</p>
   </footer>
@@ -443,7 +443,7 @@ const stackGroups = [
     letter-spacing: 0.05em;
     text-transform: uppercase;
     text-align: center;
-    color: var(--color-text-muted);
+    color: var(--marca-texto-secundario);
     padding-bottom: 2px;
   }
   .matrix-row-label {
@@ -461,10 +461,10 @@ const stackGroups = [
     justify-content: center;
     font-size: 11px;
     font-weight: 700;
-    border: 1px solid var(--color-border);
+    border: 1px solid var(--marca-borde-suave);
   }
   .matrix-empty {
-    color: var(--color-border);
+    color: var(--marca-borde-suave);
     font-weight: 400;
     font-size: 13px;
     line-height: 1;
@@ -479,11 +479,11 @@ const stackGroups = [
     width: 13px;
     height: 13px;
     border-radius: 50%;
-    border: 1px solid var(--color-text-muted);
+    border: 1px solid var(--marca-texto-secundario);
     font-size: 8px;
     font-weight: 700;
-    font-family: monospace;
-    color: var(--color-text-muted);
+    font-family: var(--marca-tipografia-familia-mono);
+    color: var(--marca-texto-secundario);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -502,13 +502,13 @@ const stackGroups = [
     bottom: calc(100% + 6px);
     left: 50%;
     transform: translateX(-50%);
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
+    background: var(--marca-fondo-superficie);
+    border: 1px solid var(--marca-borde-suave);
     padding: 10px 12px;
     border-radius: 8px;
     width: min(220px, calc(100vw - 48px));
     font-size: 10px;
-    color: var(--color-text-muted);
+    color: var(--marca-texto-secundario);
     pointer-events: none;
     opacity: 0;
     transition: opacity 0.15s;
@@ -525,7 +525,7 @@ const stackGroups = [
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.06em;
-    color: var(--color-text-muted);
+    color: var(--marca-texto-secundario);
     margin-bottom: 4px;
   }
   .matrix-help-grid {
@@ -536,8 +536,8 @@ const stackGroups = [
 
   .project-card {
     min-height: 78px;
-    background: var(--color-surface-2);
-    border: 1px solid var(--color-border);
+    background: var(--marca-fondo-elevado);
+    border: 1px solid var(--marca-borde-suave);
     cursor: pointer;
     text-decoration: none;
     padding-top: 0.75rem;
@@ -570,19 +570,19 @@ const stackGroups = [
 
   /* Textos: cambian a blanco cuando la imagen aparece */
   .project-domain {
-    color: var(--color-text);
+    color: var(--marca-texto-principal);
     transition: color 0.2s ease 0.35s;
   }
   .project-card:hover .project-domain { color: rgba(255, 255, 255, 0.65); }
 
   .project-title {
-    color: var(--color-text);
+    color: var(--marca-texto-principal);
     transition: color 0.2s ease 0.35s;
   }
   .project-card:hover .project-title { color: white; }
 
   .project-desc {
-    color: var(--color-text-muted);
+    color: var(--marca-texto-secundario);
     transition: color 0.2s ease 0.35s;
   }
   .project-card:hover .project-desc { color: rgba(255, 255, 255, 0.75); }

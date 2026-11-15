@@ -136,5 +136,5 @@ export const categoryColor: Record<string, string> = {
   "Backend":      "var(--color-aurora-blue)",
   "Frontend":     "var(--color-cat-frontend)",
   "Cloud & Data": "var(--color-cat-cloud)",
-  "Otros":        "var(--color-text-muted)",
+  "Otros":        "var(--marca-texto-secundario)",
 };

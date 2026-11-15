@@ -117,7 +117,7 @@ const formattedDate = new Date(date).toLocaleDateString("es-ES", {
             <p class="meta-label">Complexity Flags</p>
             <div class="flags-row">
               {flags.map((flag) => (
-                <span class="flag-tag" style={`color: color-mix(in srgb, ${color} 45%, var(--color-text)); background: ${color}18; border-color: ${color}33;`}>
+                <span class="flag-tag" style={`color: color-mix(in srgb, ${color} 45%, var(--marca-texto-principal)); background: ${color}18; border-color: ${color}33;`}>
                   {flagLabel[flag]}
                 </span>
               ))}
@@ -203,7 +203,7 @@ const formattedDate = new Date(date).toLocaleDateString("es-ES", {
     color: rgba(255,255,255,0.75);
   }
   .hero-title {
-    font-family: var(--font-display);
+    font-family: var(--marca-tipografia-familia-titulares);
     font-size: 2.5rem;
     font-weight: 800;
     color: white;
@@ -291,8 +291,8 @@ const formattedDate = new Date(date).toLocaleDateString("es-ES", {
     margin-top: 1.5rem;
     border-radius: 1rem;
     overflow: hidden;
-    border: 1px solid var(--color-border);
-    background: var(--color-surface);
+    border: 1px solid var(--marca-borde-suave);
+    background: var(--marca-fondo-superficie);
     box-shadow: 0 4px 24px rgba(0,0,0,0.06);
   }
   .meta-block {
@@ -303,7 +303,7 @@ const formattedDate = new Date(date).toLocaleDateString("es-ES", {
   .meta-chart { flex: 2; min-width: 220px; }
   .meta-divider {
     width: 1px;
-    background: var(--color-border);
+    background: var(--marca-borde-suave);
     align-self: stretch;
   }
   .meta-label-row {
@@ -322,16 +322,16 @@ const formattedDate = new Date(date).toLocaleDateString("es-ES", {
     border-radius: 9999px;
     font-size: 0.55rem;
     font-weight: 700;
-    border: 1px solid var(--color-border);
-    color: var(--color-text-muted);
+    border: 1px solid var(--marca-borde-suave);
+    color: var(--marca-texto-secundario);
     text-decoration: none;
     flex-shrink: 0;
     transition: all 0.15s;
   }
   .meta-help:hover {
-    background: var(--color-text);
-    color: var(--color-bg);
-    border-color: var(--color-text);
+    background: var(--marca-texto-principal);
+    color: var(--marca-fondo-pagina);
+    border-color: var(--marca-texto-principal);
   }
 
   .meta-label {
@@ -339,24 +339,24 @@ const formattedDate = new Date(date).toLocaleDateString("es-ES", {
     font-weight: 700;
     letter-spacing: 0.07em;
     text-transform: uppercase;
-    color: var(--color-text-muted);
+    color: var(--marca-texto-secundario);
     margin-bottom: 0.4rem;
   }
   .meta-value {
     font-size: 0.82rem;
     font-weight: 600;
-    color: var(--color-text);
+    color: var(--marca-texto-principal);
   }
 
   /* Chart */
   .chart-grid { display: flex; flex-direction: column; gap: 0.3rem; }
   .chart-row { display: flex; align-items: center; gap: 0.5rem; }
-  .chart-label { width: 7rem; font-size: 0.62rem; color: var(--color-text-muted); flex-shrink: 0; }
+  .chart-label { width: 7rem; font-size: 0.62rem; color: var(--marca-texto-secundario); flex-shrink: 0; }
   .chart-track {
     flex: 1;
     height: 5px;
     border-radius: 9999px;
-    background: var(--color-surface-2);
+    background: var(--marca-fondo-elevado);
     overflow: hidden;
   }
   .chart-fill { height: 100%; border-radius: 9999px; }
@@ -375,10 +375,10 @@ const formattedDate = new Date(date).toLocaleDateString("es-ES", {
     padding: 0.15rem 0.5rem;
     border-radius: 0.35rem;
     font-size: 0.68rem;
-    font-family: monospace;
-    background: var(--color-surface-2);
-    color: var(--color-text-muted);
-    border: 1px solid var(--color-border);
+    font-family: var(--marca-tipografia-familia-mono);
+    background: var(--marca-fondo-elevado);
+    color: var(--marca-texto-secundario);
+    border: 1px solid var(--marca-borde-suave);
   }
 
   /* Summary */
@@ -386,9 +386,9 @@ const formattedDate = new Date(date).toLocaleDateString("es-ES", {
     margin-top: 1.25rem;
     font-size: 0.85rem;
     line-height: 1.6;
-    color: var(--color-text-muted);
+    color: var(--marca-texto-secundario);
     font-style: italic;
-    border-left: 2px solid var(--color-border);
+    border-left: 2px solid var(--marca-borde-suave);
     padding-left: 0.75rem;
   }
 

@@ -80,7 +80,7 @@ const nextGrad = next ? gradients[next.data.week % gradients.length] : null;
             <span class="text-xs font-medium text-white/75">{tool}</span>
           )}
         </div>
-        <h1 class="text-3xl md:text-4xl font-bold text-white leading-tight font-display">
+        <h1 class="text-3xl md:text-4xl font-bold text-white leading-tight font-titulares">
           {title}
         </h1>
         {description && (
@@ -92,10 +92,10 @@ const nextGrad = next ? gradients[next.data.week % gradients.length] : null;
     <!-- Content -->
     <div class="mx-auto max-w-3xl px-6 py-12">
       {(source_url || dataset_url) && (
-        <div class="mb-8 rounded-xl overflow-hidden border border-border max-w-[65ch]">
+        <div class="mb-8 rounded-xl overflow-hidden border border-borde-suave max-w-[65ch]">
           {source_url && (
-            <div class="px-4 py-3 flex items-center gap-3 bg-surface">
-              <span class="text-xs font-semibold uppercase tracking-widest text-text-muted">Artículo original</span>
+            <div class="px-4 py-3 flex items-center gap-3 bg-fondo-superficie">
+              <span class="text-xs font-semibold uppercase tracking-widest text-texto-secundario">Artículo original</span>
               <a
                 href={source_url}
                 target="_blank"
@@ -107,8 +107,8 @@ const nextGrad = next ? gradients[next.data.week % gradients.length] : null;
             </div>
           )}
           {dataset_url && (
-            <div class="px-4 py-3 flex items-center gap-3 bg-surface border-t border-border">
-              <span class="text-xs font-semibold uppercase tracking-widest text-text-muted">Dataset</span>
+            <div class="px-4 py-3 flex items-center gap-3 bg-fondo-superficie border-t border-borde-suave">
+              <span class="text-xs font-semibold uppercase tracking-widest text-texto-secundario">Dataset</span>
               <a
                 href={dataset_url}
                 target="_blank"
@@ -126,7 +126,7 @@ const nextGrad = next ? gradients[next.data.week % gradients.length] : null;
         <Content />
       </div>
 
-      <nav class="mt-14 pt-6 grid grid-cols-3 items-center gap-4 border-t border-border">
+      <nav class="mt-14 pt-6 grid grid-cols-3 items-center gap-4 border-t border-borde-suave">
 
         <!-- Anterior -->
         <div class="flex justify-start">
@@ -142,7 +142,7 @@ const nextGrad = next ? gradients[next.data.week % gradients.length] : null;
         <div class="flex justify-center">
           <a
             href="/makeover-monday/"
-            class="text-xs font-semibold uppercase tracking-widest transition-opacity hover:opacity-70 text-text-muted"
+            class="text-xs font-semibold uppercase tracking-widest transition-opacity hover:opacity-70 text-texto-secundario"
           >
             Ver galería
           </a>
@@ -256,7 +256,7 @@ const nextGrad = next ? gradients[next.data.week % gradients.length] : null;
   .entry-nav-title {
     font-size: 0.78rem;
     font-weight: 600;
-    color: var(--color-text);
+    color: var(--marca-texto-principal);
     line-height: 1.4;
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -269,11 +269,11 @@ const nextGrad = next ? gradients[next.data.week % gradients.length] : null;
     display: flex;
     flex-wrap: wrap;
     gap: 0;
-    border: 1px solid var(--color-border);
+    border: 1px solid var(--marca-borde-suave);
     border-radius: 12px;
     overflow: hidden;
     margin: 0.5rem 0 2rem;
-    background: var(--color-surface);
+    background: var(--marca-fondo-superficie);
   }
   :global(.ficha-item) {
     display: flex;
@@ -281,8 +281,8 @@ const nextGrad = next ? gradients[next.data.week % gradients.length] : null;
     gap: 2px;
     padding: 12px 16px;
     flex: 1 1 140px;
-    border-right: 1px solid var(--color-border);
-    border-bottom: 1px solid var(--color-border);
+    border-right: 1px solid var(--marca-borde-suave);
+    border-bottom: 1px solid var(--marca-borde-suave);
   }
   :global(.ficha-item:last-child) {
     border-right: none;
@@ -292,12 +292,12 @@ const nextGrad = next ? gradients[next.data.week % gradients.length] : null;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    color: var(--color-text-muted);
+    color: var(--marca-texto-secundario);
   }
   :global(.ficha-value) {
     font-size: 0.8rem;
     font-weight: 600;
-    color: var(--color-text);
+    color: var(--marca-texto-principal);
   }
   :global(.ficha-link) {
     color: var(--color-aurora-teal) !important;
@@ -315,13 +315,13 @@ const nextGrad = next ? gradients[next.data.week % gradients.length] : null;
     width: 100%;
     height: auto;
     border-radius: 12px;
-    border: 1px solid var(--color-border);
+    border: 1px solid var(--marca-borde-suave);
     margin: 0;
   }
   :global(.prose figcaption) {
     text-align: center;
     font-size: 0.75rem;
-    color: var(--color-text-muted);
+    color: var(--marca-texto-secundario);
     margin-top: 0.5rem;
     font-style: italic;
   }

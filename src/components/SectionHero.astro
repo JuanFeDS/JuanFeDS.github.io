@@ -22,8 +22,8 @@ const widthClass = { "3xl": "max-w-3xl", "5xl": "max-w-5xl" }[width];
     <header class="flex flex-wrap items-end justify-between gap-6">
       <div>
         <p class={`mb-2 text-sm font-medium ${accentClass}`}>{eyebrow}</p>
-        <h1 class="section-title font-bold font-display text-text">{title}</h1>
-        <p class="mt-4 max-w-2xl text-lg text-text-muted"><slot /></p>
+        <h1 class="section-title font-bold font-titulares text-texto-principal">{title}</h1>
+        <p class="mt-4 max-w-2xl text-lg text-texto-secundario"><slot /></p>
       </div>
       <slot name="aside" />
     </header>

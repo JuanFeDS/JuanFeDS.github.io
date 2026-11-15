@@ -18,7 +18,7 @@ const defaultColumns = 3;
   <SectionHero eyebrow="Herramientas" title="Tools" accent="teal">
     Apps pequeñas que ya funcionan y que puedes usar sin instalar nada. Cada una vive en su propio repositorio.
     <div slot="aside" class="cols-picker hidden md:flex">
-      <label for="cols-range" class="text-xs text-text-muted">Por fila</label>
+      <label for="cols-range" class="text-xs text-texto-secundario">Por fila</label>
       <input
         id="cols-range"
         class="cols-range"
@@ -35,7 +35,7 @@ const defaultColumns = 3;
 
   <div class="mx-auto max-w-5xl px-6 pb-16">
     {tools.length === 0 ? (
-      <p class="text-text-muted">Próximamente...</p>
+      <p class="text-texto-secundario">Próximamente...</p>
     ) : (
       <div class="tools-grid" id="tools-grid" data-cols={defaultColumns}>
         {tools.map((tool, index) => <ToolCard tool={tool} index={index} />)}
@@ -63,10 +63,10 @@ const defaultColumns = 3;
   }
   .cols-output {
     min-width: 1ch;
-    font-family: var(--font-display);
+    font-family: var(--marca-tipografia-familia-titulares);
     font-size: 1.1rem;
     font-weight: 700;
-    color: var(--color-text);
+    color: var(--marca-texto-principal);
   }
   .cols-range {
     -webkit-appearance: none;
@@ -79,12 +79,12 @@ const defaultColumns = 3;
   .cols-range::-webkit-slider-runnable-track {
     height: 6px;
     border-radius: 9999px;
-    background: linear-gradient(to right, var(--color-aurora-purple) var(--fill), var(--color-border) var(--fill));
+    background: linear-gradient(to right, var(--color-aurora-purple) var(--fill), var(--marca-borde-suave) var(--fill));
   }
   .cols-range::-moz-range-track {
     height: 6px;
     border-radius: 9999px;
-    background: linear-gradient(to right, var(--color-aurora-purple) var(--fill), var(--color-border) var(--fill));
+    background: linear-gradient(to right, var(--color-aurora-purple) var(--fill), var(--marca-borde-suave) var(--fill));
   }
   .cols-range::-webkit-slider-thumb {
     -webkit-appearance: none;
