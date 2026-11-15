@@ -5,7 +5,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Nav from "../components/Nav.astro";
 import avatar from "../assets/avatar.jpg";
 import {
-  domainLabel, domainFill, levelName, levelColor, levelDesc,
+  domainLabel, domainFill, levelName, levelColor, levelTextColor, levelDesc,
   matrixDims, techCategoryMap, categoryOrder, categoryColor,
 } from "../lib/taxonomy";
 
@@ -72,7 +72,7 @@ const stackGroups = [
 <BaseLayout title="JuanFe Martínez — Data Scientist & Engineer">
   <Nav />
 
-  <main class="fondo-aurora min-h-screen pt-20">
+  <main class="fondo-aurora marca-deriva min-h-screen pt-20">
     <div class="relative z-10 mx-auto max-w-6xl px-6 py-16">
 
       <!-- Bento Grid -->
@@ -92,7 +92,7 @@ const stackGroups = [
           <!-- Avatar mobile (visible solo en mobile, centrado bajo el badge) -->
           <div class="flex justify-center mt-4 mb-1 md:hidden">
             <div
-              class="p-0.5 rounded-full bg-linear-to-br from-marca-fuerte to-violeta-600"
+              class="p-0.5 rounded-full bg-(image:--marca-degradado-marca)"
             >
               <div class="w-24 h-24 rounded-full overflow-hidden bg-fondo-elevado">
                 <Image
@@ -109,7 +109,7 @@ const stackGroups = [
           <!-- Avatar (col 1, fila 2, desktop only) -->
           <div class="hidden md:flex md:items-center md:justify-center md:col-start-1 md:row-start-2 md:pt-6">
             <div
-              class="p-0.5 rounded-full bg-linear-to-br from-marca-fuerte to-violeta-600"
+              class="p-0.5 rounded-full bg-(image:--marca-degradado-marca)"
             >
               <div class="w-40 h-40 rounded-full overflow-hidden bg-fondo-elevado">
                 <Image
@@ -130,7 +130,7 @@ const stackGroups = [
             >
               Hola, soy<br />
               <span
-                class="bg-linear-to-br from-marca-texto to-senal-texto-grande bg-clip-text text-transparent"
+                class="bg-(image:--marca-degradado-marca) bg-clip-text text-transparent"
               >
                 JuanFe
               </span>
@@ -146,7 +146,7 @@ const stackGroups = [
             <div class="mt-8 flex flex-wrap gap-3">
               <a
                 href="/projects/"
-                class="rounded-full px-6 py-2.5 text-sm font-semibold text-marca-sobre-fuerte transition-opacity hover:opacity-90 bg-linear-to-br from-marca-fuerte to-violeta-600"
+                class="rounded-full px-6 py-2.5 text-sm font-semibold text-marca-sobre-fuerte transition-opacity hover:opacity-90 bg-(image:--marca-degradado-boton)"
               >
                 Ver proyectos
               </a>
@@ -188,11 +188,11 @@ const stackGroups = [
                 <div class="matrix-help-popup">
                   <p class="matrix-help-section">Niveles · tipo de sistema</p>
                   <div class="flex flex-col gap-[2px]">
-                    <span><b style="color: var(--nivel-sitio-1);">1</b> · Standalone Script</span>
-                    <span><b style="color: var(--nivel-sitio-2);">2</b> · Static App</span>
-                    <span><b style="color: var(--nivel-sitio-3);">3</b> · Basic Backend</span>
-                    <span><b style="color: var(--nivel-sitio-4);">4</b> · Distributed System</span>
-                    <span><b style="color: var(--nivel-sitio-5);">5</b> · Complex Platform</span>
+                    <span><b style="color: var(--marca-nivel-texto-1);">1</b> · Standalone Script</span>
+                    <span><b style="color: var(--marca-nivel-texto-2);">2</b> · Static App</span>
+                    <span><b style="color: var(--marca-nivel-texto-3);">3</b> · Basic Backend</span>
+                    <span><b style="color: var(--marca-nivel-texto-4);">4</b> · Distributed System</span>
+                    <span><b style="color: var(--marca-nivel-texto-5);">5</b> · Complex Platform</span>
                   </div>
                 </div>
               </div>
@@ -203,7 +203,7 @@ const stackGroups = [
                   <span
                     class="text-[10px] font-bold w-3 flex-shrink-0 text-right cursor-default"
                     title={levelName[level]}
-                    style={`color: ${levelColor[level]};`}
+                    style={`color: ${levelTextColor[level]};`}
                   >{level}</span>
                   <div class="flex-1 h-2 rounded-full overflow-hidden bg-fondo-elevado">
                     <div
@@ -213,7 +213,7 @@ const stackGroups = [
                   </div>
                   <span
                     class="text-[10px] font-bold w-3 flex-shrink-0 tabular-nums text-right"
-                    style={`color: ${count > 0 ? levelColor[level] : "var(--marca-borde-suave)"};`}
+                    style={`color: ${count > 0 ? levelTextColor[level] : "var(--marca-borde-suave)"};`}
                   >{count}</span>
                 </div>
               ))}
@@ -229,11 +229,11 @@ const stackGroups = [
                 <div class="matrix-help-popup">
                   <p class="matrix-help-section">Niveles de complejidad</p>
                   <div class="matrix-help-grid">
-                    <span><b style="color: var(--nivel-sitio-1);">1</b> Standalone Script</span>
-                    <span><b style="color: var(--nivel-sitio-2);">2</b> Static App</span>
-                    <span><b style="color: var(--nivel-sitio-3);">3</b> Basic Backend</span>
-                    <span><b style="color: var(--nivel-sitio-4);">4</b> Distributed System</span>
-                    <span><b style="color: var(--nivel-sitio-5);">5</b> Complex Platform</span>
+                    <span><b style="color: var(--marca-nivel-texto-1);">1</b> Standalone Script</span>
+                    <span><b style="color: var(--marca-nivel-texto-2);">2</b> Static App</span>
+                    <span><b style="color: var(--marca-nivel-texto-3);">3</b> Basic Backend</span>
+                    <span><b style="color: var(--marca-nivel-texto-4);">4</b> Distributed System</span>
+                    <span><b style="color: var(--marca-nivel-texto-5);">5</b> Complex Platform</span>
                   </div>
                   <p class="matrix-help-section mt-2">Dimensiones · score 1–5</p>
                   <div class="matrix-help-grid">
@@ -255,12 +255,12 @@ const stackGroups = [
               <!-- Filas de nivel -->
               {projectMatrix.map(({ level, count, cells }) => (
                 <>
-                  <div class="matrix-row-label" title={levelDesc[level]} style={`color: ${levelColor[level]};`}>{level}</div>
+                  <div class="matrix-row-label" title={levelDesc[level]} style={`color: ${levelTextColor[level]};`}>{level}</div>
                   {cells.map(({ avg }) => (
                     <div
                       class="matrix-cell"
                       style={avg !== null && avg > 0
-                        ? `background: color-mix(in srgb, ${levelColor[level]} ${Math.round((avg - 1) / 4 * 70 + 10)}%, transparent); color: ${levelColor[level]};`
+                        ? `background: color-mix(in srgb, ${levelColor[level]} ${Math.round((avg - 1) / 4 * 70 + 10)}%, transparent); color: ${levelTextColor[level]};`
                         : ""}
                     >
                       {avg !== null && avg > 0 ? avg : null}
@@ -268,7 +268,7 @@ const stackGroups = [
                   ))}
                   <div
                     class="matrix-cell"
-                    style={count > 0 ? `color: ${levelColor[level]}; opacity: 0.6;` : ""}
+                    style={count > 0 ? `color: ${levelTextColor[level]}; opacity: 0.6;` : ""}
                   >
                     {count > 0 ? count : null}
                   </div>
@@ -409,7 +409,7 @@ const stackGroups = [
   </main>
 
   <footer
-    class="border-t px-6 py-8 text-sm border-borde-suave text-texto-secundario dark:bg-consola-fondo/90"
+    class="border-t px-6 py-8 text-sm border-borde-suave text-texto-secundario dark:bg-fondo-barra/90"
   >
     <div class="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-x-6 gap-y-3">
       <p class="font-titulares text-base font-bold text-texto-principal">🧪JuanFe<span class="text-senal-texto-grande">DS</span></p>
