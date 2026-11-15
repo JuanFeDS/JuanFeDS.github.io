@@ -16,7 +16,7 @@ const domainKey: Record<string, string> = {
   "mobile":           "movil",
 };
 
-const domainFillOf = (domain: string) => `var(--marca-dominio-claro-${domainKey[domain]})`;
+const domainFillOf = (domain: string) => `var(--marca-dominio-relleno-${domainKey[domain]})`;
 
 export const domainColor: Record<string, string> = Object.fromEntries(
   Object.keys(domainKey).map((domain) => [domain, `var(--marca-dominio-${domainKey[domain]})`]),
@@ -44,11 +44,19 @@ export const levelName: Record<number, string> = {
 };
 
 export const levelColor: Record<number, string> = {
-  1: "var(--nivel-sitio-1)",
-  2: "var(--nivel-sitio-2)",
-  3: "var(--nivel-sitio-3)",
-  4: "var(--nivel-sitio-4)",
-  5: "var(--nivel-sitio-5)",
+  1: "var(--marca-nivel-color-1)",
+  2: "var(--marca-nivel-color-2)",
+  3: "var(--marca-nivel-color-3)",
+  4: "var(--marca-nivel-color-4)",
+  5: "var(--marca-nivel-color-5)",
+};
+
+export const levelTextColor: Record<number, string> = {
+  1: "var(--marca-nivel-texto-1)",
+  2: "var(--marca-nivel-texto-2)",
+  3: "var(--marca-nivel-texto-3)",
+  4: "var(--marca-nivel-texto-4)",
+  5: "var(--marca-nivel-texto-5)",
 };
 
 export const levelDot: Record<number, string> = {
@@ -131,10 +139,10 @@ export const techCategoryMap: Record<string, string> = {
 export const categoryOrder = ["Lenguajes", "ML / IA", "Backend", "Frontend", "Cloud & Data"];
 
 export const categoryColor: Record<string, string> = {
-  "Lenguajes":    "var(--marca-dominio-data-engineering)",
-  "ML / IA":      "var(--marca-dominio-ia)",
-  "Backend":      "var(--marca-dominio-movil)",
-  "Frontend":     "var(--marca-dominio-analitica)",
-  "Cloud & Data": "var(--marca-dominio-machine-learning)",
+  "Lenguajes":    "var(--marca-categoria-lenguajes)",
+  "ML / IA":      "var(--marca-categoria-ml-ia)",
+  "Backend":      "var(--marca-categoria-backend)",
+  "Frontend":     "var(--marca-categoria-frontend)",
+  "Cloud & Data": "var(--marca-categoria-cloud-data)",
   "Otros":        "var(--marca-texto-secundario)",
 };

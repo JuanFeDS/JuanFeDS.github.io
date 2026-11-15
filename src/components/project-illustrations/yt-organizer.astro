@@ -32,7 +32,7 @@ const tiles = rows.flatMap((y, rowIndex) =>
         width={category.bar}
         height="5"
         rx="2.5"
-        fill={category.active ? "var(--marca-dominio-claro-web)" : "color-mix(in oklch, var(--marca-marca-sobre-fuerte) 90%, transparent)"}
+        fill={category.active ? "var(--marca-dominio-relleno-web)" : "color-mix(in oklch, var(--marca-marca-sobre-fuerte) 90%, transparent)"}
       />
     </g>
   ))}
@@ -51,9 +51,9 @@ const tiles = rows.flatMap((y, rowIndex) =>
       />
       <path
         d={`M${tile.x + 28} ${tile.y + 12} L${tile.x + 41} ${tile.y + 20} L${tile.x + 28} ${tile.y + 28} Z`}
-        fill={tile.focal ? "var(--marca-dominio-claro-web)" : "color-mix(in oklch, var(--marca-marca-sobre-fuerte) 90%, transparent)"}
+        fill={tile.focal ? "var(--marca-dominio-relleno-web)" : "color-mix(in oklch, var(--marca-marca-sobre-fuerte) 90%, transparent)"}
       />
-      <rect x={tile.x + 9} y={tile.y + 36} width="38" height="5" rx="2.5" fill={tile.focal ? "var(--marca-dominio-claro-web)" : "color-mix(in oklch, var(--marca-marca-sobre-fuerte) 90%, transparent)"} opacity={tile.focal ? 0.5 : 1} />
+      <rect x={tile.x + 9} y={tile.y + 36} width="38" height="5" rx="2.5" fill={tile.focal ? "var(--marca-dominio-relleno-web)" : "color-mix(in oklch, var(--marca-marca-sobre-fuerte) 90%, transparent)"} opacity={tile.focal ? 0.5 : 1} />
       {tile.focal && <circle cx={tile.x + 56} cy={tile.y + 10} r="4" fill="var(--marca-azul-500)" />}
     </g>
   ))}

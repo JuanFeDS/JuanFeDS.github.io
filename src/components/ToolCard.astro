@@ -11,9 +11,9 @@ const { tool, index } = Astro.props;
 const { title, description, live, github, image } = tool.data;
 
 const palettes = [
-  "var(--marca-dominio-claro-data-engineering)",
-  "var(--marca-dominio-claro-ia)",
-  "var(--marca-dominio-claro-analitica)",
+  "var(--marca-dominio-relleno-data-engineering)",
+  "var(--marca-dominio-relleno-ia)",
+  "var(--marca-dominio-relleno-analitica)",
 ];
 const color = palettes[index % palettes.length];
 const illustrations = import.meta.glob<{ default: any }>("./illustrations/*.astro", { eager: true });
