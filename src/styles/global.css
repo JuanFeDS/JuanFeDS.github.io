@@ -38,6 +38,10 @@ html {
   color: var(--marca-texto-principal);
 }
 
+html.dark {
+  background-color: color-mix(in oklch, var(--marca-fondo-pagina) 55%, var(--marca-consola-fondo));
+}
+
 @media (prefers-reduced-motion: no-preference) {
   html {
     transition: background-color 0.3s var(--marca-movimiento-curva-continua), color 0.3s var(--marca-movimiento-curva-continua);
