@@ -3,9 +3,9 @@ const cell = 8;
 const columns = 40;
 
 const layers = [
-  { base: 8.5, amplitude: 2.4, frequency: 0.33, phase: 1.0, opacity: 0.22, color: "#ffffff" },
-  { base: 6.0, amplitude: 2.0, frequency: 0.5, phase: 3.2, opacity: 0.36, color: "#ffffff" },
-  { base: 3.2, amplitude: 1.2, frequency: 0.72, phase: 5.1, opacity: 0.5, color: "#5b21b6" },
+  { base: 8.5, amplitude: 2.4, frequency: 0.33, phase: 1.0, opacity: 0.22, color: "var(--marca-marca-sobre-fuerte)" },
+  { base: 6.0, amplitude: 2.0, frequency: 0.5, phase: 3.2, opacity: 0.36, color: "var(--marca-marca-sobre-fuerte)" },
+  { base: 3.2, amplitude: 1.2, frequency: 0.72, phase: 5.1, opacity: 0.5, color: "var(--marca-violeta-800)" },
 ].map((layer) => ({
   opacity: layer.opacity,
   color: layer.color,
@@ -34,13 +34,13 @@ const ditherCells = Array.from({ length: 4 }, (_, row) => row + 9).flatMap((row)
 ---
 
 <svg class="art" viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
-  <g fill="#ffffff">
+  <g fill="var(--marca-marca-sobre-fuerte)">
     {ditherCells.map((ditherCell) => (
       <rect x={ditherCell.x} y={ditherCell.y} width={cell} height={cell} opacity={ditherCell.opacity} />
     ))}
   </g>
 
-  <g class="sun" fill="rgba(255,255,255,0.9)">
+  <g class="sun" fill="color-mix(in oklch, var(--marca-marca-sobre-fuerte) 90%, transparent)">
     {sunCells.map((sunCell) => (
       <rect x={sunCell.x} y={sunCell.y} width={cell} height={cell} />
     ))}
@@ -54,9 +54,9 @@ const ditherCells = Array.from({ length: 4 }, (_, row) => row + 9).flatMap((row)
     </g>
   ))}
 
-  <rect x="20" y="16" width="76" height="22" rx="11" fill="#ffffff" />
-  <circle cx="34" cy="27" r="4" fill="#f472b6" />
-  <rect x="46" y="24" width="36" height="6" rx="3" fill="#8b5cf6" />
+  <rect x="20" y="16" width="76" height="22" rx="11" fill="var(--marca-marca-sobre-fuerte)" />
+  <circle cx="34" cy="27" r="4" fill="var(--marca-azul-500)" />
+  <rect x="46" y="24" width="36" height="6" rx="3" fill="var(--marca-violeta-600)" />
 </svg>
 
 <style>

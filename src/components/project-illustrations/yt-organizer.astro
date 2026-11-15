@@ -21,18 +21,18 @@ const tiles = rows.flatMap((y, rowIndex) =>
         width="58"
         height="18"
         rx="9"
-        fill={category.active ? "#ffffff" : "rgba(255,255,255,0.22)"}
-        stroke={category.active ? "none" : "rgba(255,255,255,0.7)"}
+        fill={category.active ? "var(--marca-marca-sobre-fuerte)" : "color-mix(in oklch, var(--marca-marca-sobre-fuerte) 22%, transparent)"}
+        stroke={category.active ? "none" : "color-mix(in oklch, var(--marca-marca-sobre-fuerte) 70%, transparent)"}
         stroke-width="1.5"
       />
-      {category.active && <circle cx="29" cy={category.y + 9} r="3.5" fill="#f472b6" />}
+      {category.active && <circle cx="29" cy={category.y + 9} r="3.5" fill="var(--marca-azul-500)" />}
       <rect
         x={category.active ? 38 : 28}
         y={category.y + 6.5}
         width={category.bar}
         height="5"
         rx="2.5"
-        fill={category.active ? "#f59e0b" : "rgba(255,255,255,0.9)"}
+        fill={category.active ? "var(--marca-dominio-claro-web)" : "color-mix(in oklch, var(--marca-marca-sobre-fuerte) 90%, transparent)"}
       />
     </g>
   ))}
@@ -45,16 +45,16 @@ const tiles = rows.flatMap((y, rowIndex) =>
         width="66"
         height="48"
         rx="9"
-        fill={tile.focal ? "#ffffff" : "rgba(255,255,255,0.22)"}
-        stroke={tile.focal ? "none" : "rgba(255,255,255,0.7)"}
+        fill={tile.focal ? "var(--marca-marca-sobre-fuerte)" : "color-mix(in oklch, var(--marca-marca-sobre-fuerte) 22%, transparent)"}
+        stroke={tile.focal ? "none" : "color-mix(in oklch, var(--marca-marca-sobre-fuerte) 70%, transparent)"}
         stroke-width="1.5"
       />
       <path
         d={`M${tile.x + 28} ${tile.y + 12} L${tile.x + 41} ${tile.y + 20} L${tile.x + 28} ${tile.y + 28} Z`}
-        fill={tile.focal ? "#f59e0b" : "rgba(255,255,255,0.9)"}
+        fill={tile.focal ? "var(--marca-dominio-claro-web)" : "color-mix(in oklch, var(--marca-marca-sobre-fuerte) 90%, transparent)"}
       />
-      <rect x={tile.x + 9} y={tile.y + 36} width="38" height="5" rx="2.5" fill={tile.focal ? "#f59e0b" : "rgba(255,255,255,0.9)"} opacity={tile.focal ? 0.5 : 1} />
-      {tile.focal && <circle cx={tile.x + 56} cy={tile.y + 10} r="4" fill="#f472b6" />}
+      <rect x={tile.x + 9} y={tile.y + 36} width="38" height="5" rx="2.5" fill={tile.focal ? "var(--marca-dominio-claro-web)" : "color-mix(in oklch, var(--marca-marca-sobre-fuerte) 90%, transparent)"} opacity={tile.focal ? 0.5 : 1} />
+      {tile.focal && <circle cx={tile.x + 56} cy={tile.y + 10} r="4" fill="var(--marca-azul-500)" />}
     </g>
   ))}
 </svg>

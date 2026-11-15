@@ -15,20 +15,20 @@ const levelDots = [0, 1, 2, 3, 4].map((index) => ({ x: 164 + index * 11, filled:
 <svg class="art" viewBox="27 20 272 152" preserveAspectRatio="xMidYMid meet" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
   {projects.map((project) => (
     <g class="project" style={`--delay: ${project.delay}ms;`}>
-      <rect x="50" y={project.y} width="72" height="34" rx="9" fill="rgba(255,255,255,0.2)" stroke="rgba(255,255,255,0.7)" stroke-width="1.5" />
-      <circle cx="63" cy={project.y + 11} r="3.5" fill="rgba(255,255,255,0.95)" />
-      <rect x="73" y={project.y + 8.5} width={project.bar} height="5" rx="2.5" fill="rgba(255,255,255,0.92)" />
-      <rect x="59" y={project.y + 19} width="52" height="4" rx="2" fill="rgba(255,255,255,0.5)" />
-      <rect x="59" y={project.y + 26} width="34" height="4" rx="2" fill="rgba(255,255,255,0.5)" />
+      <rect x="50" y={project.y} width="72" height="34" rx="9" fill="color-mix(in oklch, var(--marca-marca-sobre-fuerte) 20%, transparent)" stroke="color-mix(in oklch, var(--marca-marca-sobre-fuerte) 70%, transparent)" stroke-width="1.5" />
+      <circle cx="63" cy={project.y + 11} r="3.5" fill="color-mix(in oklch, var(--marca-marca-sobre-fuerte) 95%, transparent)" />
+      <rect x="73" y={project.y + 8.5} width={project.bar} height="5" rx="2.5" fill="color-mix(in oklch, var(--marca-marca-sobre-fuerte) 92%, transparent)" />
+      <rect x="59" y={project.y + 19} width="52" height="4" rx="2" fill="color-mix(in oklch, var(--marca-marca-sobre-fuerte) 50%, transparent)" />
+      <rect x="59" y={project.y + 26} width="34" height="4" rx="2" fill="color-mix(in oklch, var(--marca-marca-sobre-fuerte) 50%, transparent)" />
     </g>
   ))}
 
-  <g fill="none" stroke="rgba(255,255,255,0.85)" stroke-width="2" stroke-linecap="round">
+  <g fill="none" stroke="color-mix(in oklch, var(--marca-marca-sobre-fuerte) 85%, transparent)" stroke-width="2" stroke-linecap="round">
     {arrows.map((path) => <path d={path} />)}
   </g>
-  <path d="M146 95 l-7 -5 v10 z" fill="#ffffff" />
+  <path d="M146 95 l-7 -5 v10 z" fill="var(--marca-marca-sobre-fuerte)" />
 
-  <line x1="150" y1="130" x2="228" y2="130" stroke="rgba(255,255,255,0.45)" stroke-width="1.5" stroke-linecap="round" />
+  <line x1="150" y1="130" x2="228" y2="130" stroke="color-mix(in oklch, var(--marca-marca-sobre-fuerte) 45%, transparent)" stroke-width="1.5" stroke-linecap="round" />
   {steps.map((step) => (
     <rect
       class="step"
@@ -38,22 +38,22 @@ const levelDots = [0, 1, 2, 3, 4].map((index) => ({ x: 164 + index * 11, filled:
       width="11"
       height={step.height}
       rx="4"
-      fill={step.focal ? "#ffffff" : "rgba(255,255,255,0.22)"}
-      stroke={step.focal ? "none" : "rgba(255,255,255,0.7)"}
+      fill={step.focal ? "var(--marca-marca-sobre-fuerte)" : "color-mix(in oklch, var(--marca-marca-sobre-fuerte) 22%, transparent)"}
+      stroke={step.focal ? "none" : "color-mix(in oklch, var(--marca-marca-sobre-fuerte) 70%, transparent)"}
       stroke-width="1.5"
     />
   ))}
 
-  <rect x="150" y="138" width="78" height="20" rx="10" fill="#ffffff" />
+  <rect x="150" y="138" width="78" height="20" rx="10" fill="var(--marca-marca-sobre-fuerte)" />
   {levelDots.map((dot) => (
-    <circle cx={dot.x} cy="148" r="3.2" fill={dot.filled ? "#8b5cf6" : "rgba(139,92,246,0.28)"} />
+    <circle cx={dot.x} cy="148" r="3.2" fill={dot.filled ? "var(--marca-violeta-600)" : "color-mix(in oklch, var(--marca-violeta-600) 28%, transparent)"} />
   ))}
 
   {dimensions.map((bar) => (
-    <rect x={bar.x} y={bar.y} width="7" height={bar.height} rx="3.5" fill="rgba(255,255,255,0.92)" />
+    <rect x={bar.x} y={bar.y} width="7" height={bar.height} rx="3.5" fill="color-mix(in oklch, var(--marca-marca-sobre-fuerte) 92%, transparent)" />
   ))}
-  <line x1="232" y1="130" x2="276" y2="130" stroke="rgba(255,255,255,0.45)" stroke-width="1.5" stroke-linecap="round" />
-  <g fill="rgba(255,255,255,0.7)">
+  <line x1="232" y1="130" x2="276" y2="130" stroke="color-mix(in oklch, var(--marca-marca-sobre-fuerte) 45%, transparent)" stroke-width="1.5" stroke-linecap="round" />
+  <g fill="color-mix(in oklch, var(--marca-marca-sobre-fuerte) 70%, transparent)">
     {dimensions.map((bar) => <circle cx={bar.x + 3.5} cy="142" r="2.5" />)}
   </g>
 </svg>
