@@ -5,7 +5,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Nav from "../components/Nav.astro";
 import avatar from "../assets/avatar.jpg";
 import {
-  domainLabel, domainHeroGradient, levelName, levelColor, levelDesc,
+  domainLabel, domainFill, levelName, levelColor, levelDesc,
   matrixDims, techCategoryMap, categoryOrder, categoryColor,
 } from "../lib/taxonomy";
 
@@ -72,7 +72,7 @@ const stackGroups = [
 <BaseLayout title="JuanFe Martínez — Data Scientist & Engineer">
   <Nav />
 
-  <main class="aurora-bg min-h-screen pt-20">
+  <main class="fondo-aurora min-h-screen pt-20">
     <div class="relative z-10 mx-auto max-w-6xl px-6 py-16">
 
       <!-- Bento Grid -->
@@ -84,7 +84,7 @@ const stackGroups = [
         >
           <!-- Badge (fila 1, ancho completo) -->
           <div class="md:col-span-2 md:row-start-1">
-            <p class="mb-0 text-sm font-medium text-aurora-purple">
+            <p class="mb-0 text-sm font-medium text-marca-texto">
               Data Scientist & Data Engineer · Mercado Libre
             </p>
           </div>
@@ -92,7 +92,7 @@ const stackGroups = [
           <!-- Avatar mobile (visible solo en mobile, centrado bajo el badge) -->
           <div class="flex justify-center mt-4 mb-1 md:hidden">
             <div
-              class="p-0.5 rounded-full bg-linear-to-br from-aurora-purple to-aurora-teal"
+              class="p-0.5 rounded-full bg-marca-fuerte"
             >
               <div class="w-24 h-24 rounded-full overflow-hidden bg-fondo-elevado">
                 <Image
@@ -109,7 +109,7 @@ const stackGroups = [
           <!-- Avatar (col 1, fila 2, desktop only) -->
           <div class="hidden md:flex md:items-center md:justify-center md:col-start-1 md:row-start-2 md:pt-6">
             <div
-              class="p-0.5 rounded-full bg-linear-to-br from-aurora-purple to-aurora-teal"
+              class="p-0.5 rounded-full bg-marca-fuerte"
             >
               <div class="w-40 h-40 rounded-full overflow-hidden bg-fondo-elevado">
                 <Image
@@ -130,7 +130,7 @@ const stackGroups = [
             >
               Hola, soy<br />
               <span
-                class="bg-linear-to-br from-aurora-purple to-aurora-teal bg-clip-text text-transparent"
+                class="text-senal-texto-grande"
               >
                 JuanFe
               </span>
@@ -146,7 +146,7 @@ const stackGroups = [
             <div class="mt-8 flex flex-wrap gap-3">
               <a
                 href="/projects/"
-                class="rounded-full px-6 py-2.5 text-sm font-semibold text-white transition-opacity hover:opacity-90 bg-linear-to-br from-aurora-purple to-aurora-blue"
+                class="rounded-full px-6 py-2.5 text-sm font-semibold text-marca-sobre-fuerte transition-opacity hover:opacity-90 bg-marca-fuerte"
               >
                 Ver proyectos
               </a>
@@ -166,13 +166,9 @@ const stackGroups = [
         >
           <!-- Header -->
           <div class="relative px-6 pt-5 pb-2">
-            <div
-              class="absolute inset-0 opacity-20 pointer-events-none"
-              style="background: radial-gradient(ellipse at 70% 0%, var(--color-aurora-teal) 0%, transparent 70%);"
-            />
             <div class="relative flex items-center justify-between">
               <span class="text-xs font-semibold uppercase tracking-widest text-texto-secundario">Complexity Profile</span>
-              <a href="/blog/the-scientist-complexity-framework/" class="text-xs transition-opacity hover:opacity-70 text-aurora-purple">¿Qué es esto? →</a>
+              <a href="/blog/the-scientist-complexity-framework/" class="text-xs transition-opacity hover:opacity-70 text-marca-texto">¿Qué es esto? →</a>
             </div>
             <p class="relative mt-2 text-xs leading-relaxed text-texto-secundario">
               Cada proyecto clasificado por nivel de sistema y scored en cuatro dimensiones: arquitectura, datos, infraestructura e IA.
@@ -188,11 +184,11 @@ const stackGroups = [
                 <div class="matrix-help-popup">
                   <p class="matrix-help-section">Niveles · tipo de sistema</p>
                   <div class="flex flex-col gap-[2px]">
-                    <span><b style="color: var(--level-1);">1</b> · Standalone Script</span>
-                    <span><b style="color: var(--level-2);">2</b> · Static App</span>
-                    <span><b style="color: var(--level-3);">3</b> · Basic Backend</span>
-                    <span><b style="color: var(--level-4);">4</b> · Distributed System</span>
-                    <span><b style="color: var(--level-5);">5</b> · Complex Platform</span>
+                    <span><b style="color: var(--marca-nivel-1);">1</b> · Standalone Script</span>
+                    <span><b style="color: var(--marca-nivel-2);">2</b> · Static App</span>
+                    <span><b style="color: var(--marca-nivel-3);">3</b> · Basic Backend</span>
+                    <span><b style="color: var(--marca-nivel-4);">4</b> · Distributed System</span>
+                    <span><b style="color: var(--marca-nivel-5);">5</b> · Complex Platform</span>
                   </div>
                 </div>
               </div>
@@ -229,11 +225,11 @@ const stackGroups = [
                 <div class="matrix-help-popup">
                   <p class="matrix-help-section">Niveles de complejidad</p>
                   <div class="matrix-help-grid">
-                    <span><b style="color: var(--level-1);">1</b> Standalone Script</span>
-                    <span><b style="color: var(--level-2);">2</b> Static App</span>
-                    <span><b style="color: var(--level-3);">3</b> Basic Backend</span>
-                    <span><b style="color: var(--level-4);">4</b> Distributed System</span>
-                    <span><b style="color: var(--level-5);">5</b> Complex Platform</span>
+                    <span><b style="color: var(--marca-nivel-1);">1</b> Standalone Script</span>
+                    <span><b style="color: var(--marca-nivel-2);">2</b> Static App</span>
+                    <span><b style="color: var(--marca-nivel-3);">3</b> Basic Backend</span>
+                    <span><b style="color: var(--marca-nivel-4);">4</b> Distributed System</span>
+                    <span><b style="color: var(--marca-nivel-5);">5</b> Complex Platform</span>
                   </div>
                   <p class="matrix-help-section mt-2">Dimensiones · score 1–5</p>
                   <div class="matrix-help-grid">
@@ -282,9 +278,6 @@ const stackGroups = [
         <div
           class="col-span-12 md:col-span-4 rounded-3xl p-6 flex flex-col gap-5 relative overflow-hidden bg-fondo-superficie border border-borde-suave"
         >
-          <!-- Glow -->
-          <div class="absolute inset-0 pointer-events-none opacity-10"
-            style="background: radial-gradient(ellipse at 80% 20%, var(--color-aurora-purple) 0%, transparent 65%);" />
 
           <p class="relative text-xs font-semibold uppercase tracking-widest text-texto-secundario">Stack</p>
 
@@ -323,7 +316,7 @@ const stackGroups = [
           <div class="col-span-12 md:col-span-8 rounded-3xl p-6 bg-fondo-superficie border border-borde-suave">
             <div class="mb-5 flex items-center justify-between">
               <p class="text-xs font-semibold uppercase tracking-widest text-texto-secundario">Proyectos recientes</p>
-              <a href="/projects/" class="text-xs text-aurora-purple">Ver todos →</a>
+              <a href="/projects/" class="text-xs text-marca-texto">Ver todos →</a>
             </div>
             <div class="grid grid-cols-1 gap-4">
               {projects.map((p) => (
@@ -333,12 +326,12 @@ const stackGroups = [
                   <div class="project-img absolute inset-0">
                     {p.data.image
                       ? <Image src={p.data.image} alt={p.data.title} width={p.data.image.width} height={p.data.image.height} class="w-full h-full object-cover" />
-                      : <div class="w-full h-full" style={`background: ${domainHeroGradient[p.data.domain]};`} />
+                      : <div class="w-full h-full" style={`background: ${domainFill[p.data.domain]};`} />
                     }
                   </div>
 
                   <!-- Overlay oscuro (aparece con la imagen) -->
-                  <div class="project-overlay absolute inset-0 bg-linear-to-t from-black/80 to-black/25" />
+                  <div class="project-overlay absolute inset-0 bg-linear-to-t from-neutro-950/80 to-neutro-950/25" />
 
                   <!-- Contenido -->
                   <div class="relative z-10 flex items-center px-5 gap-4">
@@ -370,11 +363,11 @@ const stackGroups = [
         {posts.length > 0 && (
           <div
             class="col-span-12 rounded-3xl p-6"
-            style="background: linear-gradient(135deg, color-mix(in srgb, var(--color-aurora-purple) 8%, var(--marca-fondo-superficie)), var(--marca-fondo-superficie)); border: 1px solid var(--marca-borde-suave);"
+            style="background: var(--marca-fondo-superficie); border: 1px solid var(--marca-borde-suave);"
           >
             <div class="mb-5 flex items-center justify-between">
               <p class="text-xs font-semibold uppercase tracking-widest text-texto-secundario">Últimas entradas</p>
-              <a href="/blog/" class="text-xs text-aurora-purple">Ver blog →</a>
+              <a href="/blog/" class="text-xs text-marca-texto">Ver blog →</a>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
               {posts.map((post) => (
@@ -385,7 +378,7 @@ const stackGroups = [
                   <div>
                     {post.data.tags?.length > 0 && (
                       <span
-                        class="mb-3 inline-block rounded-full px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide bg-aurora-purple/12 text-aurora-purple"
+                        class="mb-3 inline-block rounded-full px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide bg-marca-suave text-marca-sobre-suave"
                       >
                         {post.data.tags[0]}
                       </span>
@@ -397,7 +390,7 @@ const stackGroups = [
                     <time class="text-xs text-texto-secundario">
                       {new Date(post.data.date).toLocaleDateString("es-ES", { year: "numeric", month: "short", day: "numeric" })}
                     </time>
-                    <span class="text-xs font-medium transition-transform group-hover:translate-x-1 inline-block text-aurora-purple">Leer →</span>
+                    <span class="text-xs font-medium transition-transform group-hover:translate-x-1 inline-block text-marca-texto">Leer →</span>
                   </div>
                 </a>
               ))}
@@ -514,7 +507,6 @@ const stackGroups = [
     transition: opacity 0.15s;
     z-index: 50;
     line-height: 1.7;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
   }
   .matrix-help:hover .matrix-help-popup,
   .matrix-help:focus-within .matrix-help-popup {
@@ -573,22 +565,22 @@ const stackGroups = [
     color: var(--marca-texto-principal);
     transition: color 0.2s ease 0.35s;
   }
-  .project-card:hover .project-domain { color: rgba(255, 255, 255, 0.65); }
+  .project-card:hover .project-domain { color: color-mix(in oklch, var(--marca-marca-sobre-fuerte) 65%, transparent); }
 
   .project-title {
     color: var(--marca-texto-principal);
     transition: color 0.2s ease 0.35s;
   }
-  .project-card:hover .project-title { color: white; }
+  .project-card:hover .project-title { color: var(--marca-marca-sobre-fuerte); }
 
   .project-desc {
     color: var(--marca-texto-secundario);
     transition: color 0.2s ease 0.35s;
   }
-  .project-card:hover .project-desc { color: rgba(255, 255, 255, 0.75); }
+  .project-card:hover .project-desc { color: color-mix(in oklch, var(--marca-marca-sobre-fuerte) 75%, transparent); }
 
   .project-divider {
     transition: background 0.2s ease 0.35s;
   }
-  .project-card:hover .project-divider { background: rgba(255, 255, 255, 0.25) !important; }
+  .project-card:hover .project-divider { background: color-mix(in oklch, var(--marca-marca-sobre-fuerte) 25%, transparent) !important; }
 </style>

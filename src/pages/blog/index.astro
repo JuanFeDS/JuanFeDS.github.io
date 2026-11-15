@@ -16,7 +16,7 @@ const allTags = [...new Set(posts.flatMap((p) => p.data.tags))].sort();
   title="Blog"
   description="Artículos sobre ciencia de datos, ingeniería, herramientas y la industria tech."
 >
-  <SectionHero eyebrow="Escritura" title="Blog" accent="purple" width="3xl">
+  <SectionHero eyebrow="Escritura" title="Blog" width="3xl">
     Opiniones, reflexiones y divulgación sobre datos, tecnología y lo que me llama la atención.
   </SectionHero>
 
@@ -75,13 +75,13 @@ const allTags = [...new Set(posts.flatMap((p) => p.data.tags))].sort();
     transition: all 0.15s;
   }
   .tag-btn:hover {
-    border-color: var(--color-aurora-purple);
-    color: var(--color-aurora-purple);
+    border-color: var(--marca-marca-texto);
+    color: var(--marca-marca-texto);
   }
   .tag-btn.active {
-    background: color-mix(in srgb, var(--color-aurora-purple) 12%, transparent);
-    border-color: var(--color-aurora-purple);
-    color: var(--color-aurora-purple);
+    background: var(--marca-marca-suave);
+    border-color: var(--marca-marca-texto);
+    color: var(--marca-marca-sobre-suave);
   }
 </style>
 

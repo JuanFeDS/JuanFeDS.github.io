@@ -2,7 +2,7 @@
 import type { ImageMetadata } from "astro";
 import { Image } from "astro:assets";
 import PageLayout from "./PageLayout.astro";
-import { domainLabel, domainHeroGradient, domainColor, levelDot, flagLabel } from "../lib/taxonomy";
+import { domainLabel, domainHeroGradient, domainColor, domainFill, levelDot, flagLabel } from "../lib/taxonomy";
 
 interface ComplexityBreakdown {
   architecture: number;
@@ -40,6 +40,7 @@ const dims = [
 ];
 
 const color    = domainColor[domain];
+const fill     = domainFill[domain];
 const gradient = domainHeroGradient[domain];
 
 const formattedDate = new Date(date).toLocaleDateString("es-ES", {
@@ -63,7 +64,7 @@ const formattedDate = new Date(date).toLocaleDateString("es-ES", {
       <h1 class="hero-title">{title}</h1>
       {description && <p class="hero-desc">{description}</p>}
       {demo && (
-        <a href={demo} target="_blank" rel="noopener" class="app-cta" style={`--cta-color: color-mix(in srgb, ${color} 45%, #0f0f1a);`}>
+        <a href={demo} target="_blank" rel="noopener" class="app-cta" style={`--cta-color: ${fill};`}>
           <span class="app-cta-dot" />
           Ver app en vivo
           <span class="app-cta-arrow">↗</span>
@@ -117,7 +118,7 @@ const formattedDate = new Date(date).toLocaleDateString("es-ES", {
             <p class="meta-label">Complexity Flags</p>
             <div class="flags-row">
               {flags.map((flag) => (
-                <span class="flag-tag" style={`color: color-mix(in srgb, ${color} 45%, var(--marca-texto-principal)); background: ${color}18; border-color: ${color}33;`}>
+                <span class="flag-tag" style={`color: color-mix(in srgb, ${color} 45%, var(--marca-texto-principal)); background: color-mix(in srgb, ${color} 9%, transparent); border-color: color-mix(in srgb, ${color} 20%, transparent);`}>
                   {flagLabel[flag]}
                 </span>
               ))}
@@ -174,7 +175,7 @@ const formattedDate = new Date(date).toLocaleDateString("es-ES", {
   .project-hero-scrim {
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.55) 55%, rgba(0,0,0,0.8) 100%);
+    background: linear-gradient(180deg, color-mix(in oklch, var(--marca-neutro-950) 35%, transparent) 0%, color-mix(in oklch, var(--marca-neutro-950) 55%, transparent) 55%, color-mix(in oklch, var(--marca-neutro-950) 80%, transparent) 100%);
     z-index: 1;
   }
   .hero-inner {
@@ -189,30 +190,30 @@ const formattedDate = new Date(date).toLocaleDateString("es-ES", {
   }
   .breadcrumb {
     font-size: 0.8rem;
-    color: rgba(255,255,255,0.7);
+    color: color-mix(in oklch, var(--marca-marca-sobre-fuerte) 70%, transparent);
     text-decoration: none;
     margin-bottom: 0.5rem;
     transition: color 0.15s;
   }
-  .breadcrumb:hover { color: white; }
+  .breadcrumb:hover { color: var(--marca-marca-sobre-fuerte); }
   .hero-domain {
     font-size: 0.65rem;
     font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: rgba(255,255,255,0.75);
+    color: color-mix(in oklch, var(--marca-marca-sobre-fuerte) 75%, transparent);
   }
   .hero-title {
     font-family: var(--marca-tipografia-familia-titulares);
     font-size: 2.5rem;
     font-weight: 800;
-    color: white;
+    color: var(--marca-marca-sobre-fuerte);
     line-height: 1.15;
   }
   @media (min-width: 768px) { .hero-title { font-size: 3rem; } }
   .hero-desc {
     font-size: 1.05rem;
-    color: rgba(255,255,255,0.82);
+    color: color-mix(in oklch, var(--marca-marca-sobre-fuerte) 82%, transparent);
     line-height: 1.6;
     max-width: 42rem;
   }
@@ -223,21 +224,21 @@ const formattedDate = new Date(date).toLocaleDateString("es-ES", {
     margin-top: 0.5rem;
     flex-wrap: wrap;
   }
-  .hero-date { font-size: 0.8rem; color: rgba(255,255,255,0.6); }
+  .hero-date { font-size: 0.8rem; color: color-mix(in oklch, var(--marca-marca-sobre-fuerte) 60%, transparent); }
   .hero-links { display: flex; gap: 0.75rem; }
   .hero-link {
     font-size: 0.8rem;
     font-weight: 600;
-    color: white;
+    color: var(--marca-marca-sobre-fuerte);
     text-decoration: none;
-    background: rgba(255,255,255,0.15);
+    background: color-mix(in oklch, var(--marca-marca-sobre-fuerte) 15%, transparent);
     padding: 0.25rem 0.75rem;
     border-radius: 9999px;
-    border: 1px solid rgba(255,255,255,0.25);
+    border: 1px solid color-mix(in oklch, var(--marca-marca-sobre-fuerte) 25%, transparent);
     backdrop-filter: blur(4px);
     transition: background 0.15s;
   }
-  .hero-link:hover { background: rgba(255,255,255,0.25); }
+  .hero-link:hover { background: color-mix(in oklch, var(--marca-marca-sobre-fuerte) 25%, transparent); }
 
   /* App CTA button */
   .app-cta {
@@ -247,19 +248,17 @@ const formattedDate = new Date(date).toLocaleDateString("es-ES", {
     margin-top: 0.25rem;
     padding: 0.6rem 1.25rem;
     border-radius: 0.6rem;
-    background: rgba(255,255,255,0.95);
-    color: var(--cta-color, #14b8a6);
+    background: color-mix(in oklch, var(--marca-marca-sobre-fuerte) 95%, transparent);
+    color: var(--cta-color);
     font-size: 0.9rem;
     font-weight: 700;
     text-decoration: none;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.15);
-    transition: background 0.15s, transform 0.15s, box-shadow 0.15s;
+    transition: background 0.15s, transform 0.15s;
     align-self: flex-start;
   }
   .app-cta:hover {
-    background: white;
+    background: var(--marca-marca-sobre-fuerte);
     transform: translateY(-1px);
-    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
   }
   .app-cta-dot {
     width: 7px;
@@ -293,7 +292,6 @@ const formattedDate = new Date(date).toLocaleDateString("es-ES", {
     overflow: hidden;
     border: 1px solid var(--marca-borde-suave);
     background: var(--marca-fondo-superficie);
-    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
   }
   .meta-block {
     padding: 1rem 1.25rem;

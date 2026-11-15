@@ -19,7 +19,7 @@ const currentPath = Astro.url.pathname;
       href="/"
       class="font-titulares text-lg font-bold tracking-tight text-texto-principal"
     >
-      🧪 JuanFe<span class="text-aurora-purple">DS</span>
+      🧪 JuanFe<span class="text-senal-texto-grande">DS</span>
     </a>
 
     <!-- Desktop links -->
@@ -28,7 +28,7 @@ const currentPath = Astro.url.pathname;
         <li>
           <a
             href={href}
-            class={`text-sm font-medium transition-colors ${currentPath.startsWith(href) ? "text-aurora-purple" : "text-texto-secundario"}`}
+            class={`text-sm font-medium transition-colors ${currentPath.startsWith(href) ? "text-marca-texto" : "text-texto-secundario"}`}
           >
             {label}
           </a>
@@ -77,7 +77,7 @@ const currentPath = Astro.url.pathname;
         <li>
           <a
             href={href}
-            class={`block rounded-xl px-4 py-3 text-sm font-medium transition-colors ${currentPath.startsWith(href) ? "text-aurora-purple bg-aurora-purple/8" : "text-texto-secundario bg-transparent"}`}
+            class={`block rounded-xl px-4 py-3 text-sm font-medium transition-colors ${currentPath.startsWith(href) ? "text-marca-texto bg-marca-suave" : "text-texto-secundario bg-transparent"}`}
           >
             {label}
           </a>

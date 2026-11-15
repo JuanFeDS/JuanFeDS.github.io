@@ -11,11 +11,11 @@ const { tool, index } = Astro.props;
 const { title, description, live, github, image } = tool.data;
 
 const palettes = [
-  { gradient: "linear-gradient(135deg, #8b5cf6 0%, #f472b6 100%)", color: "#8b5cf6" },
-  { gradient: "linear-gradient(135deg, #14b8a6 0%, #3b82f6 100%)", color: "#14b8a6" },
-  { gradient: "linear-gradient(135deg, #f472b6 0%, #3b82f6 100%)", color: "#f472b6" },
+  "var(--marca-dominio-claro-data-engineering)",
+  "var(--marca-dominio-claro-ia)",
+  "var(--marca-dominio-claro-analitica)",
 ];
-const { gradient, color } = palettes[index % palettes.length];
+const color = palettes[index % palettes.length];
 const illustrations = import.meta.glob<{ default: any }>("./illustrations/*.astro", { eager: true });
 const Illustration = illustrations[`./illustrations/${tool.id}.astro`]?.default;
 const liveUrl = new URL(live);
@@ -23,7 +23,7 @@ const liveHost = liveUrl.host + liveUrl.pathname.replace(/\/$/, "");
 ---
 
 <article class="tool" style={`--tool-color: ${color};`}>
-  <a href={live} target="_blank" rel="noopener" class="tool-visual" style={`background: ${gradient}; --chars: ${title.length};`} aria-label={`Abrir ${title}`}>
+  <a href={live} target="_blank" rel="noopener" class="tool-visual" style={`background: ${color}; --chars: ${title.length};`} aria-label={`Abrir ${title}`}>
     {image ? (
       <Image src={image} alt={`Captura de ${title}`} widths={[480, 800, 1200]} sizes="(max-width: 768px) 100vw, 560px" class="tool-shot" />
     ) : Illustration ? (
@@ -57,14 +57,13 @@ const liveHost = liveUrl.host + liveUrl.pathname.replace(/\/$/, "");
     padding: 0.75rem;
     border-radius: 1.5rem;
     background: color-mix(in srgb, var(--tool-color) 22%, var(--marca-fondo-superficie));
-    transition: transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 0.3s ease;
+    transition: transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1);
   }
   :global(.dark) .tool {
     background: color-mix(in srgb, var(--tool-color) 14%, var(--marca-fondo-superficie));
   }
   .tool:hover {
     transform: translateY(-4px);
-    box-shadow: 0 18px 32px -16px color-mix(in srgb, var(--tool-color) 55%, transparent);
   }
 
   .tool-visual {
@@ -78,7 +77,7 @@ const liveHost = liveUrl.host + liveUrl.pathname.replace(/\/$/, "");
     text-decoration: none;
   }
   .tool-visual:focus-visible {
-    outline: 2px solid var(--color-aurora-purple);
+    outline: 2px solid var(--marca-foco-anillo);
     outline-offset: 4px;
   }
 
@@ -91,7 +90,7 @@ const liveHost = liveUrl.host + liveUrl.pathname.replace(/\/$/, "");
     font-size: min(9.5rem, calc(150cqw / var(--chars)));
     line-height: 1;
     letter-spacing: -0.04em;
-    color: rgba(255, 255, 255, 0.92);
+    color: color-mix(in oklch, var(--marca-marca-sobre-fuerte) 92%, transparent);
     white-space: nowrap;
     user-select: none;
   }
@@ -110,8 +109,8 @@ const liveHost = liveUrl.host + liveUrl.pathname.replace(/\/$/, "");
     border-radius: 9999px;
     font-family: var(--marca-tipografia-familia-mono);
     font-size: 0.68rem;
-    color: rgba(255, 255, 255, 0.95);
-    background: rgba(0, 0, 0, 0.4);
+    color: color-mix(in oklch, var(--marca-marca-sobre-fuerte) 95%, transparent);
+    background: color-mix(in oklch, var(--marca-neutro-950) 40%, transparent);
     backdrop-filter: blur(6px);
   }
 
@@ -149,7 +148,7 @@ const liveHost = liveUrl.host + liveUrl.pathname.replace(/\/$/, "");
     border-radius: 0.7rem;
     font-size: 0.8rem;
     font-weight: 700;
-    color: white;
+    color: var(--marca-marca-sobre-fuerte);
     text-decoration: none;
     transition: transform 0.15s, opacity 0.15s;
   }
