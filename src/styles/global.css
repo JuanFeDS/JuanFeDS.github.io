@@ -1,4 +1,4 @@
-/* marca v0.5.0 */
+/* marca v0.6.0 */
 @import "tailwindcss";
 @import "./marca/marca.css";
 @import "./marca/tailwind-theme.css";
@@ -13,35 +13,14 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* marca v0.5.0 emite los breakpoints como var(), que una media query no admite; mismos valores, literales */
-@theme {
-  --breakpoint-sm: 40rem;
-  --breakpoint-md: 48rem;
-  --breakpoint-lg: 64rem;
-  --breakpoint-xl: 80rem;
-}
-
 :root {
   color-scheme: light dark;
-
-  /* Niveles con varios tonos (ajuste propuesto a la marca): salen de los tokens de estado, que cambian con el modo */
-  --nivel-sitio-1: var(--marca-estado-exito);
-  --nivel-sitio-2: var(--marca-estado-info);
-  --nivel-sitio-3: var(--marca-ambar-500);
-  --nivel-sitio-4: color-mix(in oklch, var(--marca-estado-aviso) 50%, var(--marca-estado-error));
-  --nivel-sitio-5: var(--marca-estado-error);
 }
 
 html {
   font-family: var(--marca-tipografia-familia-cuerpo);
-  background-color: var(--marca-fondo-pagina);
+  background-color: var(--marca-fondo-profundo);
   color: var(--marca-texto-principal);
-}
-
-html.dark {
-  --nivel-sitio-3: var(--marca-estado-aviso);
-  --marca-fondo-superficie: color-mix(in oklch, var(--marca-noche-superficie) 55%, var(--marca-consola-fondo));
-  background-color: color-mix(in oklch, var(--marca-consola-fondo) 92%, black);
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -50,31 +29,9 @@ html.dark {
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-}
-
-:root {
-  --fondo-resplandor-pagina:
-    radial-gradient(ellipse at 15% 40%, color-mix(in oklch, var(--marca-azul-500) 18%, transparent), transparent 55%),
-    radial-gradient(ellipse at 85% 15%, color-mix(in oklch, var(--marca-datos-3) 8%, transparent), transparent 55%),
-    radial-gradient(ellipse at 60% 85%, color-mix(in oklch, var(--marca-violeta-400) 14%, transparent), transparent 55%);
-  --fondo-resplandor-portada:
-    radial-gradient(ellipse 60% 90% at 12% 25%, color-mix(in oklch, var(--marca-azul-500) 34%, transparent), transparent 70%),
-    radial-gradient(ellipse 55% 80% at 88% 10%, color-mix(in oklch, var(--marca-datos-3) 28%, transparent), transparent 70%),
-    radial-gradient(ellipse 50% 70% at 62% 100%, color-mix(in oklch, var(--marca-violeta-400) 26%, transparent), transparent 70%);
-}
-
-/* Aurora: solo como fondo de página o de portada. Más intensa que --marca-fondo-aurora (ajuste propuesto a la marca) */
+/* Aurora: solo como fondo de página o de portada, nunca en componentes */
 .fondo-aurora {
-  background-image: var(--fondo-resplandor-pagina);
+  background-image: var(--marca-fondo-aurora);
 }
 
 /* Grain texture */

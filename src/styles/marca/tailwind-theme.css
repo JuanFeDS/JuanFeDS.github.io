@@ -1,4 +1,4 @@
-/* Marca v0.5.0. Generado por `python -m marca construir`: no editar a mano.
+/* Marca v0.6.0. Generado por `python -m marca construir`: no editar a mano.
    Importar después de marca.css. Quita la paleta por defecto de Tailwind. */
 
 @theme inline {
@@ -6,6 +6,8 @@
   --color-fondo-pagina: var(--marca-fondo-pagina);
   --color-fondo-superficie: var(--marca-fondo-superficie);
   --color-fondo-elevado: var(--marca-fondo-elevado);
+  --color-fondo-profundo: var(--marca-fondo-profundo);
+  --color-fondo-barra: var(--marca-fondo-barra);
   --color-borde-suave: var(--marca-borde-suave);
   --color-borde-fuerte: var(--marca-borde-fuerte);
   --color-texto-principal: var(--marca-texto-principal);
@@ -18,6 +20,8 @@
   --color-marca-sobre-suave: var(--marca-marca-sobre-suave);
   --color-senal-relleno: var(--marca-senal-relleno);
   --color-senal-sobre-relleno: var(--marca-senal-sobre-relleno);
+  --color-senal-fuerte: var(--marca-senal-fuerte);
+  --color-senal-sobre-fuerte: var(--marca-senal-sobre-fuerte);
   --color-senal-texto-grande: var(--marca-senal-texto-grande);
   --color-senal-suave: var(--marca-senal-suave);
   --color-senal-sobre-suave: var(--marca-senal-sobre-suave);
@@ -37,6 +41,27 @@
   --color-nivel-3: var(--marca-nivel-3);
   --color-nivel-4: var(--marca-nivel-4);
   --color-nivel-5: var(--marca-nivel-5);
+  --color-nivel-texto-1: var(--marca-nivel-texto-1);
+  --color-nivel-texto-2: var(--marca-nivel-texto-2);
+  --color-nivel-texto-3: var(--marca-nivel-texto-3);
+  --color-nivel-texto-4: var(--marca-nivel-texto-4);
+  --color-nivel-texto-5: var(--marca-nivel-texto-5);
+  --color-nivel-color-1: var(--marca-nivel-color-1);
+  --color-nivel-color-2: var(--marca-nivel-color-2);
+  --color-nivel-color-3: var(--marca-nivel-color-3);
+  --color-nivel-color-4: var(--marca-nivel-color-4);
+  --color-nivel-color-5: var(--marca-nivel-color-5);
+  --color-categoria-lenguajes: var(--marca-categoria-lenguajes);
+  --color-categoria-ml-ia: var(--marca-categoria-ml-ia);
+  --color-categoria-backend: var(--marca-categoria-backend);
+  --color-categoria-frontend: var(--marca-categoria-frontend);
+  --color-categoria-cloud-data: var(--marca-categoria-cloud-data);
+  --color-dominio-relleno-data-engineering: var(--marca-dominio-relleno-data-engineering);
+  --color-dominio-relleno-machine-learning: var(--marca-dominio-relleno-machine-learning);
+  --color-dominio-relleno-ia: var(--marca-dominio-relleno-ia);
+  --color-dominio-relleno-analitica: var(--marca-dominio-relleno-analitica);
+  --color-dominio-relleno-web: var(--marca-dominio-relleno-web);
+  --color-dominio-relleno-movil: var(--marca-dominio-relleno-movil);
   --color-consola-fondo: var(--marca-consola-fondo);
   --color-consola-barra: var(--marca-consola-barra);
   --color-consola-borde: var(--marca-consola-borde);
@@ -101,6 +126,8 @@
   --color-noche-elevada: var(--marca-noche-elevada);
   --color-noche-linea: var(--marca-noche-linea);
   --color-noche-texto-tenue: var(--marca-noche-texto-tenue);
+  --color-noche-profundo: var(--marca-noche-profundo);
+  --color-noche-barra: var(--marca-noche-barra);
   --color-datos-1: var(--marca-datos-1);
   --color-datos-2: var(--marca-datos-2);
   --color-datos-3: var(--marca-datos-3);
@@ -139,6 +166,36 @@
   --color-nivel-oscuro-3: var(--marca-nivel-oscuro-3);
   --color-nivel-oscuro-4: var(--marca-nivel-oscuro-4);
   --color-nivel-oscuro-5: var(--marca-nivel-oscuro-5);
+  --color-nivel-texto-claro-1: var(--marca-nivel-texto-claro-1);
+  --color-nivel-texto-claro-2: var(--marca-nivel-texto-claro-2);
+  --color-nivel-texto-claro-3: var(--marca-nivel-texto-claro-3);
+  --color-nivel-texto-claro-4: var(--marca-nivel-texto-claro-4);
+  --color-nivel-texto-claro-5: var(--marca-nivel-texto-claro-5);
+  --color-nivel-texto-oscuro-1: var(--marca-nivel-texto-oscuro-1);
+  --color-nivel-texto-oscuro-2: var(--marca-nivel-texto-oscuro-2);
+  --color-nivel-texto-oscuro-3: var(--marca-nivel-texto-oscuro-3);
+  --color-nivel-texto-oscuro-4: var(--marca-nivel-texto-oscuro-4);
+  --color-nivel-texto-oscuro-5: var(--marca-nivel-texto-oscuro-5);
+  --color-nivel-color-claro-1: var(--marca-nivel-color-claro-1);
+  --color-nivel-color-claro-2: var(--marca-nivel-color-claro-2);
+  --color-nivel-color-claro-3: var(--marca-nivel-color-claro-3);
+  --color-nivel-color-claro-4: var(--marca-nivel-color-claro-4);
+  --color-nivel-color-claro-5: var(--marca-nivel-color-claro-5);
+  --color-nivel-color-oscuro-1: var(--marca-nivel-color-oscuro-1);
+  --color-nivel-color-oscuro-2: var(--marca-nivel-color-oscuro-2);
+  --color-nivel-color-oscuro-3: var(--marca-nivel-color-oscuro-3);
+  --color-nivel-color-oscuro-4: var(--marca-nivel-color-oscuro-4);
+  --color-nivel-color-oscuro-5: var(--marca-nivel-color-oscuro-5);
+  --color-categoria-claro-lenguajes: var(--marca-categoria-claro-lenguajes);
+  --color-categoria-claro-ml-ia: var(--marca-categoria-claro-ml-ia);
+  --color-categoria-claro-backend: var(--marca-categoria-claro-backend);
+  --color-categoria-claro-frontend: var(--marca-categoria-claro-frontend);
+  --color-categoria-claro-cloud-data: var(--marca-categoria-claro-cloud-data);
+  --color-categoria-oscuro-lenguajes: var(--marca-categoria-oscuro-lenguajes);
+  --color-categoria-oscuro-ml-ia: var(--marca-categoria-oscuro-ml-ia);
+  --color-categoria-oscuro-backend: var(--marca-categoria-oscuro-backend);
+  --color-categoria-oscuro-frontend: var(--marca-categoria-oscuro-frontend);
+  --color-categoria-oscuro-cloud-data: var(--marca-categoria-oscuro-cloud-data);
   --color-terminal-fondo: var(--marca-terminal-fondo);
   --color-terminal-barra: var(--marca-terminal-barra);
   --color-terminal-borde: var(--marca-terminal-borde);
@@ -157,8 +214,8 @@
   --ease-salida: var(--marca-movimiento-curva-salida);
   --ease-continua: var(--marca-movimiento-curva-continua);
   --ease-enfasis: var(--marca-movimiento-curva-enfasis);
-  --breakpoint-sm: var(--marca-layout-punto-sm);
-  --breakpoint-md: var(--marca-layout-punto-md);
-  --breakpoint-lg: var(--marca-layout-punto-lg);
-  --breakpoint-xl: var(--marca-layout-punto-xl);
+  --breakpoint-sm: 40rem;
+  --breakpoint-md: 48rem;
+  --breakpoint-lg: 64rem;
+  --breakpoint-xl: 80rem;
 }

@@ -4,16 +4,16 @@ interface TagMeta {
 }
 
 const tagMeta: Record<string, TagMeta> = {
-  "inteligencia-artificial": { label: "Inteligencia artificial", color: "var(--marca-dominio-claro-ia)" },
-  "programacion": { label: "Programación", color: "var(--marca-dominio-claro-data-engineering)" },
-  "meta": { label: "Meta", color: "var(--marca-dominio-claro-web)" },
-  "engineering": { label: "Ingeniería", color: "var(--marca-dominio-claro-movil)" },
-  "windsurf": { label: "Windsurf", color: "var(--marca-dominio-claro-machine-learning)" },
-  "ides": { label: "IDEs", color: "var(--marca-dominio-claro-analitica)" },
+  "inteligencia-artificial": { label: "Inteligencia artificial", color: "var(--marca-dominio-relleno-ia)" },
+  "programacion": { label: "Programación", color: "var(--marca-dominio-relleno-data-engineering)" },
+  "meta": { label: "Meta", color: "var(--marca-dominio-relleno-web)" },
+  "engineering": { label: "Ingeniería", color: "var(--marca-dominio-relleno-movil)" },
+  "windsurf": { label: "Windsurf", color: "var(--marca-dominio-relleno-machine-learning)" },
+  "ides": { label: "IDEs", color: "var(--marca-dominio-relleno-analitica)" },
 };
 
-const defaultColor = "var(--marca-dominio-claro-data-engineering)";
-const companionColor = "var(--marca-dominio-claro-web)";
+const defaultColor = "var(--marca-dominio-relleno-data-engineering)";
+const companionColor = "var(--marca-dominio-relleno-web)";
 
 export function tagLabel(tag: string): string {
   const meta = tagMeta[tag];
