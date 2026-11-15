@@ -326,7 +326,7 @@ const stackGroups = [
                   <div class="project-img absolute inset-0">
                     {p.data.image
                       ? <Image src={p.data.image} alt={p.data.title} width={p.data.image.width} height={p.data.image.height} class="w-full h-full object-cover" />
-                      : <div class="w-full h-full" style={`background: ${domainFill[p.data.domain]};`} />
+                      : <div class="w-full h-full" style={`background: color-mix(in oklch, ${domainFill[p.data.domain]} 70%, var(--marca-fondo-superficie));`} />
                     }
                   </div>
 

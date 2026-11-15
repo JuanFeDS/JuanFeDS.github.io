@@ -86,14 +86,14 @@ const activeDomains = [...new Set(projects.map((p) => p.data.domain))];
                   <a
                     href={`/projects/${project.id}/`}
                     class="front-cta"
-                    style={`background: ${color};`}
+                    style={`background: ${fill};`}
                   >
                     Ver proyecto →
                   </a>
                 </div>
 
                 {/* ── DORSO ── */}
-                <div class="card-face card-back" style={`border: 1px solid ${color}22;`}>
+                <div class="card-face card-back" style={`border: 1px solid color-mix(in srgb, ${color} 13%, transparent);`}>
                   {/* Fondo plano tenue */}
                   <div class="back-bg" style={`background: ${fill}; opacity: 0.07;`} />
 
