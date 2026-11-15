@@ -31,7 +31,7 @@ const activeDomains = [...new Set(projects.map((p) => p.data.domain))];
       <a href="/projects/" class="text-xs transition-opacity hover:opacity-70 text-marca-texto">× limpiar</a>
     </div>
 
-    <div class="flex flex-wrap gap-2 mb-10" id="filters">
+    <div class="flex flex-wrap gap-2 mb-4" id="filters">
       <button class="filter-btn active" data-filter="all">Todos</button>
       {activeDomains.map((domain) => (
         <button class="filter-btn" data-filter={domain}>{domainLabel[domain]}</button>
@@ -182,7 +182,7 @@ const activeDomains = [...new Set(projects.map((p) => p.data.domain))];
 
   /* Flip */
   .card-wrapper {
-    height: 420px;
+    height: 316px;
     perspective: 1200px;
     cursor: pointer;
   }
@@ -225,7 +225,7 @@ const activeDomains = [...new Set(projects.map((p) => p.data.domain))];
   .card-hero {
     display: block;
     position: relative;
-    aspect-ratio: 2 / 1;
+    aspect-ratio: 3 / 1;
     overflow: hidden;
     border-radius: 1rem;
     flex-shrink: 0;
