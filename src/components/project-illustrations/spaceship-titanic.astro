@@ -10,18 +10,18 @@ const gridLines = [60, 90, 120, 150];
 ---
 
 <svg class="art" viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
-  <g stroke="rgba(255,255,255,0.18)" stroke-width="1">
+  <g stroke="color-mix(in oklch, var(--marca-marca-sobre-fuerte) 18%, transparent)" stroke-width="1">
     {gridLines.map((y) => <line x1="20" y1={y} x2="300" y2={y} />)}
   </g>
 
-  <path class="trend" d={trendPath} fill="none" stroke="rgba(255,255,255,0.85)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+  <path class="trend" d={trendPath} fill="none" stroke="color-mix(in oklch, var(--marca-marca-sobre-fuerte) 85%, transparent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
 
-  <g fill="rgba(255,255,255,0.3)" stroke="rgba(255,255,255,0.75)" stroke-width="1.5">
+  <g fill="color-mix(in oklch, var(--marca-marca-sobre-fuerte) 30%, transparent)" stroke="color-mix(in oklch, var(--marca-marca-sobre-fuerte) 75%, transparent)" stroke-width="1.5">
     {points.slice(0, -1).map((point) => <circle cx={point.x} cy={point.y} r="5" />)}
   </g>
 
-  <circle cx={best.x} cy={best.y} r="11" fill="#ffffff" />
-  <circle cx={best.x} cy={best.y} r="4.5" fill="#8b5cf6" />
+  <circle cx={best.x} cy={best.y} r="11" fill="var(--marca-marca-sobre-fuerte)" />
+  <circle cx={best.x} cy={best.y} r="4.5" fill="var(--marca-violeta-600)" />
 </svg>
 
 <style>

@@ -11,15 +11,15 @@ const currentPath = Astro.url.pathname;
 ---
 
 <nav
-  class="fixed top-0 left-0 right-0 z-50 bg-bg/70 border-b border-border backdrop-blur-lg"
+  class="fixed top-0 left-0 right-0 z-50 bg-fondo-pagina/95 dark:bg-consola-fondo/90 border-b border-borde-suave backdrop-blur-lg"
 >
   <div class="flex items-center justify-between px-6 py-4">
     <!-- Logo -->
     <a
       href="/"
-      class="font-display text-lg font-bold tracking-tight text-text"
+      class="font-titulares text-lg font-bold tracking-tight text-texto-principal"
     >
-      🧪 JuanFe<span class="text-aurora-purple">DS</span>
+      🧪 JuanFe<span class="text-senal-texto-grande">DS</span>
     </a>
 
     <!-- Desktop links -->
@@ -28,7 +28,7 @@ const currentPath = Astro.url.pathname;
         <li>
           <a
             href={href}
-            class={`text-sm font-medium transition-colors ${currentPath.startsWith(href) ? "text-aurora-purple" : "text-text-muted"}`}
+            class={`text-sm font-medium transition-colors ${currentPath.startsWith(href) ? "text-marca-texto" : "text-texto-secundario"}`}
           >
             {label}
           </a>
@@ -41,7 +41,7 @@ const currentPath = Astro.url.pathname;
       <button
         id="theme-toggle"
         aria-label="Toggle dark mode"
-        class="flex h-9 w-9 items-center justify-center rounded-full transition-colors bg-surface-2 border border-border text-text-muted cursor-pointer"
+        class="flex h-9 w-9 items-center justify-center rounded-full transition-colors bg-fondo-elevado border border-borde-suave text-texto-secundario cursor-pointer"
       >
         <svg id="icon-sun" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden">
           <circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
@@ -55,7 +55,7 @@ const currentPath = Astro.url.pathname;
       <button
         id="menu-toggle"
         aria-label="Toggle menu"
-        class="flex md:hidden h-9 w-9 items-center justify-center rounded-full transition-colors bg-surface-2 border border-border text-text-muted cursor-pointer"
+        class="flex md:hidden h-9 w-9 items-center justify-center rounded-full transition-colors bg-fondo-elevado border border-borde-suave text-texto-secundario cursor-pointer"
       >
         <svg id="icon-menu" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
@@ -77,7 +77,7 @@ const currentPath = Astro.url.pathname;
         <li>
           <a
             href={href}
-            class={`block rounded-xl px-4 py-3 text-sm font-medium transition-colors ${currentPath.startsWith(href) ? "text-aurora-purple bg-aurora-purple/8" : "text-text-muted bg-transparent"}`}
+            class={`block rounded-xl px-4 py-3 text-sm font-medium transition-colors ${currentPath.startsWith(href) ? "text-marca-texto bg-marca-suave" : "text-texto-secundario bg-transparent"}`}
           >
             {label}
           </a>

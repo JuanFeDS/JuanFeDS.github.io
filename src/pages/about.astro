@@ -77,17 +77,17 @@ const social = [
 
     <!-- Hero -->
     <div class="mb-16">
-      <p class="mb-2 text-sm font-medium text-aurora-pink">Sobre mí</p>
+      <p class="mb-2 text-sm font-medium text-marca-texto">Sobre mí</p>
       <h1
-        class="text-4xl font-bold md:text-5xl font-display text-text"
+        class="text-4xl font-bold md:text-5xl font-titulares text-texto-principal"
       >
         ¿Quién soy?
       </h1>
-      <p class="mt-6 text-lg leading-relaxed text-text-muted">
+      <p class="mt-6 text-lg leading-relaxed text-texto-secundario">
         ¡Hola! 👋 Soy JuanFe, científico e ingeniero de datos de Colombia, curioso por naturaleza y apasionado
         por aprender 📚, construir 🛠️ y compartir 🔄.
       </p>
-      <p class="mt-4 text-lg leading-relaxed text-text-muted">
+      <p class="mt-4 text-lg leading-relaxed text-texto-secundario">
         Estoy decidido a convertirme en el mejor científico de datos de Colombia
         (y bueno... tal vez de Latinoamérica, aún lo estoy pensando 🌎😅).
       </p>
@@ -95,7 +95,7 @@ const social = [
 
     <!-- Qué hago -->
     <section class="mb-16">
-      <h2 class="mb-6 text-xs font-semibold uppercase tracking-widest text-text-muted">
+      <h2 class="mb-6 text-xs font-bold uppercase tracking-widest text-texto-secundario">
         🚀 ¿Qué hago?
       </h2>
       <div class="grid gap-3 sm:grid-cols-2">
@@ -106,10 +106,10 @@ const social = [
           { icon: "💬", text: "Y cuando puedo... ¡lo comparto con el mundo!" },
         ].map(({ icon, text }) => (
           <div
-            class="rounded-2xl p-4 flex gap-3 items-start bg-surface border border-border"
+            class="rounded-2xl p-4 flex gap-3 items-start bg-fondo-superficie border border-borde-suave"
           >
             <span class="text-xl shrink-0">{icon}</span>
-            <p class="text-sm leading-relaxed text-text-muted">{text}</p>
+            <p class="text-sm leading-relaxed text-texto-secundario">{text}</p>
           </div>
         ))}
       </div>
@@ -117,7 +117,7 @@ const social = [
 
     <!-- Intereses -->
     <section class="mb-16">
-      <h2 class="mb-5 text-xs font-semibold uppercase tracking-widest text-text-muted">
+      <h2 class="mb-5 text-xs font-bold uppercase tracking-widest text-texto-secundario">
         🎯 Me interesa
       </h2>
       <div class="flex flex-wrap gap-2">
@@ -130,7 +130,7 @@ const social = [
           "Comunidad 💬",
         ].map((item) => (
           <span
-            class="rounded-full px-4 py-1.5 text-sm font-medium bg-surface border border-border text-text"
+            class="rounded-full px-4 py-1.5 text-sm font-medium bg-fondo-superficie border border-borde-suave text-texto-principal"
           >
             {item}
           </span>
@@ -140,28 +140,28 @@ const social = [
 
     <!-- Por qué este blog -->
     <section class="mb-16">
-      <h2 class="mb-5 text-xs font-semibold uppercase tracking-widest text-text-muted">
+      <h2 class="mb-5 text-xs font-bold uppercase tracking-widest text-texto-secundario">
         ✍️ ¿Por qué este blog?
       </h2>
-      <p class="text-base leading-relaxed text-text-muted">
+      <p class="text-base leading-relaxed text-texto-secundario">
         Este espacio es como mi cuaderno de viaje en la industria de los datos: aquí guardo aprendizajes,
         experiencias, ideas, dudas (sí, también eso), y todo lo que voy descubriendo en el camino.
       </p>
-      <p class="mt-3 text-base leading-relaxed text-text-muted">
-        Mi objetivo es simple: <strong class="text-text">aprender compartiendo</strong>.
+      <p class="mt-3 text-base leading-relaxed text-texto-secundario">
+        Mi objetivo es simple: <strong class="text-texto-principal">aprender compartiendo</strong>.
         Si algo de lo que encuentres aquí te inspira, te ayuda o te da una idea nueva, ya valió la pena 💡.
       </p>
     </section>
 
     <!-- Stack -->
     <section class="mb-16">
-      <h2 class="mb-5 text-xs font-semibold uppercase tracking-widest text-text-muted">
+      <h2 class="mb-5 text-xs font-bold uppercase tracking-widest text-texto-secundario">
         💻 Stack
       </h2>
       <div class="flex flex-wrap gap-2">
         {stack.map((tech) => (
           <span
-            class="rounded-full px-3 py-1 text-sm font-medium bg-surface border border-border text-text"
+            class="rounded-full px-3 py-1 text-sm font-medium bg-fondo-superficie border border-borde-suave text-texto-principal"
           >
             {tech}
           </span>
@@ -171,23 +171,23 @@ const social = [
 
     <!-- Experience -->
     <section class="mb-16">
-      <h2 class="mb-6 text-xs font-semibold uppercase tracking-widest text-text-muted">
+      <h2 class="mb-6 text-xs font-bold uppercase tracking-widest text-texto-secundario">
         💼 Experiencia
       </h2>
       <div class="flex flex-col gap-8">
         {experience.map((item) => (
-          <div class="rounded-2xl p-6 bg-surface border border-border">
+          <div class="rounded-2xl p-6 bg-fondo-superficie border border-borde-suave">
             <div class="flex flex-wrap items-start justify-between gap-2 mb-3">
               <div>
-                <p class="font-semibold font-display text-text">{item.role}</p>
-                <p class="text-sm mt-0.5 text-text-muted">{item.place}</p>
+                <p class="font-bold font-titulares text-texto-principal">{item.role}</p>
+                <p class="text-sm mt-0.5 text-texto-secundario">{item.place}</p>
               </div>
-              <span class="text-xs tabular-nums shrink-0 text-text-muted">{item.year}</span>
+              <span class="text-xs tabular-nums shrink-0 text-texto-secundario">{item.year}</span>
             </div>
             <ul class="flex flex-col gap-1.5 mt-3">
               {item.bullets.map((b) => (
-                <li class="flex gap-2 text-sm text-text-muted">
-                  <span class="text-aurora-purple">·</span>
+                <li class="flex gap-2 text-sm text-texto-secundario">
+                  <span class="text-marca-texto">·</span>
                   {b}
                 </li>
               ))}
@@ -199,17 +199,17 @@ const social = [
 
     <!-- Education -->
     <section class="mb-16">
-      <h2 class="mb-6 text-xs font-semibold uppercase tracking-widest text-text-muted">
+      <h2 class="mb-6 text-xs font-bold uppercase tracking-widest text-texto-secundario">
         🎓 Educación
       </h2>
-      <ol class="flex flex-col divide-y divide-border">
+      <ol class="flex flex-col divide-y divide-borde-suave">
         {education.map((item) => (
           <li class="flex items-start justify-between gap-6 py-5">
             <div>
-              <p class="font-semibold font-display text-text">{item.title}</p>
-              <p class="text-sm mt-0.5 text-text-muted">{item.institution}</p>
+              <p class="font-bold font-titulares text-texto-principal">{item.title}</p>
+              <p class="text-sm mt-0.5 text-texto-secundario">{item.institution}</p>
             </div>
-            <span class="shrink-0 text-sm tabular-nums text-text-muted">{item.year}</span>
+            <span class="shrink-0 text-sm tabular-nums text-texto-secundario">{item.year}</span>
           </li>
         ))}
       </ol>
@@ -217,7 +217,7 @@ const social = [
 
     <!-- Contact -->
     <section>
-      <h2 class="mb-6 text-xs font-semibold uppercase tracking-widest text-text-muted">
+      <h2 class="mb-6 text-xs font-bold uppercase tracking-widest text-texto-secundario">
         📬 Contacto
       </h2>
       <div class="flex flex-wrap gap-3">
@@ -226,7 +226,7 @@ const social = [
             href={href}
             target="_blank"
             rel="noopener noreferrer"
-            class="rounded-full px-5 py-2.5 text-sm font-medium transition-opacity hover:opacity-80 bg-surface border border-border text-text"
+            class="rounded-full px-5 py-2.5 text-sm font-medium transition-opacity hover:opacity-80 bg-fondo-superficie border border-borde-suave text-texto-principal"
           >
             {label} ↗
           </a>
