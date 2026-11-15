@@ -27,7 +27,7 @@
   /* Niveles con varios tonos (ajuste propuesto a la marca): salen de los tokens de estado, que cambian con el modo */
   --nivel-sitio-1: var(--marca-estado-exito);
   --nivel-sitio-2: var(--marca-estado-info);
-  --nivel-sitio-3: var(--marca-estado-aviso);
+  --nivel-sitio-3: var(--marca-ambar-500);
   --nivel-sitio-4: color-mix(in oklch, var(--marca-estado-aviso) 50%, var(--marca-estado-error));
   --nivel-sitio-5: var(--marca-estado-error);
 }
@@ -39,6 +39,7 @@ html {
 }
 
 html.dark {
+  --nivel-sitio-3: var(--marca-estado-aviso);
   --marca-fondo-superficie: color-mix(in oklch, var(--marca-noche-superficie) 55%, var(--marca-consola-fondo));
   background-color: color-mix(in oklch, var(--marca-consola-fondo) 92%, black);
 }
