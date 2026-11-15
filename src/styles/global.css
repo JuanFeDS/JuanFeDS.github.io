@@ -39,6 +39,7 @@ html {
 }
 
 html.dark {
+  --marca-fondo-superficie: color-mix(in oklch, var(--marca-noche-superficie) 55%, var(--marca-consola-fondo));
   background-color: color-mix(in oklch, var(--marca-consola-fondo) 92%, black);
 }
 
