@@ -4,16 +4,16 @@ interface TagMeta {
 }
 
 const tagMeta: Record<string, TagMeta> = {
-  "inteligencia-artificial": { label: "Inteligencia artificial", color: "var(--marca-datos-3)" },
-  "programacion": { label: "Programación", color: "var(--marca-datos-1)" },
-  "meta": { label: "Meta", color: "var(--marca-datos-5)" },
-  "engineering": { label: "Ingeniería", color: "var(--marca-datos-6)" },
-  "windsurf": { label: "Windsurf", color: "var(--marca-datos-2)" },
-  "ides": { label: "IDEs", color: "var(--marca-datos-8)" },
+  "inteligencia-artificial": { label: "Inteligencia artificial", color: "var(--marca-dominio-claro-ia)" },
+  "programacion": { label: "Programación", color: "var(--marca-dominio-claro-data-engineering)" },
+  "meta": { label: "Meta", color: "var(--marca-dominio-claro-web)" },
+  "engineering": { label: "Ingeniería", color: "var(--marca-dominio-claro-movil)" },
+  "windsurf": { label: "Windsurf", color: "var(--marca-dominio-claro-machine-learning)" },
+  "ides": { label: "IDEs", color: "var(--marca-dominio-claro-analitica)" },
 };
 
-const defaultColor = "var(--marca-datos-1)";
-const companionColor = "var(--marca-datos-5)";
+const defaultColor = "var(--marca-dominio-claro-data-engineering)";
+const companionColor = "var(--marca-dominio-claro-web)";
 
 export function tagLabel(tag: string): string {
   const meta = tagMeta[tag];
