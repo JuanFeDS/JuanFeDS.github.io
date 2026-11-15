@@ -92,7 +92,7 @@ const stackGroups = [
           <!-- Avatar mobile (visible solo en mobile, centrado bajo el badge) -->
           <div class="flex justify-center mt-4 mb-1 md:hidden">
             <div
-              class="p-0.5 rounded-full bg-marca-fuerte"
+              class="p-0.5 rounded-full bg-linear-to-br from-marca-fuerte to-violeta-600"
             >
               <div class="w-24 h-24 rounded-full overflow-hidden bg-fondo-elevado">
                 <Image
@@ -109,7 +109,7 @@ const stackGroups = [
           <!-- Avatar (col 1, fila 2, desktop only) -->
           <div class="hidden md:flex md:items-center md:justify-center md:col-start-1 md:row-start-2 md:pt-6">
             <div
-              class="p-0.5 rounded-full bg-marca-fuerte"
+              class="p-0.5 rounded-full bg-linear-to-br from-marca-fuerte to-violeta-600"
             >
               <div class="w-40 h-40 rounded-full overflow-hidden bg-fondo-elevado">
                 <Image
@@ -130,7 +130,7 @@ const stackGroups = [
             >
               Hola, soy<br />
               <span
-                class="text-senal-texto-grande"
+                class="bg-linear-to-br from-marca-texto to-senal-texto-grande bg-clip-text text-transparent"
               >
                 JuanFe
               </span>
@@ -146,7 +146,7 @@ const stackGroups = [
             <div class="mt-8 flex flex-wrap gap-3">
               <a
                 href="/projects/"
-                class="rounded-full px-6 py-2.5 text-sm font-semibold text-marca-sobre-fuerte transition-opacity hover:opacity-90 bg-marca-fuerte"
+                class="rounded-full px-6 py-2.5 text-sm font-semibold text-marca-sobre-fuerte transition-opacity hover:opacity-90 bg-linear-to-br from-marca-fuerte to-violeta-600"
               >
                 Ver proyectos
               </a>
@@ -166,6 +166,10 @@ const stackGroups = [
         >
           <!-- Header -->
           <div class="relative px-6 pt-5 pb-2">
+            <div
+              class="absolute inset-0 opacity-20 pointer-events-none"
+              style="background: radial-gradient(ellipse at 70% 0%, var(--marca-datos-3) 0%, transparent 70%);"
+            />
             <div class="relative flex items-center justify-between">
               <span class="text-xs font-semibold uppercase tracking-widest text-texto-secundario">Complexity Profile</span>
               <a href="/blog/the-scientist-complexity-framework/" class="text-xs transition-opacity hover:opacity-70 text-marca-texto">¿Qué es esto? →</a>
@@ -278,6 +282,8 @@ const stackGroups = [
         <div
           class="col-span-12 md:col-span-4 rounded-3xl p-6 flex flex-col gap-5 relative overflow-hidden bg-fondo-superficie border border-borde-suave"
         >
+          <div class="absolute inset-0 pointer-events-none opacity-10"
+            style="background: radial-gradient(ellipse at 80% 20%, var(--marca-violeta-400) 0%, transparent 65%);" />
 
           <p class="relative text-xs font-semibold uppercase tracking-widest text-texto-secundario">Stack</p>
 
@@ -363,7 +369,7 @@ const stackGroups = [
         {posts.length > 0 && (
           <div
             class="col-span-12 rounded-3xl p-6"
-            style="background: var(--marca-fondo-superficie); border: 1px solid var(--marca-borde-suave);"
+            style="background: linear-gradient(135deg, color-mix(in oklch, var(--marca-azul-500) 8%, var(--marca-fondo-superficie)), var(--marca-fondo-superficie)); border: 1px solid var(--marca-borde-suave);"
           >
             <div class="mb-5 flex items-center justify-between">
               <p class="text-xs font-semibold uppercase tracking-widest text-texto-secundario">Últimas entradas</p>
