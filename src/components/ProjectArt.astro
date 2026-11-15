@@ -2,7 +2,7 @@
 import { Image } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
 import DomainIcon from "./DomainIcon.astro";
-import { domainColor, domainGradient, domainLabel } from "../lib/taxonomy";
+import { domainColor, domainFill, domainLabel } from "../lib/taxonomy";
 
 interface Props {
   project: CollectionEntry<"projects">;
@@ -15,7 +15,7 @@ const illustrations = import.meta.glob<{ default: any }>("./project-illustration
 const Illustration = illustrations[`./project-illustrations/${project.id}.astro`]?.default;
 ---
 
-<div class="art" style={`background: ${domainGradient[domain]};`}>
+<div class="art" style={`background: ${domainFill[domain]};`}>
   {image ? (
     <Image src={image} alt={`Imagen de ${title}`} widths={[480, 800, 1200]} sizes="(max-width: 768px) 100vw, 480px" class="art-shot" />
   ) : Illustration ? (
@@ -52,14 +52,14 @@ const Illustration = illustrations[`./project-illustrations/${project.id}.astro`
     inset: 0;
     display: grid;
     place-items: center;
-    color: rgba(255, 255, 255, 0.92);
+    color: color-mix(in oklch, var(--marca-marca-sobre-fuerte) 92%, transparent);
   }
   .art-fallback::before,
   .art-fallback::after {
     content: "";
     position: absolute;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.14);
+    background: color-mix(in oklch, var(--marca-marca-sobre-fuerte) 14%, transparent);
   }
   .art-fallback::before { width: 9rem; height: 9rem; left: 12%; bottom: -3.5rem; }
   .art-fallback::after { width: 5rem; height: 5rem; right: 14%; top: 1.5rem; }
@@ -77,8 +77,8 @@ const Illustration = illustrations[`./project-illustrations/${project.id}.astro`
     border-radius: 9999px;
     font-size: 0.68rem;
     font-weight: 700;
-    color: #0f0f1a;
-    background: rgba(255, 255, 255, 0.95);
+    color: var(--marca-neutro-950);
+    background: color-mix(in oklch, var(--marca-marca-sobre-fuerte) 95%, transparent);
   }
   .art-badge-icon { display: inline-flex; }
 </style>

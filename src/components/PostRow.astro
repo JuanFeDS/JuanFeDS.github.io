@@ -21,9 +21,9 @@ const formattedDate = new Date(date).toLocaleDateString("es-ES", { year: "numeri
         <TagPills tags={tags} />
       </div>
     )}
-    <h2 class="post-title font-display text-text">{title}</h2>
-    <p class="post-desc text-text-muted">{description}</p>
-    <time datetime={date} class="post-date text-text-muted">{formattedDate}</time>
+    <h2 class="post-title font-titulares text-texto-principal">{title}</h2>
+    <p class="post-desc text-texto-secundario">{description}</p>
+    <time datetime={date} class="post-date text-texto-secundario">{formattedDate}</time>
   </div>
 </a>
 
@@ -38,7 +38,7 @@ const formattedDate = new Date(date).toLocaleDateString("es-ES", { year: "numeri
 
   .post-row:hover :global(.post-cover) { transform: translateY(-3px) rotate(-0.5deg); }
   .post-row:focus-visible {
-    outline: 2px solid var(--color-aurora-purple);
+    outline: 2px solid var(--marca-foco-anillo);
     outline-offset: 6px;
     border-radius: 1.25rem;
   }

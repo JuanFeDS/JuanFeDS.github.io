@@ -7,33 +7,33 @@ export const domainLabel: Record<string, string> = {
   "mobile": "Mobile",
 };
 
-export const domainGradient: Record<string, string> = {
-  "data-engineering": "linear-gradient(135deg, #14b8a6 0%, #3b82f6 100%)",
-  "machine-learning": "linear-gradient(135deg, #8b5cf6 0%, #f472b6 100%)",
-  "ai":               "linear-gradient(135deg, #f472b6 0%, #8b5cf6 100%)",
-  "analytics":        "linear-gradient(135deg, #3b82f6 0%, #14b8a6 100%)",
-  "web":              "linear-gradient(135deg, #f59e0b 0%, #f472b6 100%)",
-  "mobile":           "linear-gradient(135deg, #22c55e 0%, #0ea5e9 100%)",
+const domainKey: Record<string, string> = {
+  "data-engineering": "data-engineering",
+  "machine-learning": "machine-learning",
+  "ai":               "ia",
+  "analytics":        "analitica",
+  "web":              "web",
+  "mobile":           "movil",
 };
 
-// Variante más profunda de domainGradient para superficies con texto blanco encima (contraste >= 4.5:1).
-export const domainHeroGradient: Record<string, string> = {
-  "data-engineering": "linear-gradient(135deg, #0f766e 0%, #2563eb 100%)",
-  "machine-learning": "linear-gradient(135deg, #7c3aed 0%, #db2777 100%)",
-  "ai":               "linear-gradient(135deg, #db2777 0%, #6d28d9 100%)",
-  "analytics":        "linear-gradient(135deg, #2563eb 0%, #0f766e 100%)",
-  "web":              "linear-gradient(135deg, #c2410c 0%, #db2777 100%)",
-  "mobile":           "linear-gradient(135deg, #15803d 0%, #0369a1 100%)",
-};
+const domainFillOf = (domain: string) => `var(--marca-dominio-claro-${domainKey[domain]})`;
 
-export const domainColor: Record<string, string> = {
-  "data-engineering": "#14b8a6",
-  "machine-learning": "#8b5cf6",
-  "ai":               "#f472b6",
-  "analytics":        "#3b82f6",
-  "web":              "#f59e0b",
-  "mobile":           "#22c55e",
-};
+export const domainColor: Record<string, string> = Object.fromEntries(
+  Object.keys(domainKey).map((domain) => [domain, `var(--marca-dominio-${domainKey[domain]})`]),
+);
+
+// Relleno plano para superficies con texto claro encima: usa la variante `claro` del dominio, oscura en ambos modos.
+export const domainFill: Record<string, string> = Object.fromEntries(
+  Object.keys(domainKey).map((domain) => [domain, domainFillOf(domain)]),
+);
+
+// Solo para el fondo de una portada (hero): degradado sutil construido con el token de dominio.
+export const domainHeroGradient: Record<string, string> = Object.fromEntries(
+  Object.keys(domainKey).map((domain) => [
+    domain,
+    `linear-gradient(135deg, ${domainFillOf(domain)} 0%, color-mix(in oklch, ${domainFillOf(domain)} 70%, var(--marca-neutro-950)) 100%)`,
+  ]),
+);
 
 export const levelName: Record<number, string> = {
   1: "Standalone Script",
@@ -44,11 +44,11 @@ export const levelName: Record<number, string> = {
 };
 
 export const levelColor: Record<number, string> = {
-  1: "var(--level-1)",
-  2: "var(--level-2)",
-  3: "var(--level-3)",
-  4: "var(--level-4)",
-  5: "var(--level-5)",
+  1: "var(--nivel-sitio-1)",
+  2: "var(--nivel-sitio-2)",
+  3: "var(--nivel-sitio-3)",
+  4: "var(--nivel-sitio-4)",
+  5: "var(--nivel-sitio-5)",
 };
 
 export const levelDot: Record<number, string> = {
@@ -131,10 +131,10 @@ export const techCategoryMap: Record<string, string> = {
 export const categoryOrder = ["Lenguajes", "ML / IA", "Backend", "Frontend", "Cloud & Data"];
 
 export const categoryColor: Record<string, string> = {
-  "Lenguajes":    "var(--color-aurora-purple)",
-  "ML / IA":      "var(--color-aurora-teal)",
-  "Backend":      "var(--color-aurora-blue)",
-  "Frontend":     "var(--color-cat-frontend)",
-  "Cloud & Data": "var(--color-cat-cloud)",
-  "Otros":        "var(--color-text-muted)",
+  "Lenguajes":    "var(--marca-dominio-data-engineering)",
+  "ML / IA":      "var(--marca-dominio-ia)",
+  "Backend":      "var(--marca-dominio-movil)",
+  "Frontend":     "var(--marca-dominio-analitica)",
+  "Cloud & Data": "var(--marca-dominio-machine-learning)",
+  "Otros":        "var(--marca-texto-secundario)",
 };

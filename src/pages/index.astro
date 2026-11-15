@@ -5,7 +5,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Nav from "../components/Nav.astro";
 import avatar from "../assets/avatar.jpg";
 import {
-  domainLabel, domainHeroGradient, levelName, levelColor, levelDesc,
+  domainLabel, domainFill, levelName, levelColor, levelDesc,
   matrixDims, techCategoryMap, categoryOrder, categoryColor,
 } from "../lib/taxonomy";
 
@@ -72,7 +72,7 @@ const stackGroups = [
 <BaseLayout title="JuanFe Martínez — Data Scientist & Engineer">
   <Nav />
 
-  <main class="aurora-bg min-h-screen pt-20">
+  <main class="fondo-aurora min-h-screen pt-20">
     <div class="relative z-10 mx-auto max-w-6xl px-6 py-16">
 
       <!-- Bento Grid -->
@@ -80,11 +80,11 @@ const stackGroups = [
 
         <!-- Hero card — full width -->
         <div
-          class="col-span-12 md:col-span-8 rounded-3xl p-8 md:p-12 mt-0 md:-mt-10 md:grid md:grid-cols-[auto_1fr] md:gap-x-8 bg-surface border border-border"
+          class="col-span-12 md:col-span-8 rounded-3xl p-8 md:p-12 mt-0 md:-mt-10 md:grid md:grid-cols-[auto_1fr] md:gap-x-8 bg-fondo-superficie border border-borde-suave"
         >
           <!-- Badge (fila 1, ancho completo) -->
           <div class="md:col-span-2 md:row-start-1">
-            <p class="mb-0 text-sm font-medium text-aurora-purple">
+            <p class="mb-0 text-sm font-medium text-marca-texto">
               Data Scientist & Data Engineer · Mercado Libre
             </p>
           </div>
@@ -92,9 +92,9 @@ const stackGroups = [
           <!-- Avatar mobile (visible solo en mobile, centrado bajo el badge) -->
           <div class="flex justify-center mt-4 mb-1 md:hidden">
             <div
-              class="p-0.5 rounded-full bg-linear-to-br from-aurora-purple to-aurora-teal"
+              class="p-0.5 rounded-full bg-linear-to-br from-marca-fuerte to-violeta-600"
             >
-              <div class="w-24 h-24 rounded-full overflow-hidden bg-surface-2">
+              <div class="w-24 h-24 rounded-full overflow-hidden bg-fondo-elevado">
                 <Image
                   src={avatar}
                   alt="JuanFe Martínez"
@@ -109,9 +109,9 @@ const stackGroups = [
           <!-- Avatar (col 1, fila 2, desktop only) -->
           <div class="hidden md:flex md:items-center md:justify-center md:col-start-1 md:row-start-2 md:pt-6">
             <div
-              class="p-0.5 rounded-full bg-linear-to-br from-aurora-purple to-aurora-teal"
+              class="p-0.5 rounded-full bg-linear-to-br from-marca-fuerte to-violeta-600"
             >
-              <div class="w-40 h-40 rounded-full overflow-hidden bg-surface-2">
+              <div class="w-40 h-40 rounded-full overflow-hidden bg-fondo-elevado">
                 <Image
                   src={avatar}
                   alt="JuanFe Martínez"
@@ -126,11 +126,11 @@ const stackGroups = [
           <!-- H1 (col 2, fila 2) -->
           <div class="mt-3 md:mt-0 md:col-start-2 md:row-start-2 md:pt-3">
             <h1
-              class="text-5xl font-bold leading-tight md:text-6xl lg:text-7xl font-display text-text"
+              class="text-5xl font-bold leading-tight md:text-6xl lg:text-7xl font-titulares text-texto-principal"
             >
               Hola, soy<br />
               <span
-                class="bg-linear-to-br from-aurora-purple to-aurora-teal bg-clip-text text-transparent"
+                class="bg-linear-to-br from-marca-texto to-senal-texto-grande bg-clip-text text-transparent"
               >
                 JuanFe
               </span>
@@ -139,20 +139,20 @@ const stackGroups = [
 
           <!-- Description + buttons (fila 3, ancho completo) -->
           <div class="mt-6 md:col-span-2 md:row-start-3">
-            <p class="text-lg text-text-muted">
+            <p class="text-lg text-texto-secundario">
               Curioso por naturaleza, apasionado por aprender, construir y compartir.
               Combino ciencia de datos e ingeniería para resolver problemas reales a gran escala.
             </p>
             <div class="mt-8 flex flex-wrap gap-3">
               <a
                 href="/projects/"
-                class="rounded-full px-6 py-2.5 text-sm font-semibold text-white transition-opacity hover:opacity-90 bg-linear-to-br from-aurora-purple to-aurora-blue"
+                class="rounded-full px-6 py-2.5 text-sm font-semibold text-marca-sobre-fuerte transition-opacity hover:opacity-90 bg-linear-to-br from-marca-fuerte to-violeta-600"
               >
                 Ver proyectos
               </a>
               <a
                 href="/about/"
-                class="rounded-full px-6 py-2.5 text-sm font-semibold transition-colors bg-surface-2 border border-border text-text"
+                class="rounded-full px-6 py-2.5 text-sm font-semibold transition-colors bg-fondo-elevado border border-borde-suave text-texto-principal"
               >
                 Sobre mí
               </a>
@@ -162,19 +162,19 @@ const stackGroups = [
 
         <!-- Complexity Profile card -->
         <div
-          class="col-span-12 md:col-span-4 rounded-3xl flex flex-col mt-0 md:-mt-10 bg-surface border border-border"
+          class="col-span-12 md:col-span-4 rounded-3xl flex flex-col mt-0 md:-mt-10 bg-fondo-superficie border border-borde-suave"
         >
           <!-- Header -->
           <div class="relative px-6 pt-5 pb-2">
             <div
-              class="absolute inset-0 opacity-20 pointer-events-none"
-              style="background: radial-gradient(ellipse at 70% 0%, var(--color-aurora-teal) 0%, transparent 70%);"
+              class="absolute inset-0 rounded-t-3xl opacity-10 pointer-events-none"
+              style="background: radial-gradient(ellipse at 70% 0%, var(--marca-datos-3) 0%, transparent 70%);"
             />
             <div class="relative flex items-center justify-between">
-              <span class="text-xs font-semibold uppercase tracking-widest text-text-muted">Complexity Profile</span>
-              <a href="/blog/the-scientist-complexity-framework/" class="text-xs transition-opacity hover:opacity-70 text-aurora-purple">¿Qué es esto? →</a>
+              <span class="text-xs font-extrabold uppercase tracking-widest text-texto-principal">Complexity Profile</span>
+              <a href="/blog/the-scientist-complexity-framework/" class="text-xs transition-opacity hover:opacity-70 text-marca-texto">¿Qué es esto? →</a>
             </div>
-            <p class="relative mt-2 text-xs leading-relaxed text-text-muted">
+            <p class="relative mt-2 text-xs leading-relaxed text-texto-principal">
               Cada proyecto clasificado por nivel de sistema y scored en cuatro dimensiones: arquitectura, datos, infraestructura e IA.
             </p>
           </div>
@@ -182,17 +182,17 @@ const stackGroups = [
           <!-- Level distribution -->
           <div class="flex-1 flex flex-col justify-center px-5 py-4">
             <div class="flex items-center gap-1.5 mb-3">
-              <p class="text-[9px] font-bold uppercase tracking-widest text-text-muted">Distribución por nivel</p>
+              <p class="text-[9px] font-bold uppercase tracking-widest text-texto-secundario">Distribución por nivel</p>
               <div class="matrix-help" tabindex="0">
                 <span class="matrix-help-icon">?</span>
                 <div class="matrix-help-popup">
                   <p class="matrix-help-section">Niveles · tipo de sistema</p>
                   <div class="flex flex-col gap-[2px]">
-                    <span><b style="color: var(--level-1);">1</b> · Standalone Script</span>
-                    <span><b style="color: var(--level-2);">2</b> · Static App</span>
-                    <span><b style="color: var(--level-3);">3</b> · Basic Backend</span>
-                    <span><b style="color: var(--level-4);">4</b> · Distributed System</span>
-                    <span><b style="color: var(--level-5);">5</b> · Complex Platform</span>
+                    <span><b style="color: var(--nivel-sitio-1);">1</b> · Standalone Script</span>
+                    <span><b style="color: var(--nivel-sitio-2);">2</b> · Static App</span>
+                    <span><b style="color: var(--nivel-sitio-3);">3</b> · Basic Backend</span>
+                    <span><b style="color: var(--nivel-sitio-4);">4</b> · Distributed System</span>
+                    <span><b style="color: var(--nivel-sitio-5);">5</b> · Complex Platform</span>
                   </div>
                 </div>
               </div>
@@ -205,7 +205,7 @@ const stackGroups = [
                     title={levelName[level]}
                     style={`color: ${levelColor[level]};`}
                   >{level}</span>
-                  <div class="flex-1 h-2 rounded-full overflow-hidden bg-surface-2">
+                  <div class="flex-1 h-2 rounded-full overflow-hidden bg-fondo-elevado">
                     <div
                       class="h-full rounded-full"
                       style={`width: ${count > 0 ? Math.max(count / maxLevelCount * 100, 5) : 0}%; background: ${levelColor[level]};`}
@@ -213,7 +213,7 @@ const stackGroups = [
                   </div>
                   <span
                     class="text-[10px] font-bold w-3 flex-shrink-0 tabular-nums text-right"
-                    style={`color: ${count > 0 ? levelColor[level] : "var(--color-border)"};`}
+                    style={`color: ${count > 0 ? levelColor[level] : "var(--marca-borde-suave)"};`}
                   >{count}</span>
                 </div>
               ))}
@@ -221,19 +221,19 @@ const stackGroups = [
           </div>
 
           <!-- Footer: matriz niveles × dimensiones -->
-          <div class="px-4 pt-3 pb-4 border-t border-border">
+          <div class="px-4 pt-3 pb-4 border-t border-borde-suave">
             <div class="flex items-center gap-1.5 mb-2">
-              <p class="text-[9px] font-bold uppercase tracking-widest text-text-muted">Score promedio por nivel</p>
+              <p class="text-[9px] font-bold uppercase tracking-widest text-texto-secundario">Score promedio por nivel</p>
               <div class="matrix-help" tabindex="0">
                 <span class="matrix-help-icon">?</span>
                 <div class="matrix-help-popup">
                   <p class="matrix-help-section">Niveles de complejidad</p>
                   <div class="matrix-help-grid">
-                    <span><b style="color: var(--level-1);">1</b> Standalone Script</span>
-                    <span><b style="color: var(--level-2);">2</b> Static App</span>
-                    <span><b style="color: var(--level-3);">3</b> Basic Backend</span>
-                    <span><b style="color: var(--level-4);">4</b> Distributed System</span>
-                    <span><b style="color: var(--level-5);">5</b> Complex Platform</span>
+                    <span><b style="color: var(--nivel-sitio-1);">1</b> Standalone Script</span>
+                    <span><b style="color: var(--nivel-sitio-2);">2</b> Static App</span>
+                    <span><b style="color: var(--nivel-sitio-3);">3</b> Basic Backend</span>
+                    <span><b style="color: var(--nivel-sitio-4);">4</b> Distributed System</span>
+                    <span><b style="color: var(--nivel-sitio-5);">5</b> Complex Platform</span>
                   </div>
                   <p class="matrix-help-section mt-2">Dimensiones · score 1–5</p>
                   <div class="matrix-help-grid">
@@ -280,13 +280,12 @@ const stackGroups = [
 
         <!-- Stack card -->
         <div
-          class="col-span-12 md:col-span-4 rounded-3xl p-6 flex flex-col gap-5 relative overflow-hidden bg-surface border border-border"
+          class="col-span-12 md:col-span-4 rounded-3xl p-6 flex flex-col gap-5 relative overflow-hidden bg-fondo-superficie border border-borde-suave"
         >
-          <!-- Glow -->
           <div class="absolute inset-0 pointer-events-none opacity-10"
-            style="background: radial-gradient(ellipse at 80% 20%, var(--color-aurora-purple) 0%, transparent 65%);" />
+            style="background: radial-gradient(ellipse at 80% 20%, var(--marca-violeta-400) 0%, transparent 65%);" />
 
-          <p class="relative text-xs font-semibold uppercase tracking-widest text-text-muted">Stack</p>
+          <p class="relative text-xs font-bold uppercase tracking-widest text-texto-secundario">Stack</p>
 
           <div class="relative flex flex-col gap-4">
             {stackGroups.map(({ label, color, techs }, gi) => (
@@ -297,7 +296,7 @@ const stackGroups = [
                     <a
                       href={`/projects/?tech=${encodeURIComponent(tech)}`}
                       class={`stack-pill rounded-full px-3 py-1 text-xs font-medium transition-opacity hover:opacity-70${ti >= 3 ? " stack-overflow hidden" : ""}`}
-                      style={`background: color-mix(in srgb, ${color} 10%, transparent); border: 1px solid color-mix(in srgb, ${color} 25%, transparent); color: var(--color-text); text-decoration: none;`}
+                      style={`background: color-mix(in srgb, ${color} 10%, transparent); border: 1px solid color-mix(in srgb, ${color} 25%, transparent); color: var(--marca-texto-principal); text-decoration: none;`}
                     >
                       {tech}
                     </a>
@@ -320,10 +319,10 @@ const stackGroups = [
 
         <!-- Featured projects -->
         {projects.length > 0 && (
-          <div class="col-span-12 md:col-span-8 rounded-3xl p-6 bg-surface border border-border">
+          <div class="col-span-12 md:col-span-8 rounded-3xl p-6 bg-fondo-superficie border border-borde-suave">
             <div class="mb-5 flex items-center justify-between">
-              <p class="text-xs font-semibold uppercase tracking-widest text-text-muted">Proyectos recientes</p>
-              <a href="/projects/" class="text-xs text-aurora-purple">Ver todos →</a>
+              <p class="text-xs font-bold uppercase tracking-widest text-texto-secundario">Proyectos recientes</p>
+              <a href="/projects/" class="text-xs text-marca-texto">Ver todos →</a>
             </div>
             <div class="grid grid-cols-1 gap-4">
               {projects.map((p) => (
@@ -333,12 +332,12 @@ const stackGroups = [
                   <div class="project-img absolute inset-0">
                     {p.data.image
                       ? <Image src={p.data.image} alt={p.data.title} width={p.data.image.width} height={p.data.image.height} class="w-full h-full object-cover" />
-                      : <div class="w-full h-full" style={`background: ${domainHeroGradient[p.data.domain]};`} />
+                      : <div class="w-full h-full" style={`background: color-mix(in oklch, ${domainFill[p.data.domain]} 70%, var(--marca-fondo-superficie));`} />
                     }
                   </div>
 
                   <!-- Overlay oscuro (aparece con la imagen) -->
-                  <div class="project-overlay absolute inset-0 bg-linear-to-t from-black/80 to-black/25" />
+                  <div class="project-overlay absolute inset-0 bg-linear-to-t from-neutro-950/80 to-neutro-950/25" />
 
                   <!-- Contenido -->
                   <div class="relative z-10 flex items-center px-5 gap-4">
@@ -347,12 +346,12 @@ const stackGroups = [
                       <span class="project-domain block text-[10px] font-bold uppercase tracking-widest mb-0.5">
                         {domainLabel[p.data.domain]}
                       </span>
-                      <p class="project-title font-bold text-sm leading-snug font-display">
+                      <p class="project-title font-bold text-sm leading-snug font-titulares">
                         {p.data.title}
                       </p>
                     </div>
                     <!-- Divisor -->
-                    <div class="project-divider h-8 w-px flex-shrink-0 bg-border" />
+                    <div class="project-divider h-8 w-px flex-shrink-0 bg-borde-suave" />
                     <!-- 70% derecha: descripción -->
                     <div class="flex-1 min-w-0">
                       <p class="project-desc text-sm leading-snug line-clamp-2">
@@ -370,34 +369,34 @@ const stackGroups = [
         {posts.length > 0 && (
           <div
             class="col-span-12 rounded-3xl p-6"
-            style="background: linear-gradient(135deg, color-mix(in srgb, var(--color-aurora-purple) 8%, var(--color-surface)), var(--color-surface)); border: 1px solid var(--color-border);"
+            style="background: linear-gradient(135deg, color-mix(in oklch, var(--marca-azul-500) 8%, var(--marca-fondo-superficie)), var(--marca-fondo-superficie)); border: 1px solid var(--marca-borde-suave);"
           >
             <div class="mb-5 flex items-center justify-between">
-              <p class="text-xs font-semibold uppercase tracking-widest text-text-muted">Últimas entradas</p>
-              <a href="/blog/" class="text-xs text-aurora-purple">Ver blog →</a>
+              <p class="text-xs font-bold uppercase tracking-widest text-texto-secundario">Últimas entradas</p>
+              <a href="/blog/" class="text-xs text-marca-texto">Ver blog →</a>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
               {posts.map((post) => (
                 <a
                   href={`/blog/${post.id}/`}
-                  class="group flex flex-col justify-between gap-4 rounded-2xl p-5 transition-colors bg-surface border border-border"
+                  class="group flex flex-col justify-between gap-4 rounded-2xl p-5 transition-colors bg-fondo-superficie border border-borde-suave"
                 >
                   <div>
                     {post.data.tags?.length > 0 && (
                       <span
-                        class="mb-3 inline-block rounded-full px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide bg-aurora-purple/12 text-aurora-purple"
+                        class="mb-3 inline-block rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide bg-marca-suave text-marca-sobre-suave"
                       >
                         {post.data.tags[0]}
                       </span>
                     )}
-                    <p class="font-semibold leading-snug group-hover:underline font-display text-text">{post.data.title}</p>
-                    <p class="mt-2 text-sm leading-relaxed text-text-muted">{post.data.description}</p>
+                    <p class="font-bold leading-snug group-hover:underline font-titulares text-texto-principal">{post.data.title}</p>
+                    <p class="mt-2 text-sm leading-relaxed text-texto-secundario">{post.data.description}</p>
                   </div>
                   <div class="flex items-center justify-between">
-                    <time class="text-xs text-text-muted">
+                    <time class="text-xs text-texto-secundario">
                       {new Date(post.data.date).toLocaleDateString("es-ES", { year: "numeric", month: "short", day: "numeric" })}
                     </time>
-                    <span class="text-xs font-medium transition-transform group-hover:translate-x-1 inline-block text-aurora-purple">Leer →</span>
+                    <span class="text-xs font-medium transition-transform group-hover:translate-x-1 inline-block text-marca-texto">Leer →</span>
                   </div>
                 </a>
               ))}
@@ -410,9 +409,19 @@ const stackGroups = [
   </main>
 
   <footer
-    class="border-t px-6 py-10 text-center text-sm border-border text-text-muted"
+    class="border-t px-6 py-8 text-sm border-borde-suave text-texto-secundario dark:bg-consola-fondo/90"
   >
-    <p>&copy; {new Date().getFullYear()} 🧪JuanFeDS &mdash; Hecho con Astro</p>
+    <div class="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-x-6 gap-y-3">
+      <p class="font-titulares text-base font-bold text-texto-principal">🧪JuanFe<span class="text-senal-texto-grande">DS</span></p>
+      <div class="flex items-center gap-4">
+        <a href="https://github.com/JuanFeDS" target="_blank" rel="noopener" aria-label="GitHub" class="transition-colors hover:text-texto-principal">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" /></svg>
+        </a>
+        <a href="https://linkedin.com/in/juanfe-martinez" target="_blank" rel="noopener" aria-label="LinkedIn" class="transition-colors hover:text-texto-principal">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" /></svg>
+        </a>
+      </div>
+    </div>
   </footer>
 </BaseLayout>
 
@@ -443,7 +452,7 @@ const stackGroups = [
     letter-spacing: 0.05em;
     text-transform: uppercase;
     text-align: center;
-    color: var(--color-text-muted);
+    color: var(--marca-texto-secundario);
     padding-bottom: 2px;
   }
   .matrix-row-label {
@@ -461,10 +470,10 @@ const stackGroups = [
     justify-content: center;
     font-size: 11px;
     font-weight: 700;
-    border: 1px solid var(--color-border);
+    border: 1px solid var(--marca-borde-suave);
   }
   .matrix-empty {
-    color: var(--color-border);
+    color: var(--marca-borde-suave);
     font-weight: 400;
     font-size: 13px;
     line-height: 1;
@@ -479,11 +488,11 @@ const stackGroups = [
     width: 13px;
     height: 13px;
     border-radius: 50%;
-    border: 1px solid var(--color-text-muted);
+    border: 1px solid var(--marca-texto-secundario);
     font-size: 8px;
     font-weight: 700;
-    font-family: monospace;
-    color: var(--color-text-muted);
+    font-family: var(--marca-tipografia-familia-mono);
+    color: var(--marca-texto-secundario);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -502,19 +511,18 @@ const stackGroups = [
     bottom: calc(100% + 6px);
     left: 50%;
     transform: translateX(-50%);
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
+    background: var(--marca-fondo-superficie);
+    border: 1px solid var(--marca-borde-suave);
     padding: 10px 12px;
     border-radius: 8px;
     width: min(220px, calc(100vw - 48px));
     font-size: 10px;
-    color: var(--color-text-muted);
+    color: var(--marca-texto-secundario);
     pointer-events: none;
     opacity: 0;
     transition: opacity 0.15s;
     z-index: 50;
     line-height: 1.7;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
   }
   .matrix-help:hover .matrix-help-popup,
   .matrix-help:focus-within .matrix-help-popup {
@@ -525,7 +533,7 @@ const stackGroups = [
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.06em;
-    color: var(--color-text-muted);
+    color: var(--marca-texto-secundario);
     margin-bottom: 4px;
   }
   .matrix-help-grid {
@@ -536,8 +544,8 @@ const stackGroups = [
 
   .project-card {
     min-height: 78px;
-    background: var(--color-surface-2);
-    border: 1px solid var(--color-border);
+    background: var(--marca-fondo-elevado);
+    border: 1px solid var(--marca-borde-suave);
     cursor: pointer;
     text-decoration: none;
     padding-top: 0.75rem;
@@ -570,25 +578,25 @@ const stackGroups = [
 
   /* Textos: cambian a blanco cuando la imagen aparece */
   .project-domain {
-    color: var(--color-text);
+    color: var(--marca-texto-principal);
     transition: color 0.2s ease 0.35s;
   }
-  .project-card:hover .project-domain { color: rgba(255, 255, 255, 0.65); }
+  .project-card:hover .project-domain { color: color-mix(in oklch, var(--marca-marca-sobre-fuerte) 65%, transparent); }
 
   .project-title {
-    color: var(--color-text);
+    color: var(--marca-texto-principal);
     transition: color 0.2s ease 0.35s;
   }
-  .project-card:hover .project-title { color: white; }
+  .project-card:hover .project-title { color: var(--marca-marca-sobre-fuerte); }
 
   .project-desc {
-    color: var(--color-text-muted);
+    color: var(--marca-texto-secundario);
     transition: color 0.2s ease 0.35s;
   }
-  .project-card:hover .project-desc { color: rgba(255, 255, 255, 0.75); }
+  .project-card:hover .project-desc { color: color-mix(in oklch, var(--marca-marca-sobre-fuerte) 75%, transparent); }
 
   .project-divider {
     transition: background 0.2s ease 0.35s;
   }
-  .project-card:hover .project-divider { background: rgba(255, 255, 255, 0.25) !important; }
+  .project-card:hover .project-divider { background: color-mix(in oklch, var(--marca-marca-sobre-fuerte) 25%, transparent) !important; }
 </style>

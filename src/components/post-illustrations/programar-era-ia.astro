@@ -14,40 +14,40 @@ const codeLines = [
 ---
 
 <svg class="art" viewBox="24 14 272 152" preserveAspectRatio="xMidYMid meet" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
-  <rect x="48" y="26" width="224" height="128" rx="12" fill="rgba(255,255,255,0.18)" stroke="rgba(255,255,255,0.7)" stroke-width="1.5" />
+  <rect x="48" y="26" width="224" height="128" rx="12" fill="color-mix(in oklch, var(--marca-marca-sobre-fuerte) 18%, transparent)" stroke="color-mix(in oklch, var(--marca-marca-sobre-fuerte) 70%, transparent)" stroke-width="1.5" />
 
-  <g fill="rgba(255,255,255,0.85)">
+  <g fill="color-mix(in oklch, var(--marca-marca-sobre-fuerte) 85%, transparent)">
     <circle cx="62" cy="40" r="2.8" />
     <circle cx="73" cy="40" r="2.8" />
     <circle cx="84" cy="40" r="2.8" />
   </g>
-  <line x1="116" y1="50" x2="116" y2="148" stroke="rgba(255,255,255,0.35)" stroke-width="1.2" />
+  <line x1="116" y1="50" x2="116" y2="148" stroke="color-mix(in oklch, var(--marca-marca-sobre-fuerte) 35%, transparent)" stroke-width="1.2" />
 
   {files.map((file) => (
     <g>
-      {file.active && <rect x="54" y={file.y - 5} width="56" height="16" rx="8" fill="#ffffff" />}
-      <rect x="60" y={file.y - 1} width="7" height="7" rx="2" fill={file.active ? "#8b5cf6" : "rgba(255,255,255,0.6)"} />
-      <rect x="72" y={file.y} width={file.bar} height="5" rx="2.5" fill={file.active ? "rgba(139,92,246,0.7)" : "rgba(255,255,255,0.85)"} />
+      {file.active && <rect x="54" y={file.y - 5} width="56" height="16" rx="8" fill="var(--marca-marca-sobre-fuerte)" />}
+      <rect x="60" y={file.y - 1} width="7" height="7" rx="2" fill={file.active ? "var(--marca-violeta-600)" : "color-mix(in oklch, var(--marca-marca-sobre-fuerte) 60%, transparent)"} />
+      <rect x="72" y={file.y} width={file.bar} height="5" rx="2.5" fill={file.active ? "color-mix(in oklch, var(--marca-violeta-600) 70%, transparent)" : "color-mix(in oklch, var(--marca-marca-sobre-fuerte) 85%, transparent)"} />
     </g>
   ))}
 
-  <g fill="rgba(255,255,255,0.92)">
+  <g fill="color-mix(in oklch, var(--marca-marca-sobre-fuerte) 92%, transparent)">
     {codeLines.map((line) => (
       <rect x={line.x} y={line.y} width={line.width} height="6" rx="3" />
     ))}
   </g>
-  <rect class="ghost" x="140" y="108" width="88" height="9" rx="4.5" fill="none" stroke="rgba(255,255,255,0.85)" stroke-width="1.5" stroke-dasharray="4 4" />
+  <rect class="ghost" x="140" y="108" width="88" height="9" rx="4.5" fill="none" stroke="color-mix(in oklch, var(--marca-marca-sobre-fuerte) 85%, transparent)" stroke-width="1.5" stroke-dasharray="4 4" />
 
   <g class="cursor">
-    <path transform="translate(226 100)" d="M0 0 L0 15 L4.2 11.2 L7 17.5 L9.6 16.4 L6.8 10.2 L12.4 10.2 Z" fill="#ffffff" stroke="rgba(0,0,0,0.3)" stroke-width="1" stroke-linejoin="round" />
+    <path transform="translate(226 100)" d="M0 0 L0 15 L4.2 11.2 L7 17.5 L9.6 16.4 L6.8 10.2 L12.4 10.2 Z" fill="var(--marca-marca-sobre-fuerte)" stroke="color-mix(in oklch, var(--marca-neutro-950) 30%, transparent)" stroke-width="1" stroke-linejoin="round" />
   </g>
 
-  <rect x="196" y="126" width="68" height="26" rx="13" fill="#ffffff" />
+  <rect x="196" y="126" width="68" height="26" rx="13" fill="var(--marca-marca-sobre-fuerte)" />
   <g transform="translate(210 139) scale(0.95) translate(-12 -10)">
-    <path class="spark" d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z" fill="#f472b6" />
+    <path class="spark" d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z" fill="var(--marca-azul-500)" />
   </g>
-  <rect x="223" y="132" width="32" height="5" rx="2.5" fill="rgba(139,92,246,0.75)" />
-  <rect x="223" y="141" width="22" height="5" rx="2.5" fill="rgba(139,92,246,0.35)" />
+  <rect x="223" y="132" width="32" height="5" rx="2.5" fill="color-mix(in oklch, var(--marca-violeta-600) 75%, transparent)" />
+  <rect x="223" y="141" width="22" height="5" rx="2.5" fill="color-mix(in oklch, var(--marca-violeta-600) 35%, transparent)" />
 </svg>
 
 <style>

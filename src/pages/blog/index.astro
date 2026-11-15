@@ -16,7 +16,7 @@ const allTags = [...new Set(posts.flatMap((p) => p.data.tags))].sort();
   title="Blog"
   description="Artículos sobre ciencia de datos, ingeniería, herramientas y la industria tech."
 >
-  <SectionHero eyebrow="Escritura" title="Blog" accent="purple" width="3xl">
+  <SectionHero eyebrow="Escritura" title="Blog" width="3xl">
     Opiniones, reflexiones y divulgación sobre datos, tecnología y lo que me llama la atención.
   </SectionHero>
 
@@ -32,7 +32,7 @@ const allTags = [...new Set(posts.flatMap((p) => p.data.tags))].sort();
     )}
 
     {posts.length === 0 ? (
-      <p class="text-text-muted">Próximamente...</p>
+      <p class="text-texto-secundario">Próximamente...</p>
     ) : (
       <ol class="flex flex-col" id="posts-list">
         {posts.map((post, index) => (
@@ -50,7 +50,7 @@ const allTags = [...new Set(posts.flatMap((p) => p.data.tags))].sort();
   .post-item {
     margin-top: 2.5rem;
     padding-top: 2.5rem;
-    border-top: 1px solid var(--color-border);
+    border-top: 1px solid var(--marca-borde-suave);
   }
   .post-item.is-first {
     margin-top: 0;
@@ -68,20 +68,20 @@ const allTags = [...new Set(posts.flatMap((p) => p.data.tags))].sort();
     border-radius: 9999px;
     font-size: 0.78rem;
     font-weight: 500;
-    border: 1px solid var(--color-border);
+    border: 1px solid var(--marca-borde-suave);
     background: transparent;
-    color: var(--color-text-muted);
+    color: var(--marca-texto-secundario);
     cursor: pointer;
     transition: all 0.15s;
   }
   .tag-btn:hover {
-    border-color: var(--color-aurora-purple);
-    color: var(--color-aurora-purple);
+    border-color: var(--marca-marca-texto);
+    color: var(--marca-marca-texto);
   }
   .tag-btn.active {
-    background: color-mix(in srgb, var(--color-aurora-purple) 12%, transparent);
-    border-color: var(--color-aurora-purple);
-    color: var(--color-aurora-purple);
+    background: var(--marca-marca-suave);
+    border-color: var(--marca-marca-texto);
+    color: var(--marca-marca-sobre-suave);
   }
 </style>
 
