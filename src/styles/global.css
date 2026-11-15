@@ -39,7 +39,7 @@ html {
 }
 
 html.dark {
-  background-color: color-mix(in oklch, var(--marca-fondo-pagina) 10%, var(--marca-consola-fondo));
+  background-color: color-mix(in oklch, var(--marca-consola-fondo) 75%, black);
 }
 
 @media (prefers-reduced-motion: no-preference) {
