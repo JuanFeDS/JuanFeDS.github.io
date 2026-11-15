@@ -165,8 +165,8 @@ const nextGrad = next ? fills[next.data.week % fills.length] : null;
       const side = arrow.dataset.side as "left" | "right";
 
       const mask = side === "left"
-        ? "linear-gradient(to right, black 0%, black 45%, transparent 80%)"
-        : "linear-gradient(to left,  black 0%, black 45%, transparent 80%)";
+        ? "linear-gradient(to right, var(--marca-neutro-950) 0%, var(--marca-neutro-950) 45%, transparent 80%)"
+        : "linear-gradient(to left,  var(--marca-neutro-950) 0%, var(--marca-neutro-950) 45%, transparent 80%)";
 
       arrow.addEventListener("mouseenter", () => {
         preview.style.background       = grad;
