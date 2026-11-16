@@ -85,4 +85,20 @@ const tools = defineCollection({
   }),
 });
 
-export const collections = { blog, projects, makeover_monday, tools };
+const lecturas = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/lecturas" }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    date: z.string(),
+    source_title: z.string(),
+    source_url: z.string().url(),
+    authors: z.string().optional(),
+    reading_minutes: z.number().int().positive().optional(),
+    tags: z.array(z.string()).optional().default([]),
+    pdf: z.boolean().optional().default(false),
+    draft: z.boolean().optional().default(false),
+  }),
+});
+
+export const collections = { blog, projects, makeover_monday, tools, lecturas };

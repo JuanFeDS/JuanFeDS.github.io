@@ -10,6 +10,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
+    "lecturas:sync": "node scripts/sync-lecturas.mjs",
     "astro": "astro"
   },
   "dependencies": {

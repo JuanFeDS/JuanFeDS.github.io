@@ -1,0 +1,1468 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cómo Anthropic revisa el código que escribe Claude</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Marca v0.6.0. Generado por `python -m marca construir`: no editar a mano.
+   Claro por defecto; oscuro con `.dark` o `[data-theme='dark']`. */
+
+:root {
+  --marca-consola-fondo: oklch(0.1288 0.0406 264.7);
+  --marca-consola-barra: oklch(0.1912 0.0448 264.99);
+  --marca-consola-borde: oklch(0.3196 0.0512 265.33);
+  --marca-consola-borde-barra: oklch(0.2792 0.045 265.65);
+  --marca-consola-texto: oklch(0.9685 0.0148 260.73);
+  --marca-consola-texto-atenuado: oklch(0.7907 0.0274 264.41);
+  --marca-consola-texto-tenue: oklch(0.6595 0.0283 266.5);
+  --marca-consola-prompt: oklch(0.7899 0.1328 304.75);
+  --marca-consola-ok: oklch(0.7804 0.1502 150.17);
+  --marca-consola-clave: oklch(0.7907 0.1052 264.44);
+  --marca-consola-cadena: oklch(0.7023 0.1494 73.3);
+  --marca-consola-numero: oklch(0.7789 0.1098 200.35);
+  --marca-consola-cursor: oklch(0.7899 0.1328 304.75);
+  --marca-tipografia-familia-titulares: "Bricolage Grotesque", "Bricolage Grotesque Variable", system-ui, sans-serif;
+  --marca-tipografia-familia-cuerpo: "Plus Jakarta Sans", "Plus Jakarta Sans Variable", system-ui, sans-serif;
+  --marca-tipografia-familia-mono: "JetBrains Mono", ui-monospace, monospace;
+  --marca-tipografia-peso-normal: 400;
+  --marca-tipografia-peso-medio: 500;
+  --marca-tipografia-peso-seminegrita: 600;
+  --marca-tipografia-peso-negrita: 700;
+  --marca-tipografia-peso-extranegrita: 800;
+  --marca-tipografia-tamano-2xs: 0.64rem;
+  --marca-tipografia-tamano-xs: 0.8rem;
+  --marca-tipografia-tamano-base: 1rem;
+  --marca-tipografia-tamano-lg: 1.25rem;
+  --marca-tipografia-tamano-xl: 1.5625rem;
+  --marca-tipografia-tamano-2xl: 1.9531rem;
+  --marca-tipografia-tamano-3xl: 2.4414rem;
+  --marca-tipografia-tamano-4xl: 3.0518rem;
+  --marca-tipografia-tamano-5xl: 3.8147rem;
+  --marca-tipografia-altura-linea-apretada: 1.05;
+  --marca-tipografia-altura-linea-titulo: 1.15;
+  --marca-tipografia-altura-linea-normal: 1.5;
+  --marca-tipografia-altura-linea-relajada: 1.65;
+  --marca-tipografia-espaciado-letras-titular: -0.025;
+  --marca-tipografia-espaciado-letras-etiqueta: 0.14;
+  --marca-espaciado-0: 0rem;
+  --marca-espaciado-1: 0.25rem;
+  --marca-espaciado-2: 0.5rem;
+  --marca-espaciado-3: 0.75rem;
+  --marca-espaciado-4: 1rem;
+  --marca-espaciado-5: 1.25rem;
+  --marca-espaciado-6: 1.5rem;
+  --marca-espaciado-8: 2rem;
+  --marca-espaciado-10: 2.5rem;
+  --marca-espaciado-12: 3rem;
+  --marca-espaciado-16: 4rem;
+  --marca-espaciado-20: 5rem;
+  --marca-espaciado-relacionado: 0.5rem;
+  --marca-espaciado-grupo: 1.25rem;
+  --marca-espaciado-bloque: 3rem;
+  --marca-forma-radio-sm: 0.25rem;
+  --marca-forma-radio-md: 0.5rem;
+  --marca-forma-radio-lg: 0.9rem;
+  --marca-forma-radio-xl: 1.25rem;
+  --marca-forma-radio-pildora: 999px;
+  --marca-forma-borde-fino: 1px;
+  --marca-forma-borde-medio: 2px;
+  --marca-layout-ancho-contenido: 77.5rem;
+  --marca-layout-ancho-lectura: 42rem;
+  --marca-layout-punto-sm: 40rem;
+  --marca-layout-punto-md: 48rem;
+  --marca-layout-punto-lg: 64rem;
+  --marca-layout-punto-xl: 80rem;
+  --marca-movimiento-duracion-instantanea: 100ms;
+  --marca-movimiento-duracion-rapida: 180ms;
+  --marca-movimiento-duracion-media: 300ms;
+  --marca-movimiento-duracion-lenta: 600ms;
+  --marca-movimiento-duracion-entrada: 900ms;
+  --marca-movimiento-duracion-escalonado: 70ms;
+  --marca-movimiento-curva-entrada: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --marca-movimiento-curva-salida: cubic-bezier(0.4, 0, 1, 1);
+  --marca-movimiento-curva-continua: cubic-bezier(0.4, 0, 0.2, 1);
+  --marca-movimiento-curva-enfasis: cubic-bezier(0.16, 1, 0.3, 1);
+  --marca-azul-50: oklch(0.9693 0.0144 264.5);
+  --marca-azul-100: oklch(0.9297 0.0334 265.23);
+  --marca-azul-200: oklch(0.8692 0.0637 265.46);
+  --marca-azul-300: oklch(0.7907 0.1052 264.44);
+  --marca-azul-400: oklch(0.7002 0.1562 264.9);
+  --marca-azul-500: oklch(0.6201 0.2041 265.03);
+  --marca-azul-600: oklch(0.5408 0.2362 264.94);
+  --marca-azul-700: oklch(0.4603 0.224 265.02);
+  --marca-azul-800: oklch(0.3798 0.2041 264.99);
+  --marca-azul-900: oklch(0.2996 0.1749 265.02);
+  --marca-azul-950: oklch(0.2204 0.1381 264.79);
+  --marca-violeta-50: oklch(0.9695 0.0183 306.67);
+  --marca-violeta-100: oklch(0.9291 0.0424 305.13);
+  --marca-violeta-200: oklch(0.8706 0.0789 304.66);
+  --marca-violeta-300: oklch(0.7899 0.1328 304.75);
+  --marca-violeta-400: oklch(0.6993 0.1961 304.95);
+  --marca-violeta-500: oklch(0.6192 0.2003 305.18);
+  --marca-violeta-600: oklch(0.5403 0.1966 304.84);
+  --marca-violeta-700: oklch(0.4597 0.1869 304.88);
+  --marca-violeta-800: oklch(0.3797 0.1692 304.87);
+  --marca-violeta-900: oklch(0.3005 0.1455 305.3);
+  --marca-violeta-950: oklch(0.2213 0.115 305);
+  --marca-ambar-50: oklch(0.9302 0.1308 98.06);
+  --marca-ambar-100: oklch(0.8969 0.147 92.64);
+  --marca-ambar-200: oklch(0.8533 0.1606 84.76);
+  --marca-ambar-300: oklch(0.7901 0.1653 76.96);
+  --marca-ambar-400: oklch(0.7023 0.1494 73.3);
+  --marca-ambar-500: oklch(0.6221 0.1345 70.38);
+  --marca-ambar-600: oklch(0.5418 0.1184 68.66);
+  --marca-ambar-700: oklch(0.4625 0.1014 68.19);
+  --marca-ambar-800: oklch(0.3823 0.0824 70.85);
+  --marca-ambar-900: oklch(0.3016 0.0633 76.23);
+  --marca-ambar-950: oklch(0.2195 0.0371 77.28);
+  --marca-neutro-50: oklch(0.9685 0.0148 260.73);
+  --marca-neutro-100: oklch(0.9301 0.0217 265.76);
+  --marca-neutro-200: oklch(0.8693 0.0263 266.59);
+  --marca-neutro-300: oklch(0.7907 0.0274 264.41);
+  --marca-neutro-400: oklch(0.7004 0.0287 262.3);
+  --marca-neutro-500: oklch(0.6192 0.0306 265.32);
+  --marca-neutro-600: oklch(0.5402 0.0288 263.21);
+  --marca-neutro-700: oklch(0.4594 0.028 264.25);
+  --marca-neutro-800: oklch(0.3792 0.0253 266.9);
+  --marca-neutro-900: oklch(0.3001 0.0217 262.52);
+  --marca-neutro-950: oklch(0.2217 0.0168 264.15);
+  --marca-neutro-fondo-claro: oklch(0.9843 0.0074 260.73);
+  --marca-neutro-fondo-oscuro: oklch(0.1797 0.0492 265.21);
+  --marca-neutro-blanco: oklch(1 0 0);
+  --marca-noche-superficie: oklch(0.2034 0.04 265.69);
+  --marca-noche-elevada: oklch(0.2612 0.0404 263.5);
+  --marca-noche-linea: oklch(0.3004 0.0295 262.8);
+  --marca-noche-texto-tenue: oklch(0.6595 0.0283 266.5);
+  --marca-noche-profundo: oklch(0.1499 0.0405 264.71);
+  --marca-noche-barra: oklch(0.1226 0.0392 266.6);
+  --marca-datos-1: oklch(0.5494 0.2397 265.08);
+  --marca-datos-2: oklch(0.8363 0.1582 79.77);
+  --marca-datos-3: oklch(0.7789 0.1098 200.35);
+  --marca-datos-4: oklch(0.6007 0.2 349.96);
+  --marca-datos-5: oklch(0.7003 0.1603 310.07);
+  --marca-datos-6: oklch(0.5004 0.1303 149.97);
+  --marca-datos-7: oklch(0.5987 0.17 24.97);
+  --marca-datos-8: oklch(0.7193 0.15 149.94);
+  --marca-dominio-claro-data-engineering: oklch(0.4596 0.2393 265.04);
+  --marca-dominio-claro-machine-learning: oklch(0.4656 0.1124 57.21);
+  --marca-dominio-claro-ia: oklch(0.4744 0.0808 202.84);
+  --marca-dominio-claro-analitica: oklch(0.4647 0.1935 350.61);
+  --marca-dominio-claro-web: oklch(0.4603 0.1597 309.92);
+  --marca-dominio-claro-movil: oklch(0.4611 0.1283 149.55);
+  --marca-dominio-oscuro-data-engineering: oklch(0.7514 0.1308 253.25);
+  --marca-dominio-oscuro-machine-learning: oklch(0.8001 0.16 78.34);
+  --marca-dominio-oscuro-ia: oklch(0.8002 0.1099 200.36);
+  --marca-dominio-oscuro-analitica: oklch(0.7676 0.1783 343.54);
+  --marca-dominio-oscuro-web: oklch(0.7956 0.1464 312.97);
+  --marca-dominio-oscuro-movil: oklch(0.7995 0.1293 150.23);
+  --marca-estado-claro-exito: oklch(0.4611 0.1283 149.55);
+  --marca-estado-claro-aviso: oklch(0.4651 0.1155 54.73);
+  --marca-estado-claro-error: oklch(0.4603 0.1706 24.92);
+  --marca-estado-claro-info: oklch(0.4673 0.1319 249.88);
+  --marca-estado-oscuro-exito: oklch(0.7995 0.1293 150.23);
+  --marca-estado-oscuro-aviso: oklch(0.8002 0.1674 77.05);
+  --marca-estado-oscuro-error: oklch(0.765 0.1393 25.04);
+  --marca-estado-oscuro-info: oklch(0.7914 0.1207 237.58);
+  --marca-nivel-claro-1: oklch(0.6409 0.0721 265.05);
+  --marca-nivel-claro-2: oklch(0.5391 0.1328 265.12);
+  --marca-nivel-claro-3: oklch(0.4397 0.1921 265.01);
+  --marca-nivel-claro-4: oklch(0.3406 0.2283 265.07);
+  --marca-nivel-claro-5: oklch(0.2411 0.1656 264.93);
+  --marca-nivel-oscuro-1: oklch(0.5399 0.0719 264.9);
+  --marca-nivel-oscuro-2: oklch(0.6011 0.1319 264.83);
+  --marca-nivel-oscuro-3: oklch(0.6707 0.1735 264.97);
+  --marca-nivel-oscuro-4: oklch(0.7596 0.1223 265.13);
+  --marca-nivel-oscuro-5: oklch(0.8503 0.0735 264.44);
+  --marca-nivel-texto-claro-1: oklch(0.4991 0.0729 265.58);
+  --marca-nivel-texto-claro-2: oklch(0.4609 0.1318 264.91);
+  --marca-nivel-texto-claro-3: oklch(0.4205 0.1911 264.89);
+  --marca-nivel-texto-claro-4: oklch(0.3406 0.2283 265.07);
+  --marca-nivel-texto-claro-5: oklch(0.2411 0.1656 264.93);
+  --marca-nivel-texto-oscuro-1: oklch(0.7197 0.0728 265.88);
+  --marca-nivel-texto-oscuro-2: oklch(0.7395 0.132 265.21);
+  --marca-nivel-texto-oscuro-3: oklch(0.7709 0.1161 264.88);
+  --marca-nivel-texto-oscuro-4: oklch(0.8 0.1002 264.82);
+  --marca-nivel-texto-oscuro-5: oklch(0.8503 0.0735 264.44);
+  --marca-nivel-color-claro-1: oklch(0.5998 0.1496 150.16);
+  --marca-nivel-color-claro-2: oklch(0.5991 0.1397 245.1);
+  --marca-nivel-color-claro-3: oklch(0.6035 0.1342 66.15);
+  --marca-nivel-color-claro-4: oklch(0.6004 0.1639 47.86);
+  --marca-nivel-color-claro-5: oklch(0.5987 0.17 24.97);
+  --marca-nivel-color-oscuro-1: oklch(0.7407 0.1507 149.85);
+  --marca-nivel-color-oscuro-2: oklch(0.7411 0.1399 244.91);
+  --marca-nivel-color-oscuro-3: oklch(0.7411 0.1566 74.7);
+  --marca-nivel-color-oscuro-4: oklch(0.7404 0.1699 52.12);
+  --marca-nivel-color-oscuro-5: oklch(0.7333 0.1635 24.95);
+  --marca-categoria-claro-lenguajes: oklch(0.4637 0.1426 41.03);
+  --marca-categoria-claro-ml-ia: oklch(0.46 0.1799 330.12);
+  --marca-categoria-claro-backend: oklch(0.4768 0.0888 223.04);
+  --marca-categoria-claro-frontend: oklch(0.4636 0.1337 134.28);
+  --marca-categoria-claro-cloud-data: oklch(0.4599 0.1606 20.04);
+  --marca-categoria-oscuro-lenguajes: oklch(0.7859 0.1496 58.61);
+  --marca-categoria-oscuro-ml-ia: oklch(0.8003 0.1799 330.14);
+  --marca-categoria-oscuro-backend: oklch(0.8001 0.12 215.18);
+  --marca-categoria-oscuro-frontend: oklch(0.8009 0.1703 129.99);
+  --marca-categoria-oscuro-cloud-data: oklch(0.7725 0.1342 19.5);
+  --marca-terminal-fondo: oklch(0.1288 0.0406 264.7);
+  --marca-terminal-barra: oklch(0.1912 0.0448 264.99);
+  --marca-terminal-borde: oklch(0.3196 0.0512 265.33);
+  --marca-terminal-borde-barra: oklch(0.2792 0.045 265.65);
+  --marca-terminal-ok: oklch(0.7804 0.1502 150.17);
+  --marca-terminal-numero: oklch(0.7789 0.1098 200.35);
+}
+
+:root, [data-theme='light'] {
+  --marca-fondo-pagina: oklch(0.9843 0.0074 260.73);
+  --marca-fondo-superficie: oklch(1 0 0);
+  --marca-fondo-elevado: oklch(0.9685 0.0148 260.73);
+  --marca-fondo-profundo: oklch(0.9843 0.0074 260.73);
+  --marca-fondo-barra: oklch(0.9843 0.0074 260.73);
+  --marca-borde-suave: oklch(0.8693 0.0263 266.59);
+  --marca-borde-fuerte: oklch(0.6192 0.0306 265.32);
+  --marca-texto-principal: oklch(0.3001 0.0217 262.52);
+  --marca-texto-secundario: oklch(0.4594 0.028 264.25);
+  --marca-texto-tenue: oklch(0.5402 0.0288 263.21);
+  --marca-marca-texto: oklch(0.4603 0.224 265.02);
+  --marca-marca-fuerte: oklch(0.5408 0.2362 264.94);
+  --marca-marca-sobre-fuerte: oklch(1 0 0);
+  --marca-marca-suave: oklch(0.9297 0.0334 265.23);
+  --marca-marca-sobre-suave: oklch(0.3798 0.2041 264.99);
+  --marca-senal-relleno: oklch(0.6993 0.1961 304.95);
+  --marca-senal-sobre-relleno: oklch(0.2217 0.0168 264.15);
+  --marca-senal-fuerte: oklch(0.5403 0.1966 304.84);
+  --marca-senal-sobre-fuerte: oklch(1 0 0);
+  --marca-senal-texto-grande: oklch(0.5403 0.1966 304.84);
+  --marca-senal-suave: oklch(0.9291 0.0424 305.13);
+  --marca-senal-sobre-suave: oklch(0.3797 0.1692 304.87);
+  --marca-foco-anillo: oklch(0.5408 0.2362 264.94);
+  --marca-estado-exito: oklch(0.4611 0.1283 149.55);
+  --marca-estado-aviso: oklch(0.4651 0.1155 54.73);
+  --marca-estado-error: oklch(0.4603 0.1706 24.92);
+  --marca-estado-info: oklch(0.4673 0.1319 249.88);
+  --marca-dominio-data-engineering: oklch(0.4596 0.2393 265.04);
+  --marca-dominio-machine-learning: oklch(0.4656 0.1124 57.21);
+  --marca-dominio-ia: oklch(0.4744 0.0808 202.84);
+  --marca-dominio-analitica: oklch(0.4647 0.1935 350.61);
+  --marca-dominio-web: oklch(0.4603 0.1597 309.92);
+  --marca-dominio-movil: oklch(0.4611 0.1283 149.55);
+  --marca-nivel-1: oklch(0.6409 0.0721 265.05);
+  --marca-nivel-2: oklch(0.5391 0.1328 265.12);
+  --marca-nivel-3: oklch(0.4397 0.1921 265.01);
+  --marca-nivel-4: oklch(0.3406 0.2283 265.07);
+  --marca-nivel-5: oklch(0.2411 0.1656 264.93);
+  --marca-nivel-texto-1: oklch(0.4991 0.0729 265.58);
+  --marca-nivel-texto-2: oklch(0.4609 0.1318 264.91);
+  --marca-nivel-texto-3: oklch(0.4205 0.1911 264.89);
+  --marca-nivel-texto-4: oklch(0.3406 0.2283 265.07);
+  --marca-nivel-texto-5: oklch(0.2411 0.1656 264.93);
+  --marca-nivel-color-1: oklch(0.5998 0.1496 150.16);
+  --marca-nivel-color-2: oklch(0.5991 0.1397 245.1);
+  --marca-nivel-color-3: oklch(0.6035 0.1342 66.15);
+  --marca-nivel-color-4: oklch(0.6004 0.1639 47.86);
+  --marca-nivel-color-5: oklch(0.5987 0.17 24.97);
+  --marca-categoria-lenguajes: oklch(0.4637 0.1426 41.03);
+  --marca-categoria-ml-ia: oklch(0.46 0.1799 330.12);
+  --marca-categoria-backend: oklch(0.4768 0.0888 223.04);
+  --marca-categoria-frontend: oklch(0.4636 0.1337 134.28);
+  --marca-categoria-cloud-data: oklch(0.4599 0.1606 20.04);
+  --marca-dominio-relleno-data-engineering: oklch(0.4596 0.2393 265.04);
+  --marca-dominio-relleno-machine-learning: oklch(0.4656 0.1124 57.21);
+  --marca-dominio-relleno-ia: oklch(0.4744 0.0808 202.84);
+  --marca-dominio-relleno-analitica: oklch(0.4647 0.1935 350.61);
+  --marca-dominio-relleno-web: oklch(0.4603 0.1597 309.92);
+  --marca-dominio-relleno-movil: oklch(0.4611 0.1283 149.55);
+  --marca-fondo-aurora: radial-gradient(ellipse at 15% 40%, color-mix(in oklch, var(--marca-azul-500) 10%, transparent), transparent 55%), radial-gradient(ellipse at 85% 15%, color-mix(in oklch, var(--marca-violeta-400) 8%, transparent), transparent 55%), radial-gradient(ellipse at 60% 85%, color-mix(in oklch, var(--marca-azul-400) 8%, transparent), transparent 55%);
+  --marca-fondo-aurora-portada: radial-gradient(ellipse at 15% 40%, color-mix(in oklch, var(--marca-azul-500) 20%, transparent), transparent 55%), radial-gradient(ellipse at 85% 15%, color-mix(in oklch, var(--marca-violeta-400) 16%, transparent), transparent 55%), radial-gradient(ellipse at 60% 85%, color-mix(in oklch, var(--marca-azul-400) 14%, transparent), transparent 55%);
+  --marca-degradado-marca: linear-gradient(135deg, var(--marca-azul-600), var(--marca-violeta-600));
+  --marca-degradado-boton: linear-gradient(135deg, var(--marca-marca-fuerte), var(--marca-violeta-600));
+  color-scheme: light;
+}
+
+.dark, [data-theme='dark'] {
+  --marca-fondo-pagina: oklch(0.1797 0.0492 265.21);
+  --marca-fondo-superficie: oklch(0.2034 0.04 265.69);
+  --marca-fondo-elevado: oklch(0.2612 0.0404 263.5);
+  --marca-fondo-profundo: oklch(0.1499 0.0405 264.71);
+  --marca-fondo-barra: oklch(0.1226 0.0392 266.6);
+  --marca-borde-suave: oklch(0.3004 0.0295 262.8);
+  --marca-borde-fuerte: oklch(0.6192 0.0306 265.32);
+  --marca-texto-principal: oklch(0.9685 0.0148 260.73);
+  --marca-texto-secundario: oklch(0.7907 0.0274 264.41);
+  --marca-texto-tenue: oklch(0.6595 0.0283 266.5);
+  --marca-marca-texto: oklch(0.7907 0.1052 264.44);
+  --marca-marca-fuerte: oklch(0.5408 0.2362 264.94);
+  --marca-marca-sobre-fuerte: oklch(1 0 0);
+  --marca-marca-suave: oklch(0.2996 0.1749 265.02);
+  --marca-marca-sobre-suave: oklch(0.8692 0.0637 265.46);
+  --marca-senal-relleno: oklch(0.6993 0.1961 304.95);
+  --marca-senal-sobre-relleno: oklch(0.2217 0.0168 264.15);
+  --marca-senal-fuerte: oklch(0.5403 0.1966 304.84);
+  --marca-senal-sobre-fuerte: oklch(1 0 0);
+  --marca-senal-texto-grande: oklch(0.6993 0.1961 304.95);
+  --marca-senal-suave: oklch(0.3005 0.1455 305.3);
+  --marca-senal-sobre-suave: oklch(0.8706 0.0789 304.66);
+  --marca-foco-anillo: oklch(0.7002 0.1562 264.9);
+  --marca-estado-exito: oklch(0.7995 0.1293 150.23);
+  --marca-estado-aviso: oklch(0.8002 0.1674 77.05);
+  --marca-estado-error: oklch(0.765 0.1393 25.04);
+  --marca-estado-info: oklch(0.7914 0.1207 237.58);
+  --marca-dominio-data-engineering: oklch(0.7514 0.1308 253.25);
+  --marca-dominio-machine-learning: oklch(0.8001 0.16 78.34);
+  --marca-dominio-ia: oklch(0.8002 0.1099 200.36);
+  --marca-dominio-analitica: oklch(0.7676 0.1783 343.54);
+  --marca-dominio-web: oklch(0.7956 0.1464 312.97);
+  --marca-dominio-movil: oklch(0.7995 0.1293 150.23);
+  --marca-nivel-1: oklch(0.5399 0.0719 264.9);
+  --marca-nivel-2: oklch(0.6011 0.1319 264.83);
+  --marca-nivel-3: oklch(0.6707 0.1735 264.97);
+  --marca-nivel-4: oklch(0.7596 0.1223 265.13);
+  --marca-nivel-5: oklch(0.8503 0.0735 264.44);
+  --marca-nivel-texto-1: oklch(0.7197 0.0728 265.88);
+  --marca-nivel-texto-2: oklch(0.7395 0.132 265.21);
+  --marca-nivel-texto-3: oklch(0.7709 0.1161 264.88);
+  --marca-nivel-texto-4: oklch(0.8 0.1002 264.82);
+  --marca-nivel-texto-5: oklch(0.8503 0.0735 264.44);
+  --marca-nivel-color-1: oklch(0.7407 0.1507 149.85);
+  --marca-nivel-color-2: oklch(0.7411 0.1399 244.91);
+  --marca-nivel-color-3: oklch(0.7411 0.1566 74.7);
+  --marca-nivel-color-4: oklch(0.7404 0.1699 52.12);
+  --marca-nivel-color-5: oklch(0.7333 0.1635 24.95);
+  --marca-categoria-lenguajes: oklch(0.7859 0.1496 58.61);
+  --marca-categoria-ml-ia: oklch(0.8003 0.1799 330.14);
+  --marca-categoria-backend: oklch(0.8001 0.12 215.18);
+  --marca-categoria-frontend: oklch(0.8009 0.1703 129.99);
+  --marca-categoria-cloud-data: oklch(0.7725 0.1342 19.5);
+  --marca-dominio-relleno-data-engineering: oklch(0.4596 0.2393 265.04);
+  --marca-dominio-relleno-machine-learning: oklch(0.4656 0.1124 57.21);
+  --marca-dominio-relleno-ia: oklch(0.4744 0.0808 202.84);
+  --marca-dominio-relleno-analitica: oklch(0.4647 0.1935 350.61);
+  --marca-dominio-relleno-web: oklch(0.4603 0.1597 309.92);
+  --marca-dominio-relleno-movil: oklch(0.4611 0.1283 149.55);
+  --marca-fondo-aurora: radial-gradient(ellipse at 15% 40%, color-mix(in oklch, var(--marca-azul-500) 18%, transparent), transparent 55%), radial-gradient(ellipse at 85% 15%, color-mix(in oklch, var(--marca-violeta-400) 12%, transparent), transparent 55%), radial-gradient(ellipse at 60% 85%, color-mix(in oklch, var(--marca-azul-400) 12%, transparent), transparent 55%);
+  --marca-fondo-aurora-portada: radial-gradient(ellipse at 15% 40%, color-mix(in oklch, var(--marca-azul-500) 34%, transparent), transparent 55%), radial-gradient(ellipse at 85% 15%, color-mix(in oklch, var(--marca-violeta-400) 26%, transparent), transparent 55%), radial-gradient(ellipse at 60% 85%, color-mix(in oklch, var(--marca-azul-400) 26%, transparent), transparent 55%);
+  --marca-degradado-marca: linear-gradient(135deg, var(--marca-azul-400), var(--marca-violeta-400));
+  --marca-degradado-boton: linear-gradient(135deg, var(--marca-marca-fuerte), var(--marca-violeta-600));
+  color-scheme: dark;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes marca-deriva {
+    from { background-position: 0% 0%; }
+    to { background-position: 14% 20%; }
+  }
+  .marca-deriva { background-size: 140% 140%; animation: marca-deriva 40s ease-in-out infinite alternate; }
+}
+</style>
+<script>document.documentElement.classList.add('js');</script>
+<style>
+  /* Todo valor sale de marca.css. Marca v0.6.0, plantilla informe-html. */
+  * { box-sizing:border-box; margin:0; }
+  body { background:var(--marca-fondo-pagina); color:var(--marca-texto-principal); font-family:var(--marca-tipografia-familia-cuerpo);
+         font-size:var(--marca-tipografia-tamano-base); line-height:var(--marca-tipografia-altura-linea-relajada); }
+  :focus-visible { outline:var(--marca-forma-borde-medio) solid var(--marca-foco-anillo); outline-offset:3px; }
+  .mono { font-family:var(--marca-tipografia-familia-mono); }
+  .informe { max-width:62rem; margin:0 auto; padding:0 var(--marca-espaciado-5) var(--marca-espaciado-16); }
+  .fondo { background-image:var(--marca-fondo-aurora); border-bottom:var(--marca-forma-borde-fino) solid var(--marca-borde-suave); }
+  h1,h2,h3 { font-family:var(--marca-tipografia-familia-titulares); font-weight:var(--marca-tipografia-peso-extranegrita);
+          letter-spacing:var(--marca-tipografia-espaciado-letras-titular); line-height:var(--marca-tipografia-altura-linea-titulo); }
+  .kick { font-family:var(--marca-tipografia-familia-mono); font-size:var(--marca-tipografia-tamano-xs); letter-spacing:var(--marca-tipografia-espaciado-letras-etiqueta);
+          text-transform:uppercase; color:var(--marca-marca-texto); }
+  .informe a { color:var(--marca-marca-texto); text-decoration:underline; text-decoration-thickness:1px; text-underline-offset:3px; }
+  .informe a:hover { text-decoration-thickness:2px; }
+  .portada { padding:var(--marca-espaciado-16) 0 var(--marca-espaciado-10); display:grid; grid-template-columns:minmax(0,1fr) minmax(0,21rem); gap:var(--marca-espaciado-8); align-items:center; }
+  .portada .hero { width:100%; height:auto; }
+  .portada .hero .fle { stroke-width:3.5; }
+  .portada .hero .sin-punta { marker-end:none; }
+  @media (max-width:52rem) { .portada { grid-template-columns:1fr; } .portada .hero { max-width:19rem; } }
+  .portada h1 { font-size:clamp(var(--marca-tipografia-tamano-2xl), 5.5vw, var(--marca-tipografia-tamano-4xl)); margin:var(--marca-espaciado-3) 0 var(--marca-espaciado-5); max-width:20ch; }
+  .resumen { font-size:var(--marca-tipografia-tamano-lg); color:var(--marca-texto-secundario); max-width:42rem; line-height:var(--marca-tipografia-altura-linea-normal); }
+  .meta { margin-top:var(--marca-espaciado-5); font-family:var(--marca-tipografia-familia-mono); font-size:var(--marca-tipografia-tamano-xs); color:var(--marca-texto-tenue); }
+  .kpis { display:grid; grid-template-columns:repeat(auto-fit,minmax(13rem,1fr)); gap:var(--marca-espaciado-6); padding:var(--marca-espaciado-10) 0; border-bottom:var(--marca-forma-borde-fino) solid var(--marca-borde-suave); }
+  .kpi .n { font-family:var(--marca-tipografia-familia-titulares); font-weight:var(--marca-tipografia-peso-extranegrita); font-size:var(--marca-tipografia-tamano-4xl);
+            letter-spacing:var(--marca-tipografia-espaciado-letras-titular); line-height:1; color:var(--marca-marca-texto); }
+  .kpi .e { margin-top:var(--marca-espaciado-2); color:var(--marca-texto-secundario); font-size:var(--marca-tipografia-tamano-xs); max-width:18rem; }
+  section.h { padding:var(--marca-espaciado-12) 0 0; }
+  section.h h2 { font-size:var(--marca-tipografia-tamano-2xl); margin:var(--marca-espaciado-2) 0 var(--marca-espaciado-4); max-width:26ch; }
+  section.h p { max-width:44rem; color:var(--marca-texto-secundario); margin-bottom:var(--marca-espaciado-4); }
+  section.h p strong { color:var(--marca-texto-principal); }
+  .impl { border-left:var(--marca-forma-borde-medio) solid var(--marca-senal-relleno); padding-left:var(--marca-espaciado-4); color:var(--marca-texto-principal) !important; }
+  .impl b { font-family:var(--marca-tipografia-familia-mono); font-size:var(--marca-tipografia-tamano-xs); letter-spacing:var(--marca-tipografia-espaciado-letras-etiqueta); text-transform:uppercase; color:var(--marca-marca-texto); display:block; margin-bottom:var(--marca-espaciado-1); }
+  figure.fig { margin:var(--marca-espaciado-6) 0; }
+  .lienzo { width:100%; height:16rem; }
+  figcaption { color:var(--marca-texto-tenue); font-size:var(--marca-tipografia-tamano-xs); margin-top:var(--marca-espaciado-2); }
+  details.tabla { margin-top:var(--marca-espaciado-2); font-size:var(--marca-tipografia-tamano-xs); }
+  details.tabla summary { cursor:pointer; color:var(--marca-marca-texto); font-weight:var(--marca-tipografia-peso-seminegrita); }
+  details.tabla table { border-collapse:collapse; margin-top:var(--marca-espaciado-2); width:100%; max-width:32rem; }
+  details.tabla th, details.tabla td { text-align:left; padding:var(--marca-espaciado-1) var(--marca-espaciado-2); border-bottom:var(--marca-forma-borde-fino) solid var(--marca-borde-suave); }
+  details.tabla td:not(:first-child), details.tabla th:not(:first-child) { text-align:right; font-family:var(--marca-tipografia-familia-mono); }
+  ol.pasos, ul.nosabemos, ol.fuentes { max-width:44rem; padding-left:var(--marca-espaciado-5); color:var(--marca-texto-secundario); }
+  ul.nosabemos li, ol.pasos li { margin-bottom:var(--marca-espaciado-2); }
+  ol.fuentes { font-size:var(--marca-tipografia-tamano-xs); }
+  ol.fuentes a { color:var(--marca-marca-texto); }
+  dl.fases { display:grid; grid-template-columns:11rem 1fr; gap:var(--marca-espaciado-3) var(--marca-espaciado-5); max-width:44rem; margin:var(--marca-espaciado-4) 0; }
+  dl.fases dt { font-family:var(--marca-tipografia-familia-titulares); font-weight:var(--marca-tipografia-peso-extranegrita); color:var(--marca-marca-texto); }
+  dl.fases dd { color:var(--marca-texto-secundario); padding-bottom:var(--marca-espaciado-3); border-bottom:var(--marca-forma-borde-fino) solid var(--marca-borde-suave); }
+  code.inl { font-family:var(--marca-tipografia-familia-mono); font-size:.86em; background:var(--marca-marca-suave); color:var(--marca-marca-sobre-suave); padding:1px 6px; border-radius:var(--marca-forma-radio-sm); }
+  footer.pie { margin-top:var(--marca-espaciado-16); padding-top:var(--marca-espaciado-4); border-top:var(--marca-forma-borde-fino) solid var(--marca-borde-suave); color:var(--marca-texto-tenue); font-size:var(--marca-tipografia-tamano-xs); display:flex; justify-content:space-between; gap:var(--marca-espaciado-4); flex-wrap:wrap; }
+  .modo { position:fixed; top:var(--marca-espaciado-3); right:var(--marca-espaciado-3); z-index:20; font:inherit; font-size:var(--marca-tipografia-tamano-xs); font-weight:var(--marca-tipografia-peso-seminegrita);
+          background:var(--marca-fondo-superficie); color:var(--marca-marca-texto); border:var(--marca-forma-borde-fino) solid var(--marca-borde-fuerte); border-radius:var(--marca-forma-radio-pildora); padding:var(--marca-espaciado-1) var(--marca-espaciado-4); cursor:pointer; }
+  @media (max-width:40rem) { dl.fases { grid-template-columns:1fr; } }
+
+  /* Diagramas: azul = máquinas, violeta (señal) = personas o lo que hay que mirar, gris = contención. */
+  .dg { width:100%; height:auto; display:block; overflow:visible; }
+  .dg text { font-family:var(--marca-tipografia-familia-cuerpo); fill:var(--marca-texto-principal); font-size:24px; }
+  .dg text.tit { font-family:var(--marca-tipografia-familia-titulares); font-weight:800; font-size:34px; }
+  .dg text.sec { fill:var(--marca-texto-secundario); font-size:26px; }
+  .dg text.ten { fill:var(--marca-texto-tenue); font-size:24px; }
+  .dg text.neg { font-weight:700; }
+  .dg text.c { text-anchor:middle; }
+  .dg text.sobre { fill:var(--marca-marca-sobre-fuerte); }
+  .dg text.sobre-s { fill:var(--marca-senal-sobre-relleno); }
+  .dg text.az-t { fill:var(--marca-marca-texto); }
+  .dg text.sen-t { fill:var(--marca-senal-texto-grande); }
+  .dg .az { fill:var(--marca-marca-fuerte); }
+  .dg .suave { fill:var(--marca-marca-suave); stroke:var(--marca-marca-fuerte); stroke-width:3; }
+  .dg .sen { fill:var(--marca-senal-relleno); }
+  .dg .sen-l { fill:var(--marca-senal-suave); stroke:var(--marca-senal-relleno); stroke-width:3; }
+  .dg .gr { fill:var(--marca-fondo-superficie); stroke:var(--marca-borde-fuerte); stroke-width:3; }
+  .dg .tarj { fill:var(--marca-fondo-elevado); stroke:var(--marca-borde-suave); stroke-width:3; }
+  .dg .punt { stroke-dasharray:10 8; }
+  .dg .lin { stroke:var(--marca-borde-fuerte); stroke-width:4; fill:none; }
+  .dg .fle { stroke:var(--marca-marca-fuerte); stroke-width:5; fill:none; marker-end:url(#punta); }
+  .dg .fle-s { stroke:var(--marca-senal-relleno); marker-end:url(#punta-s); }
+  .dg .fle-g { stroke:var(--marca-texto-tenue); marker-end:url(#punta-g); }
+  .dg .tr { stroke:var(--marca-marca-fuerte); stroke-width:6; fill:none; stroke-linecap:round; stroke-linejoin:round; }
+  .dg .tr-s { stroke:var(--marca-senal-relleno); }
+  .dg use.sen { fill:var(--marca-senal-relleno); }
+  .dg use.vacia { fill:none; stroke:var(--marca-texto-tenue); stroke-width:4; stroke-dasharray:8 7; }
+  .dg .base { stroke:var(--marca-borde-fuerte); stroke-width:6; stroke-linecap:round; }
+  .dg .mov { stroke:var(--marca-marca-fuerte); stroke-width:10; stroke-linecap:round; }
+  .dg .punto-a { fill:var(--marca-neutro-400); }
+  .dg .punto-d { fill:var(--marca-marca-fuerte); }
+  .dg-defs .m-az { fill:var(--marca-marca-fuerte); }
+  .dg-defs .m-s { fill:var(--marca-senal-relleno); }
+  .dg-defs .m-g { fill:var(--marca-texto-tenue); }
+
+  @media (prefers-reduced-motion:no-preference){
+    .js .rev { opacity:0; transform:translateY(var(--marca-espaciado-4)); transition:opacity var(--marca-movimiento-duracion-lenta) var(--marca-movimiento-curva-entrada), transform var(--marca-movimiento-duracion-lenta) var(--marca-movimiento-curva-entrada); }
+    .js .rev.in { opacity:1; transform:none; }
+  }
+  @page { margin:16mm; }
+  @media print {
+    .modo { display:none; }
+    .fondo { background-image:none; }
+    .rev { opacity:1 !important; transform:none !important; }
+    .portada { padding-top:0; }
+    section.h, figure.fig { break-inside:avoid; }
+    h2 { break-after:avoid; }
+  }
+</style>
+<style>
+  /* Navegación por secciones con las flechas: ↓ → siguiente, ↑ ← anterior. */
+  section.h, header.fondo, .kpis { scroll-margin-top: var(--marca-espaciado-2); }
+  .nav-secciones { position:fixed; right:var(--marca-espaciado-3); bottom:var(--marca-espaciado-3); z-index:20; display:flex; align-items:center; gap:var(--marca-espaciado-1);
+    background:var(--marca-fondo-superficie); border:var(--marca-forma-borde-fino) solid var(--marca-borde-fuerte); border-radius:var(--marca-forma-radio-pildora); padding:var(--marca-espaciado-1) var(--marca-espaciado-2); font-family:var(--marca-tipografia-familia-mono); font-size:var(--marca-tipografia-tamano-xs); color:var(--marca-texto-tenue); }
+  .nav-secciones button { font:inherit; font-size:var(--marca-tipografia-tamano-sm); line-height:1; background:none; border:0; color:var(--marca-marca-texto); cursor:pointer; padding:var(--marca-espaciado-1) var(--marca-espaciado-2); border-radius:var(--marca-forma-radio-pildora); }
+  .nav-secciones button:hover { background:var(--marca-marca-suave); }
+  .nav-secciones .cuenta { min-width:3.2rem; text-align:center; }
+  @media print { .nav-secciones { display:none; } }
+</style>
+<style>
+  /* Móvil: los diagramas conservan un ancho cómodo de leer y se deslizan de lado. */
+  .desliza-aviso { display:none; }
+  @media (max-width:52rem) {
+    .desliza { overflow-x:auto; -webkit-overflow-scrolling:touch; padding-bottom:var(--marca-espaciado-2); }
+    .desliza > svg.dg { min-width:960px; }
+    .desliza-aviso { display:block; font-family:var(--marca-tipografia-familia-mono); font-size:var(--marca-tipografia-tamano-xs); color:var(--marca-marca-texto); margin-bottom:var(--marca-espaciado-2); transition:opacity .3s; }
+    .desliza-aviso.oculto { opacity:0; }
+  }
+  @media print { .desliza-aviso { display:none; } }
+</style>
+</head>
+<body>
+<svg class="dg-defs" width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <marker id="punta" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path class="m-az" d="M0 0 L10 5 L0 10 z"/></marker>
+    <marker id="punta-s" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path class="m-s" d="M0 0 L10 5 L0 10 z"/></marker>
+    <marker id="punta-g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path class="m-g" d="M0 0 L10 5 L0 10 z"/></marker>
+    <symbol id="persona" viewBox="0 0 100 130"><circle cx="50" cy="28" r="22"/><path d="M10 125 Q10 70 50 70 Q90 70 90 125 Z"/></symbol>
+  </defs>
+</svg>
+<button class="modo" id="modo" type="button">Claro / oscuro</button>
+<nav class="nav-secciones" aria-label="Navegar por secciones"><button type="button" id="sec-ant" aria-label="Sección anterior">↑</button><span class="cuenta" id="sec-cuenta" aria-live="polite">1 / 1</span><button type="button" id="sec-sig" aria-label="Sección siguiente">↓</button></nav>
+
+<header class="fondo"><div class="informe">
+  <div class="portada">
+    <div class="textos">
+      <div class="kick">Síntesis · <a href="https://claude.dev" target="_blank" rel="noopener">claude.dev/blog</a> · 15 de octubre de 2026</div>
+      <h1>Cómo Anthropic revisa el código que escribe Claude</h1>
+      <p class="resumen">Claude escribe alrededor del 90 % del código de Claude Code, y a ese ritmo ninguna persona puede leerlo todo. El equipo no eliminó la revisión: puso a las máquinas a leer primero, dejó a las personas donde hay riesgo y hace que el sistema aprenda de sus propios fallos.</p>
+      <p class="meta">Síntesis de <a href="https://claude.dev/blog/solving-code-review-at-anthropic" target="_blank" rel="noopener">«How the Claude Code team does code review»</a>, de Addy Osmani, Morgan Westlee Lunt y Qing Wang · lectura de 8 minutos</p>
+    </div>
+<svg class="dg hero" viewBox="0 0 480 320" role="img" aria-label="Un cambio de código, con una línea marcada, pasa por tres agentes revisores y llega a una aprobación">
+  <rect class="tarj" x="6" y="30" width="130" height="250" rx="18" style="stroke:var(--marca-borde-fuerte)"/>
+  <rect x="22" y="52" width="60" height="12" rx="6" style="fill:var(--marca-texto-secundario)"/>
+  <rect x="22" y="82" width="84" height="9" rx="4.5" style="fill:var(--marca-borde-fuerte)"/>
+  <rect x="22" y="106" width="64" height="9" rx="4.5" style="fill:var(--marca-borde-fuerte)"/>
+  <rect x="22" y="130" width="92" height="9" rx="4.5" class="sen"/>
+  <rect x="22" y="154" width="52" height="9" rx="4.5" style="fill:var(--marca-borde-fuerte)"/>
+  <rect x="22" y="178" width="80" height="9" rx="4.5" style="fill:var(--marca-borde-fuerte)"/>
+  <rect x="22" y="202" width="68" height="9" rx="4.5" style="fill:var(--marca-borde-fuerte)"/>
+  <rect x="22" y="226" width="86" height="9" rx="4.5" style="fill:var(--marca-borde-fuerte)"/>
+  <path class="fle" d="M140 155 H186 V80 H238"/><path class="fle" d="M140 155 H238"/><path class="fle" d="M140 155 H186 V230 H238"/>
+  <g><circle class="suave" cx="270" cy="80" r="26"/><circle class="tr" cx="267" cy="77" r="9"/><path class="tr" d="M274 84 L282 92"/></g>
+  <g><circle class="suave" cx="270" cy="155" r="26"/><circle class="tr" cx="267" cy="152" r="9"/><path class="tr" d="M274 159 L282 167"/></g>
+  <g><circle class="suave" cx="270" cy="230" r="26"/><circle class="tr" cx="267" cy="227" r="9"/><path class="tr" d="M274 234 L282 242"/></g>
+  <path class="fle sin-punta" d="M298 80 H342 V155"/><path class="fle sin-punta" d="M298 230 H342 V155"/><path class="fle" d="M298 155 H360"/>
+  <g transform="translate(412 155)"><path class="az" d="M0 -58 L44 -38 V8 Q44 48 0 70 Q-44 48 -44 8 V-38 Z"/><path d="M-18 6 L-4 22 L22 -14" style="stroke:var(--marca-marca-sobre-fuerte);stroke-width:8;fill:none;stroke-linecap:round;stroke-linejoin:round"/></g>
+</svg>
+  </div>
+</div></header>
+
+<main class="informe">
+  <div class="kpis">
+    <div class="kpi rev"><div class="n" data-hasta="12" data-prefijo="×" data-sufijo="+">×12+</div><div class="e">más cambios diarios en el monorepo en cuatro meses: de 2.500 a más de 30.000</div></div>
+    <div class="kpi rev"><div class="n" data-hasta="40" data-prefijo="−" data-sufijo=" %">−40 %</div><div class="e">o más en la proporción de PR revertidos, mientras los PR fusionados se duplicaban</div></div>
+    <div class="kpi rev"><div class="n" data-hasta="78" data-sufijo=" %">78 %</div><div class="e">de los PR internos se aprueba tras una ronda de revisión; antes, 65 %</div></div>
+  </div>
+
+  <section class="h">
+    <div class="kick">El problema</div>
+    <h2>Leer cada cambio línea a línea dejó de ser posible</h2>
+    <p>Cuando una persona escribe el código, otra persona puede leerlo. Cuando <strong>Claude escribe la mayor parte</strong> y los cambios llegan por decenas de miles cada día, esa lectura se convierte en el cuello de botella de todo el equipo.</p>
+    <p>La pregunta del equipo es directa: ¿cómo revisar a ese volumen, si alguien todavía lo lee y quién detecta los fallos? Su respuesta no es revisar menos, sino <strong>cambiar quién lee qué</strong>.</p>
+    <figure class="fig">
+      <div class="lienzo" id="fig-escala" role="img" aria-label="Barras: cambios diarios en el monorepo de Anthropic, 2.500 en mayo y 30.000 en septiembre."></div>
+      <figcaption>Cambios diarios en el monorepo de Anthropic, de mayo a septiembre (cifras declaradas por el equipo).</figcaption>
+      <details class="tabla"><summary>Ver los datos</summary><table id="tabla-escala"></table></details>
+    </figure>
+    <p class="impl"><b>Implicación</b>Si el volumen crece más de diez veces en cuatro meses, ningún sistema que dependa de leerlo todo a mano escala.</p>
+  </section>
+
+  <section class="h">
+    <div class="kick">La idea</div>
+    <h2>Trasladar la lectura a las máquinas y cuidar la atención humana</h2>
+    <p>El objetivo declarado es que <strong>la mayoría de los PR se fusione con, como máximo, una persona en el circuito</strong> (que puede ser el propio autor), sin que suban las reversiones ni los incidentes. Para saber si lo logran miden cuatro cosas: aprobaciones humanas por PR, comentarios humanos, tiempo de espera de un PR hasta que alguien lo revisa y, como guardarraíles, las tasas de reversión e incidentes.</p>
+    <p>El guardarraíl importa porque, si las reversiones suben, el tiempo humano <strong>solo se movió de sitio, no se ahorró</strong>. La revisión pasó de ser una puerta al final del proceso a correr de forma continua, como un corrector ortográfico mientras escribes.</p>
+  </section>
+
+  <section class="h">
+    <div class="kick">El sistema completo</div>
+    <h2>Siete capas filtran cada cambio, y solo la quinta puede exigir aprobación humana</h2>
+    <p>Este es el mapa. Las cuatro primeras capas son automáticas y revisan el cambio antes de que una persona lo lea. La quinta decide cuánta atención humana hace falta según el riesgo. Las dos últimas aceptan que algo se puede escapar y limitan el daño.</p>
+    <figure class="fig">
+<svg class="dg" viewBox="0 0 1680 340" role="img" aria-label="Pipeline de siete capas: cuatro automáticas, una de aprobación humana según riesgo y dos de contención">
+  <polygon class="az" points="0,20 196,20 232,95 196,170 0,170 36,95"/>
+  <polygon class="az" points="240,20 436,20 472,95 436,170 240,170 276,95"/>
+  <polygon class="az" points="480,20 676,20 712,95 676,170 480,170 516,95"/>
+  <polygon class="az" points="720,20 916,20 952,95 916,170 720,170 756,95"/>
+  <polygon class="sen" points="960,20 1156,20 1192,95 1156,170 960,170 996,95"/>
+  <polygon class="gr" points="1200,20 1396,20 1432,95 1396,170 1200,170 1236,95"/>
+  <polygon class="gr" points="1440,20 1636,20 1672,95 1636,170 1440,170 1476,95"/>
+  <text class="tit c sobre" x="116" y="68">1</text><text class="neg c sobre" x="116" y="108">Antes</text><text class="neg c sobre" x="116" y="136">del PR</text>
+  <text class="tit c sobre" x="356" y="68">2</text><text class="neg c sobre" x="356" y="108">Revisión</text><text class="neg c sobre" x="356" y="136">por IA</text>
+  <text class="tit c sobre" x="596" y="68">3</text><text class="neg c sobre" x="596" y="108">Seguridad</text><text class="neg c sobre" x="596" y="136">que bloquea</text>
+  <text class="tit c sobre" x="836" y="68">4</text><text class="neg c sobre" x="836" y="108">CI</text><text class="neg c sobre" x="836" y="136">obligatoria</text>
+  <text class="tit c sobre-s" x="1076" y="68">5</text><text class="neg c sobre-s" x="1076" y="108">Aprobación</text><text class="neg c sobre-s" x="1076" y="136">según riesgo</text>
+  <text class="tit c" x="1316" y="68">6</text><text class="neg c" x="1316" y="108">Merge queue</text><text class="neg c" x="1316" y="136">y releases</text>
+  <text class="tit c" x="1556" y="68">7</text><text class="neg c" x="1556" y="108">Detección</text><text class="neg c" x="1556" y="136">y rollback</text>
+  <path class="lin" d="M0 196 V212 H952 V196"/><path class="lin" d="M960 196 V212 H1192 V196"/><path class="lin" d="M1200 196 V212 H1672 V196"/>
+  <text class="tit c" x="476" y="262">Automáticas</text><text class="sec c" x="476" y="300">Revisan cada cambio antes de que una persona lo lea</text>
+  <text class="tit c sen-t" x="1076" y="262">Personas</text><text class="sec c" x="1076" y="300">Solo donde hay riesgo</text>
+  <text class="tit c" x="1436" y="262">Contención</text><text class="sec c" x="1436" y="300">Limitan el daño si algo se escapa</text>
+</svg>
+      <figcaption>Las siete capas, agrupadas en tres tramos (la agrupación es propia).</figcaption>
+    </figure>
+  </section>
+
+  <section class="h">
+    <div class="kick">Capa 1</div>
+    <h2>Antes del PR, Claude prueba su cambio y un subagente lo revisa con ojos nuevos</h2>
+    <p>La revisión más barata es la que ocurre antes de abrir el PR. Claude ejecuta tests, build y linter y <strong>muestra la salida real</strong> en lugar de afirmar que terminó. Después, un subagente revisa el diff partiendo de un contexto nuevo, con skills internas para buscar bugs, simplificar el diff y comprobar el comportamiento de extremo a extremo. Los cambios de interfaz se revisan además contra las guías de diseño.</p>
+    <figure class="fig">
+<svg class="dg" viewBox="0 0 1680 430" role="img" aria-label="Claude escribe, prueba su propio trabajo y un subagente con contexto nuevo revisa el diff, todo antes de abrir el PR">
+  <rect class="suave" x="0" y="40" width="480" height="270" rx="24"/><rect class="suave" x="600" y="40" width="480" height="270" rx="24"/><rect class="suave" x="1200" y="40" width="480" height="270" rx="24"/>
+  <circle class="az" cx="50" cy="40" r="34"/><circle class="az" cx="650" cy="40" r="34"/><circle class="az" cx="1250" cy="40" r="34"/>
+  <text class="tit c sobre" x="50" y="52">1</text><text class="tit c sobre" x="650" y="52">2</text><text class="tit c sobre" x="1250" y="52">3</text>
+  <text class="tit" x="40" y="125">Claude</text><text class="tit" x="40" y="166">escribe el cambio</text>
+  <text class="tit" x="640" y="125">Prueba su</text><text class="tit" x="640" y="166">propio trabajo</text>
+  <text class="tit" x="1240" y="125">Un subagente</text><text class="tit" x="1240" y="166">revisa el diff</text>
+  <text class="sec" x="40" y="225">Escribe el código y, antes</text><text class="sec" x="40" y="257">de abrir el PR, lo somete</text><text class="sec" x="40" y="289">a las comprobaciones</text>
+  <text class="sec" x="640" y="225">Corre tests, build y linter</text><text class="sec" x="640" y="257">y muestra la salida real</text><text class="sec" x="640" y="289">en vez de decir «listo»</text>
+  <text class="sec" x="1240" y="225">Parte con contexto nuevo y</text><text class="sec" x="1240" y="257">usa skills internas: buscar</text><text class="sec" x="1240" y="289">bugs y simplificar el diff</text>
+  <path class="fle" d="M484 175 H596"/><path class="fle" d="M1084 175 H1196"/>
+  <path class="lin" d="M0 345 V361 H1680 V345"/>
+  <text class="sec c" x="840" y="406">Todo ocurre antes de abrir el PR, mientras se escribe</text>
+</svg>
+      <figcaption>La capa 1 ocurre en el entorno de quien escribe, antes de que exista el PR.</figcaption>
+    </figure>
+    <p class="impl"><b>Implicación</b>Gran parte de los errores rutinarios se atrapan antes de que cuesten tiempo a otra persona.</p>
+  </section>
+
+  <section class="h">
+    <div class="kick">Capas 2 a 4</div>
+    <h2>Varios agentes buscan bugs a la vez y otro grupo vota cuáles se publican</h2>
+    <p>Cuando se abre el PR, <strong>varios agentes buscan bugs en paralelo</strong>. Otro grupo de agentes vota cada hallazgo y solo se publica el que logra acuerdo suficiente. Se descartan los hallazgos de estilo, diagnóstico o limpieza, y cada comentario lleva una etiqueta: <em>Important</em>, <em>Nit</em> o <em>Pre-existing</em>. Todo hallazgo debe resolverse o cerrarse con una razón.</p>
+    <p>A su lado trabajan dos capas más: una <strong>revisión de seguridad que puede bloquear</strong> la fusión mientras haya hallazgos abiertos, y una <strong>CI obligatoria</strong> con lint, tipos, tests en todas las plataformas y build. La plantilla del PR pide además cómo se probó el cambio y cómo revertirlo.</p>
+    <figure class="fig">
+<svg class="dg" viewBox="0 0 1680 580" role="img" aria-label="Un PR llega a varios agentes que buscan bugs en paralelo, un panel vota cada hallazgo, un filtro descarta estilo y se publican los hallazgos etiquetados">
+  <text class="sec neg c" x="385" y="62">Cazadores en paralelo</text>
+  <rect class="gr" x="0" y="250" width="150" height="70" rx="35"/><text class="neg c" x="75" y="296">PR</text>
+  <rect class="suave" x="250" y="100" width="270" height="90" rx="18"/><rect class="suave" x="250" y="240" width="270" height="90" rx="18"/><rect class="suave" x="250" y="380" width="270" height="90" rx="18"/>
+  <text class="neg c az-t" x="385" y="140" style="font-size:28px">Agente 1</text><text class="ten c" x="385" y="171" style="font-size:22px">busca bugs</text>
+  <text class="neg c az-t" x="385" y="280" style="font-size:28px">Agente 2</text><text class="ten c" x="385" y="311" style="font-size:22px">busca bugs</text>
+  <text class="neg c az-t" x="385" y="420" style="font-size:28px">Agente 3</text><text class="ten c" x="385" y="451" style="font-size:22px">busca bugs</text>
+  <path class="fle" d="M150 285 H200 V145 H246"/><path class="fle" d="M150 285 H246"/><path class="fle" d="M150 285 H200 V425 H246"/>
+  <path class="fle" d="M520 145 H636"/><path class="fle" d="M520 285 H636"/><path class="fle" d="M520 425 H636"/>
+  <rect class="az" x="640" y="120" width="280" height="330" rx="24"/>
+  <text class="tit c sobre" x="780" y="250">Panel de</text><text class="tit c sobre" x="780" y="292">votación</text>
+  <text class="c sobre" x="780" y="346" style="font-size:22px">Otro grupo de agentes</text><text class="c sobre" x="780" y="376" style="font-size:22px">juzga cada hallazgo</text>
+  <path class="fle" d="M920 285 H1036"/>
+  <rect class="gr" x="1040" y="225" width="220" height="120" rx="18"/>
+  <text class="neg c" x="1150" y="280">Se publica</text><text class="neg c" x="1150" y="312">con acuerdo</text>
+  <path class="fle fle-g" d="M1150 345 V420"/>
+  <rect class="gr punt" x="1010" y="425" width="280" height="110" rx="18"/>
+  <text class="c" x="1150" y="470" style="font-size:22px">Estilo, diagnóstico</text><text class="c" x="1150" y="502" style="font-size:22px">y limpieza: se descartan</text>
+  <path class="fle" d="M1260 285 H1416"/>
+  <rect class="suave" x="1420" y="150" width="260" height="270" rx="24"/>
+  <text class="tit c" x="1550" y="205" style="font-size:30px">Se publican</text>
+  <rect class="az" x="1450" y="236" width="200" height="46" rx="23"/><text class="neg c sobre" x="1550" y="268">Important</text>
+  <rect class="gr" x="1450" y="294" width="200" height="46" rx="23"/><text class="neg c" x="1550" y="326">Nit</text>
+  <rect class="gr" x="1450" y="352" width="200" height="46" rx="23"/><text class="neg c" x="1550" y="384">Pre-existing</text>
+</svg>
+      <figcaption>El motor de revisión por IA que corre en cada PR (capa 2).</figcaption>
+    </figure>
+    <p class="impl"><b>Implicación</b>La votación existe para que el comentario que llega a una persona valga su atención: lo que no logra acuerdo ni se publica.</p>
+  </section>
+
+  <section class="h">
+    <div class="kick">Capa 5</div>
+    <h2>La aprobación humana depende del riesgo del cambio, no de quién lo escribe</h2>
+    <p>Un clasificador asigna el nivel de riesgo mirando <strong>el cambio</strong>, no al autor. Cuando el riesgo es bajo (documentación, textos, funciones internas, cambios aditivos detrás de un flag) basta con que la revisión automática y la de seguridad estén en verde. En riesgo medio hace falta una persona; en el más alto, dos.</p>
+    <p>Hay reglas finas: la aprobación de un agente <strong>no cuenta como aprobación humana</strong>, quien pide el cambio a un agente cuenta como revisor obligatorio y una aprobación cubre un commit concreto.</p>
+    <figure class="fig">
+<svg class="dg" viewBox="0 0 1680 400" role="img" aria-label="Riesgo bajo no requiere personas, riesgo medio una y riesgo alto dos">
+  <rect class="tarj" x="0" y="10" width="540" height="380" rx="24"/><rect class="tarj" x="570" y="10" width="540" height="380" rx="24"/><rect class="tarj" x="1140" y="10" width="540" height="380" rx="24"/>
+  <text class="tit c" x="270" y="72">Riesgo bajo</text><text class="tit c" x="840" y="72">Riesgo medio</text><text class="tit c" x="1410" y="72">Riesgo alto</text>
+  <use href="#persona" class="vacia" x="225" y="100" width="90" height="117"/>
+  <use href="#persona" class="sen" x="795" y="100" width="90" height="117"/>
+  <use href="#persona" class="sen" x="1305" y="100" width="90" height="117"/><use href="#persona" class="sen" x="1425" y="100" width="90" height="117"/>
+  <text class="tit c" x="270" y="272">Ninguna persona</text><text class="tit c" x="840" y="272">Una persona</text><text class="tit c" x="1410" y="272">Dos personas</text>
+  <text class="sec c" x="270" y="326">Docs, copy y cambios tras un flag</text><text class="sec c" x="270" y="360">si las revisiones están en verde</text>
+  <text class="sec c" x="840" y="326">Producto y áreas sensibles:</text><text class="sec c" x="840" y="360">caché, auto-updater</text>
+  <text class="sec c" x="1410" y="326">Código de mayor riesgo y rutas</text><text class="sec c" x="1410" y="360">que siempre piden dos personas</text>
+</svg>
+      <figcaption>Aprobaciones humanas requeridas según el nivel de riesgo del cambio.</figcaption>
+    </figure>
+    <p class="impl"><b>Implicación</b>La atención humana se gasta donde un error cuesta más; en el resto, la máquina basta.</p>
+  </section>
+
+  <section class="h">
+    <div class="kick">Capas 6 y 7</div>
+    <h2>Flags, releases graduales y rollback rápido acotan el daño de lo que se escapa</h2>
+    <p>Nada de lo anterior es perfecto, así que el sistema se diseña para que <strong>equivocarse salga barato</strong>. La merge queue vuelve a ejecutar los checks sobre <code class="inl">main</code> con el cambio ya aplicado. Las funciones nuevas llegan primero, detrás de un flag, a empleados de Anthropic; las versiones salen primero al canal <code class="inl">latest</code> y el canal <code class="inl">stable</code> va detrás.</p>
+    <p>Si algo falla, los flags se desactivan sin desplegar de nuevo. Hay una guardia de on-call semanal y, en cada revisión de incidente, la pregunta es qué capa debía haberlo detectado.</p>
+    <figure class="fig">
+<svg class="dg" viewBox="0 0 1680 380" role="img" aria-label="Línea de tiempo: merge queue, flag para empleados, canal latest y canal stable, con un rollback que apaga el flag">
+  <path class="fle" d="M20 120 H1655"/>
+  <circle class="az" cx="200" cy="120" r="30"/><circle class="az" cx="600" cy="120" r="30"/><circle class="az" cx="1000" cy="120" r="30"/><circle class="az" cx="1400" cy="120" r="30"/>
+  <text class="tit c sobre" x="200" y="132" style="font-size:30px">1</text><text class="tit c sobre" x="600" y="132" style="font-size:30px">2</text><text class="tit c sobre" x="1000" y="132" style="font-size:30px">3</text><text class="tit c sobre" x="1400" y="132" style="font-size:30px">4</text>
+  <text class="tit c" x="200" y="200">Merge queue</text><text class="tit c" x="600" y="200">Flag interno</text><text class="tit c" x="1000" y="200">Canal latest</text><text class="tit c" x="1400" y="200">Canal stable</text>
+  <text class="sec c" x="200" y="244">Repite los checks sobre</text><text class="sec c" x="200" y="278">main con el cambio ya</text><text class="sec c" x="200" y="312">aplicado</text>
+  <text class="sec c" x="600" y="244">La función nueva llega</text><text class="sec c" x="600" y="278">primero a empleados</text><text class="sec c" x="600" y="312">de Anthropic</text>
+  <text class="sec c" x="1000" y="244">Las versiones salen</text><text class="sec c" x="1000" y="278">primero a este canal</text>
+  <text class="sec c" x="1400" y="244">Va detrás de latest;</text><text class="sec c" x="1400" y="278">una guardia semanal</text><text class="sec c" x="1400" y="312">vigila el resultado</text>
+  <path class="fle fle-s punt" d="M1400 90 C1400 -30 600 -30 600 88"/>
+  <text class="neg c sen-t" x="1000" y="62" style="font-size:24px">Rollback: se apaga el flag, sin desplegar de nuevo</text>
+</svg>
+      <figcaption>Del merge a los usuarios, por etapas, con marcha atrás barata.</figcaption>
+    </figure>
+    <p class="impl"><b>Implicación</b>La norma del equipo es que quien lanza un cambio responde por él: si falla, el autor lo arregla. Funciona porque los cambios son pequeños, reversibles y se detectan rápido, y porque no se busca culpables.</p>
+  </section>
+
+  <section class="h">
+    <div class="kick">Las personas</div>
+    <h2>Las personas conservan la dirección, el riesgo alto y la responsabilidad del resultado</h2>
+    <p>Que las máquinas lean primero no deja a las personas sin trabajo: cambia en qué lo ponen. Siguen decidiendo si construir algo, revisando lo de más riesgo, leyendo la evidencia y respondiendo del resultado.</p>
+    <figure class="fig">
+<svg class="dg" viewBox="0 0 1680 480" role="img" aria-label="Cuatro responsabilidades humanas: decidir qué construir, revisar lo de más riesgo, leer la evidencia y responder del resultado">
+  <rect class="tarj" x="0" y="10" width="390" height="460" rx="24"/><rect class="tarj" x="430" y="10" width="390" height="460" rx="24"/><rect class="tarj" x="860" y="10" width="390" height="460" rx="24"/><rect class="tarj" x="1290" y="10" width="390" height="460" rx="24"/>
+  <g transform="translate(195 105)"><circle class="tr" r="46"/><g transform="rotate(45)"><polygon class="sen" points="0,-34 12,0 -12,0"/><polygon class="az" points="0,34 12,0 -12,0"/></g></g>
+  <g transform="translate(625 105)"><rect class="suave" x="-60" y="-40" width="80" height="26"/><rect class="suave" x="-20" y="-8" width="80" height="26"/><rect class="suave" x="-60" y="24" width="80" height="26"/></g>
+  <g transform="translate(1055 105)"><circle class="tr" cx="-8" cy="-6" r="34"/><path class="tr" d="M16 20 L46 50"/><path class="tr tr-s" d="M-24 -6 H8"/></g>
+  <g transform="translate(1485 110)"><path class="suave" d="M0 -52 L46 -32 V8 Q46 46 0 66 Q-46 46 -46 8 V-32 Z"/><path class="tr tr-s" d="M-18 6 L-4 22 L22 -12"/></g>
+  <text class="tit c" x="195" y="224">Decidir qué</text><text class="tit c" x="195" y="266">construir</text>
+  <text class="tit c" x="625" y="224">Revisar lo de</text><text class="tit c" x="625" y="266">más riesgo</text>
+  <text class="tit c" x="1055" y="224">Leer la</text><text class="tit c" x="1055" y="266">evidencia</text>
+  <text class="tit c" x="1485" y="224">Responder del</text><text class="tit c" x="1485" y="266">resultado</text>
+  <text class="sec c" x="195" y="324">Dirección, criterio</text><text class="sec c" x="195" y="358">y alcance</text>
+  <text class="sec c" x="625" y="324">Facturación, auto-updater,</text><text class="sec c" x="625" y="358">CI y diseños que otros</text><text class="sec c" x="625" y="392">copiarán</text>
+  <text class="sec c" x="1055" y="324">Salida de tests, comandos,</text><text class="sec c" x="1055" y="358">capturas y hallazgos</text>
+  <text class="sec c" x="1485" y="324">Quien lanza un cambio</text><text class="sec c" x="1485" y="358">lo arregla si falla</text>
+</svg>
+      <figcaption>Lo que sigue siendo trabajo humano.</figcaption>
+    </figure>
+    <p>Sin revisión línea a línea, el equipo <strong>aprende el código de otra manera</strong>: cuando alguien necesita entender una parte, le pide a Claude una explicación de ese fragmento. Tarda minutos y refleja el código tal como está hoy. También se pide pronto, en el hilo y no como comentario bloqueante en un PR terminado, que alguien cuestione si un cambio debería existir: escribir código es barato, y no todo lo que se puede construir vale la pena fusionarlo.</p>
+  </section>
+
+  <section class="h">
+    <div class="kick">Cómo mejora el revisor</div>
+    <h2>Cada incidente pasado alimenta un eval diario que mejora al revisor</h2>
+    <p>El revisor de IA es el centro del sistema, así que el equipo lo trata como cualquier modelo que se evalúa. Reunieron <strong>PR pasados que causaron incidentes o reversiones</strong>, confirmados por ingenieros expertos, y ejecutan el revisor contra ese conjunto a diario. Cada cambio de prompts, herramientas o modelo se puntúa contra todos los casos.</p>
+    <p>También miden el ruido: cada comentario se clasifica según la respuesta del autor (arreglado, incorrecto, intencional o irrelevante) y el revisor se prueba sobre PR limpios conocidos. Su prioridad declarada es <strong>primero detectar bugs reales y después reducir rondas</strong>.</p>
+    <figure class="fig">
+<svg class="dg" viewBox="0 0 1680 560" role="img" aria-label="Ciclo: ocurre un incidente, expertos confirman, entra al eval diario y se ajusta el revisor">
+  <rect class="sen-l" x="590" y="20" width="500" height="130" rx="24"/>
+  <rect class="suave" x="1150" y="215" width="500" height="130" rx="24"/>
+  <rect class="suave" x="590" y="410" width="500" height="130" rx="24"/>
+  <rect class="suave" x="30" y="215" width="500" height="130" rx="24"/>
+  <text class="tit" x="620" y="72">1 · Algo falla</text><text class="sec" x="620" y="106">Un incidente o una reversión</text><text class="sec" x="620" y="138">en producción</text>
+  <text class="tit" x="1180" y="267">2 · Expertos confirman</text><text class="sec" x="1180" y="301">La causa y dónde</text><text class="sec" x="1180" y="333">estaba el bug</text>
+  <text class="tit" x="620" y="462">3 · Entra al eval</text><text class="sec" x="620" y="496">El revisor se puntúa cada día</text><text class="sec" x="620" y="528">contra todos los casos</text>
+  <text class="tit" x="60" y="267">4 · Se ajusta</text><text class="sec" x="60" y="301">Prompts, herramientas</text><text class="sec" x="60" y="333">o modelo, medidos en el eval</text>
+  <path class="fle" d="M1090 85 Q1400 85 1400 211"/><path class="fle" d="M1400 349 Q1400 475 1094 475"/><path class="fle" d="M586 475 Q280 475 280 349"/><path class="fle" d="M280 211 Q280 85 586 85"/>
+  <text class="tit c" x="840" y="290" style="font-size:40px">Eval</text><text class="sec c" x="840" y="328">diario</text>
+</svg>
+      <figcaption>El ciclo con el que los fallos reales mejoran al revisor.</figcaption>
+    </figure>
+    <p class="impl"><b>Implicación</b>Un fallo no se corrige solo una vez: queda como caso de prueba para que el revisor no vuelva a cometerlo.</p>
+  </section>
+
+  <section class="h">
+    <div class="kick">El bucle sin fin</div>
+    <h2>Sin límite, autor y revisor de IA se corrigen sin fin; tres rondas lo cortan</h2>
+    <p>Un autor de IA y un revisor de IA pueden pasarse correcciones indefinidamente. Un PR de CLI llegó a <strong>más de cincuenta rondas</strong> durante una noche antes de que su autor lo detuviera. Al revisar con <code class="inl">git blame</code> lo marcado, alrededor del 59 % era código que ya estaba desde la primera pasada del revisor: la revisión daba vueltas sobre lo mismo.</p>
+    <figure class="fig">
+<svg class="dg" viewBox="0 0 1680 520" role="img" aria-label="El autor y el revisor de IA se pasan hallazgos y correcciones hasta un tope de tres rondas; cuatro reglas evitan el bucle">
+  <rect class="suave" x="0" y="40" width="300" height="110" rx="22"/><text class="tit c az-t" x="150" y="106">Autor (IA)</text>
+  <rect class="suave" x="0" y="350" width="300" height="110" rx="22"/><text class="tit c az-t" x="150" y="416">Revisor (IA)</text>
+  <path class="fle" d="M60 154 V346"/><path class="fle" d="M240 346 V154"/>
+  <text class="sec" x="72" y="258">hallazgos</text><text class="sec" x="252" y="258">correcciones</text>
+  <path class="fle fle-s punt" d="M420 245 H486"/>
+  <circle class="sen" cx="570" cy="245" r="64"/><text class="tit c sobre-s" x="570" y="262" style="font-size:52px">3</text>
+  <text class="neg c sen-t" x="570" y="350">Tope de rondas:</text><text class="sec c" x="570" y="382">si no converge,</text><text class="sec c" x="570" y="412">se replantea el enfoque</text>
+  <circle class="az" cx="880" cy="70" r="30"/><text class="tit c sobre" x="880" y="82" style="font-size:30px">1</text>
+  <circle class="az" cx="880" cy="190" r="30"/><text class="tit c sobre" x="880" y="202" style="font-size:30px">2</text>
+  <circle class="az" cx="880" cy="310" r="30"/><text class="tit c sobre" x="880" y="322" style="font-size:30px">3</text>
+  <circle class="az" cx="880" cy="430" r="30"/><text class="tit c sobre" x="880" y="442" style="font-size:30px">4</text>
+  <text class="tit" x="940" y="68" style="font-size:30px">Máximo tres rondas</text><text class="sec" x="940" y="102" style="font-size:24px">Después, se pide reconsiderar el enfoque</text>
+  <text class="tit" x="940" y="188" style="font-size:30px">Solo el diff</text><text class="sec" x="940" y="222" style="font-size:24px">Tras los primeros pases, se re-revisa lo nuevo</text>
+  <text class="tit" x="940" y="308" style="font-size:30px">La clase de bug, no la línea</text><text class="sec" x="940" y="342" style="font-size:24px">Así se corrigen todas las instancias de una vez</text>
+  <text class="tit" x="940" y="428" style="font-size:30px">Sin repetir hallazgos</text><text class="sec" x="940" y="462" style="font-size:24px">Lo ya publicado no se vuelve a comentar</text>
+</svg>
+      <figcaption>Las medidas para que autor y revisor converjan; además se usan agentes de revisión nocturnos sobre código existente.</figcaption>
+    </figure>
+  </section>
+
+  <section class="h">
+    <div class="kick">Resultados</div>
+    <h2>Tras ajustar el revisor, 78 % de los PR se aprueba tras una ronda</h2>
+    <p>Con esas medidas, más PR internos se aprueban a la primera, casi desaparecen los que necesitan cinco o más rondas y baja la media de revisiones hasta aprobar. Aparte, tras lanzar la revisión por IA, la proporción de PR internos con comentarios de revisión sustanciales subió de 16 % a 54 %: la mayoría de los PR de más de mil líneas recibe hallazgos y la mayoría de los pequeños sale limpia.</p>
+    <figure class="fig">
+<svg class="dg" viewBox="0 0 1680 480" role="img" aria-label="Aprobados tras una ronda sube de 65 a 78 por ciento, cinco o más rondas baja de 8,9 a 1,5 por ciento y la media de revisiones baja de 2,08 a 1,32">
+  <circle class="punto-a" cx="1130" cy="20" r="12"/><text class="ten" x="1152" y="29">antes</text>
+  <circle class="punto-d" cx="1290" cy="20" r="14"/><text class="neg az-t" x="1314" y="29" style="font-size:24px">después</text>
+  <text class="tit" x="0" y="130" style="font-size:30px">Aprobados tras una ronda</text>
+  <line class="base" x1="620" y1="120" x2="1500" y2="120"/><text class="ten" x="580" y="129">0</text><text class="ten" x="1524" y="129">100 %</text>
+  <line class="mov" x1="1192" y1="120" x2="1306" y2="120"/><circle class="punto-a" cx="1192" cy="120" r="18"/><circle class="punto-d" cx="1306" cy="120" r="22"/>
+  <text class="ten c" x="1192" y="84">65 %</text><text class="neg c az-t" x="1306" y="178" style="font-size:30px">78 %</text>
+  <text class="tit" x="0" y="290" style="font-size:30px">Necesitan cinco o más rondas</text>
+  <line class="base" x1="620" y1="280" x2="1500" y2="280"/><text class="ten" x="580" y="289">0</text><text class="ten" x="1524" y="289">100 %</text>
+  <line class="mov" x1="633" y1="280" x2="698" y2="280"/><circle class="punto-a" cx="698" cy="280" r="18"/><circle class="punto-d" cx="633" cy="280" r="22"/>
+  <text class="ten c" x="698" y="244">8,9 %</text><text class="neg c az-t" x="633" y="338" style="font-size:30px">1,5 %</text>
+  <text class="tit" x="0" y="450" style="font-size:30px">Revisiones medias para aprobar</text>
+  <line class="base" x1="620" y1="440" x2="1500" y2="440"/><text class="ten" x="580" y="449">0</text><text class="ten" x="1524" y="449">3</text>
+  <line class="mov" x1="1007" y1="440" x2="1230" y2="440"/><circle class="punto-a" cx="1230" cy="440" r="18"/><circle class="punto-d" cx="1007" cy="440" r="22"/>
+  <text class="ten c" x="1230" y="404">2,08</text><text class="neg c az-t" x="1007" y="396" style="font-size:30px">1,32</text>
+</svg>
+      <figcaption>PR internos, antes y después del trabajo de convergencia (cifras declaradas por el equipo).</figcaption>
+    </figure>
+    <p class="impl"><b>Implicación</b>Menos rondas por PR es tiempo humano que no se gasta, y el dato de reversiones de arriba indica que no se pagó con más fallos.</p>
+  </section>
+
+  <section class="h">
+    <div class="kick">Cómo adoptarlo</div>
+    <h2>El artículo propone empezar por cuatro frentes</h2>
+    <p>El artículo cierra con una guía para otros equipos. Es una lista de prácticas, no un único paso:</p>
+    <dl class="fases">
+      <dt>Antes del PR</dt><dd>Dar al agente comprobaciones ejecutables en un <code class="inl">CLAUDE.md</code> corto, hooks de formato y lint, <code class="inl">/code-review</code> y <code class="inl">/security-review</code> locales, y un <code class="inl">REVIEW.md</code> con los comentarios que se repiten.</dd>
+      <dt>En cada PR</dt><dd>Exigir CI, añadir a la plantilla «Testing», «Risk» y «How to revert», activar un revisor de IA en un repo, ajustar <code class="inl">REVIEW.md</code> durante unas semanas, resolver todos los hilos antes de fusionar y limitar las rondas.</dd>
+      <dt>Aprobación</dt><dd>Definir niveles de riesgo según el cambio, proteger con CODEOWNERS y protección de ramas lo sensible (autenticación, facturación, CI, instaladores), no dejar que un bot sustituya a un humano obligatorio y descartar las aprobaciones ante commits nuevos.</dd>
+      <dt>Fusión y después</dt><dd>Merge queue, feature flags, uso interno primero, releases graduales, rollback de un paso y convertir los incidentes en un eval.</dd>
+    </dl>
+  </section>
+
+  <section class="h">
+    <div class="kick">Conclusión</div>
+    <h2>Menos tiempo humano por cambio, sin más reversiones que antes</h2>
+    <p>Esa es la meta que el equipo se pone y la vara con la que mide el sistema. Cuando el revisor falla, no culpan a nadie: preguntan qué le faltaba al modelo y lo incorporan a un <code class="inl">CLAUDE.md</code>, una skill o una comprobación nueva. Su objetivo declarado es ser más rápidos en detectar y corregir problemas, no ir más lentos para cometer menos.</p>
+  </section>
+
+  <section class="h">
+    <div class="kick">Límites</div>
+    <h2>Lo que el artículo no dice</h2>
+    <ul class="nosabemos">
+      <li>De las reversiones da solo la baja relativa, sin las tasas absolutas.</li>
+      <li>No publica las puntuaciones del eval, los umbrales de voto de los verificadores ni el detalle del clasificador de riesgo.</li>
+      <li>No indica los modelos del revisor ni lo que cuesta revisar.</li>
+      <li>No hay «circuit breakers»: si suben las reversiones o los incidentes, la aprobación no se endurece sola; detectar un mal merge depende del autor, el on-call y los paneles.</li>
+      <li>Las cifras las declara el equipo sobre su propio producto.</li>
+    </ul>
+  </section>
+
+  <section class="h">
+    <div class="kick">Fuentes</div>
+    <h2>De dónde sale esto</h2>
+    <ol class="fuentes">
+      <li>Addy Osmani, Morgan Westlee Lunt y Qing Wang, <a href="https://claude.dev/blog/solving-code-review-at-anthropic" target="_blank" rel="noopener">«How the Claude Code team does code review»</a>, <a href="https://claude.dev" target="_blank" rel="noopener">claude.dev/blog</a>, 15 de octubre de 2026 (categoría Engineering, 14 min de lectura). Cifras contrastadas contra el texto de la página.</li>
+      <li>Síntesis, explicaciones, agrupación en tres tramos y diagramas: propios. Las cifras de convergencia son de PR internos.</li>
+    </ol>
+  </section>
+
+  <footer class="pie"><span>Informe generado con la marca JuanFeDS</span><span class="mono">marca v0.6.0 · informe-html</span></footer>
+</main>
+
+<script type="application/json" id="datos">
+{
+  "escala": { "categorias": ["Mayo", "Septiembre"], "valores": [2500, 30000], "resaltar": [1] }
+}
+</script>
+<script data-echarts src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script>
+<script>
+/* Marca v0.6.0. Generado por `python -m marca construir`: no editar a mano.
+   Uso: MarcaGraficos.registrar(echarts);
+   echarts.init(nodo, MarcaGraficos.nombreTema(oscuro)).
+   El tema independiente de librería está en MarcaGraficos.tema. */
+(function (global) {
+  "use strict";
+  var TEMA = {
+  "paletas": {
+    "categorica": [
+      "#2a5dfa",
+      "#ffbc36",
+      "#4eccd3",
+      "#d13d91",
+      "#bd7fe8",
+      "#137738",
+      "#d24c49",
+      "#53be70"
+    ],
+    "seriesFiables": 6,
+    "secuencial": [
+      "#dde8ff",
+      "#c0d4ff",
+      "#99baff",
+      "#6e9aff",
+      "#487bff",
+      "#1842d2",
+      "#041783"
+    ],
+    "divergente": [
+      "#1842d2",
+      "#487bff",
+      "#99baff",
+      "#e1e8f7",
+      "#f5aa00",
+      "#b97600",
+      "#7d4c00"
+    ]
+  },
+  "modos": {
+    "claro": {
+      "fondo": "#f7faff",
+      "superficie": "#ffffff",
+      "elevado": "#eff5ff",
+      "texto": "#282e39",
+      "textoSecundario": "#505868",
+      "textoTenue": "#666f80",
+      "borde": "#ccd4e6",
+      "bordeFuerte": "#7d8699",
+      "cuadricula": "#ccd4e6",
+      "resalte": "#285bf5",
+      "senal": "#bb78fe",
+      "apagado": "#959fb1",
+      "estados": {
+        "exito": "#006b2d",
+        "aviso": "#894400",
+        "error": "#a21921",
+        "info": "#005ca0"
+      }
+    },
+    "oscuro": {
+      "fondo": "#071027",
+      "superficie": "#0e1629",
+      "elevado": "#1a2438",
+      "texto": "#eff5ff",
+      "textoSecundario": "#b2bbcd",
+      "textoTenue": "#8a92a4",
+      "borde": "#262e3d",
+      "bordeFuerte": "#7d8699",
+      "cuadricula": "#262e3d",
+      "resalte": "#6e9aff",
+      "senal": "#bb78fe",
+      "apagado": "#666f80",
+      "estados": {
+        "exito": "#7cd591",
+        "aviso": "#f9ad00",
+        "error": "#ff8d85",
+        "info": "#68c6ff"
+      }
+    }
+  },
+  "tipografia": {
+    "familia": {
+      "titulares": "\"Bricolage Grotesque\", \"Bricolage Grotesque Variable\", system-ui, sans-serif",
+      "cuerpo": "\"Plus Jakarta Sans\", \"Plus Jakarta Sans Variable\", system-ui, sans-serif",
+      "mono": "\"JetBrains Mono\", ui-monospace, monospace"
+    },
+    "tamano": {
+      "2xs": 10.24,
+      "xs": 12.8,
+      "base": 16,
+      "lg": 20.0,
+      "xl": 25.0
+    },
+    "peso": {
+      "normal": 400,
+      "seminegrita": 600,
+      "extranegrita": 800
+    }
+  },
+  "trazo": {
+    "linea": 3,
+    "punto": 6,
+    "borde": 1,
+    "radioBarra": 4.0
+  },
+  "margenes": {
+    "arriba": 48,
+    "derecha": 40.0,
+    "abajo": 40.0,
+    "izquierda": 48
+  },
+  "animacion": {
+    "entrada": 900,
+    "media": 300,
+    "escalonado": 70,
+    "curvaEntrada": [
+      0.2,
+      0.8,
+      0.2,
+      1
+    ]
+  }
+};
+  var TEMAS = {
+  "claro": {
+    "color": [
+      "#2a5dfa",
+      "#ffbc36",
+      "#4eccd3",
+      "#d13d91",
+      "#bd7fe8",
+      "#137738",
+      "#d24c49",
+      "#53be70"
+    ],
+    "backgroundColor": "transparent",
+    "textStyle": {
+      "fontFamily": "\"Plus Jakarta Sans\", \"Plus Jakarta Sans Variable\", system-ui, sans-serif",
+      "color": "#505868",
+      "fontSize": 12.8
+    },
+    "title": {
+      "textStyle": {
+        "fontFamily": "\"Bricolage Grotesque\", \"Bricolage Grotesque Variable\", system-ui, sans-serif",
+        "fontWeight": 800,
+        "color": "#282e39",
+        "fontSize": 20.0
+      },
+      "subtextStyle": {
+        "color": "#505868",
+        "fontFamily": "\"Plus Jakarta Sans\", \"Plus Jakarta Sans Variable\", system-ui, sans-serif"
+      }
+    },
+    "legend": {
+      "textStyle": {
+        "color": "#505868"
+      }
+    },
+    "tooltip": {
+      "backgroundColor": "#eff5ff",
+      "borderColor": "#7d8699",
+      "borderWidth": 1,
+      "textStyle": {
+        "color": "#282e39",
+        "fontFamily": "\"Plus Jakarta Sans\", \"Plus Jakarta Sans Variable\", system-ui, sans-serif"
+      },
+      "extraCssText": "box-shadow:none;"
+    },
+    "line": {
+      "lineStyle": {
+        "width": 3
+      },
+      "symbol": "circle",
+      "symbolSize": 6,
+      "smooth": false
+    },
+    "visualMap": {
+      "color": [
+        "#041783",
+        "#1842d2",
+        "#487bff",
+        "#6e9aff",
+        "#99baff",
+        "#c0d4ff",
+        "#dde8ff"
+      ]
+    },
+    "animation": true,
+    "animationDuration": 900,
+    "animationDurationUpdate": 300,
+    "animationEasing": "quarticOut",
+    "categoryAxis": {
+      "axisLine": {
+        "show": true,
+        "lineStyle": {
+          "color": "#ccd4e6"
+        }
+      },
+      "axisTick": {
+        "show": false
+      },
+      "axisLabel": {
+        "color": "#505868"
+      },
+      "splitLine": {
+        "show": false,
+        "lineStyle": {
+          "color": "#ccd4e6"
+        }
+      },
+      "nameTextStyle": {
+        "color": "#505868"
+      }
+    },
+    "valueAxis": {
+      "axisLine": {
+        "show": true,
+        "lineStyle": {
+          "color": "#ccd4e6"
+        }
+      },
+      "axisTick": {
+        "show": false
+      },
+      "axisLabel": {
+        "color": "#505868"
+      },
+      "splitLine": {
+        "show": true,
+        "lineStyle": {
+          "color": "#ccd4e6"
+        }
+      },
+      "nameTextStyle": {
+        "color": "#505868"
+      }
+    },
+    "logAxis": {
+      "axisLine": {
+        "show": true,
+        "lineStyle": {
+          "color": "#ccd4e6"
+        }
+      },
+      "axisTick": {
+        "show": false
+      },
+      "axisLabel": {
+        "color": "#505868"
+      },
+      "splitLine": {
+        "show": true,
+        "lineStyle": {
+          "color": "#ccd4e6"
+        }
+      },
+      "nameTextStyle": {
+        "color": "#505868"
+      }
+    },
+    "timeAxis": {
+      "axisLine": {
+        "show": true,
+        "lineStyle": {
+          "color": "#ccd4e6"
+        }
+      },
+      "axisTick": {
+        "show": false
+      },
+      "axisLabel": {
+        "color": "#505868"
+      },
+      "splitLine": {
+        "show": true,
+        "lineStyle": {
+          "color": "#ccd4e6"
+        }
+      },
+      "nameTextStyle": {
+        "color": "#505868"
+      }
+    }
+  },
+  "oscuro": {
+    "color": [
+      "#2a5dfa",
+      "#ffbc36",
+      "#4eccd3",
+      "#d13d91",
+      "#bd7fe8",
+      "#137738",
+      "#d24c49",
+      "#53be70"
+    ],
+    "backgroundColor": "transparent",
+    "textStyle": {
+      "fontFamily": "\"Plus Jakarta Sans\", \"Plus Jakarta Sans Variable\", system-ui, sans-serif",
+      "color": "#b2bbcd",
+      "fontSize": 12.8
+    },
+    "title": {
+      "textStyle": {
+        "fontFamily": "\"Bricolage Grotesque\", \"Bricolage Grotesque Variable\", system-ui, sans-serif",
+        "fontWeight": 800,
+        "color": "#eff5ff",
+        "fontSize": 20.0
+      },
+      "subtextStyle": {
+        "color": "#b2bbcd",
+        "fontFamily": "\"Plus Jakarta Sans\", \"Plus Jakarta Sans Variable\", system-ui, sans-serif"
+      }
+    },
+    "legend": {
+      "textStyle": {
+        "color": "#b2bbcd"
+      }
+    },
+    "tooltip": {
+      "backgroundColor": "#1a2438",
+      "borderColor": "#7d8699",
+      "borderWidth": 1,
+      "textStyle": {
+        "color": "#eff5ff",
+        "fontFamily": "\"Plus Jakarta Sans\", \"Plus Jakarta Sans Variable\", system-ui, sans-serif"
+      },
+      "extraCssText": "box-shadow:none;"
+    },
+    "line": {
+      "lineStyle": {
+        "width": 3
+      },
+      "symbol": "circle",
+      "symbolSize": 6,
+      "smooth": false
+    },
+    "visualMap": {
+      "color": [
+        "#041783",
+        "#1842d2",
+        "#487bff",
+        "#6e9aff",
+        "#99baff",
+        "#c0d4ff",
+        "#dde8ff"
+      ]
+    },
+    "animation": true,
+    "animationDuration": 900,
+    "animationDurationUpdate": 300,
+    "animationEasing": "quarticOut",
+    "categoryAxis": {
+      "axisLine": {
+        "show": true,
+        "lineStyle": {
+          "color": "#262e3d"
+        }
+      },
+      "axisTick": {
+        "show": false
+      },
+      "axisLabel": {
+        "color": "#b2bbcd"
+      },
+      "splitLine": {
+        "show": false,
+        "lineStyle": {
+          "color": "#262e3d"
+        }
+      },
+      "nameTextStyle": {
+        "color": "#b2bbcd"
+      }
+    },
+    "valueAxis": {
+      "axisLine": {
+        "show": true,
+        "lineStyle": {
+          "color": "#262e3d"
+        }
+      },
+      "axisTick": {
+        "show": false
+      },
+      "axisLabel": {
+        "color": "#b2bbcd"
+      },
+      "splitLine": {
+        "show": true,
+        "lineStyle": {
+          "color": "#262e3d"
+        }
+      },
+      "nameTextStyle": {
+        "color": "#b2bbcd"
+      }
+    },
+    "logAxis": {
+      "axisLine": {
+        "show": true,
+        "lineStyle": {
+          "color": "#262e3d"
+        }
+      },
+      "axisTick": {
+        "show": false
+      },
+      "axisLabel": {
+        "color": "#b2bbcd"
+      },
+      "splitLine": {
+        "show": true,
+        "lineStyle": {
+          "color": "#262e3d"
+        }
+      },
+      "nameTextStyle": {
+        "color": "#b2bbcd"
+      }
+    },
+    "timeAxis": {
+      "axisLine": {
+        "show": true,
+        "lineStyle": {
+          "color": "#262e3d"
+        }
+      },
+      "axisTick": {
+        "show": false
+      },
+      "axisLabel": {
+        "color": "#b2bbcd"
+      },
+      "splitLine": {
+        "show": true,
+        "lineStyle": {
+          "color": "#262e3d"
+        }
+      },
+      "nameTextStyle": {
+        "color": "#b2bbcd"
+      }
+    }
+  }
+};
+  function reducirMovimiento() {
+    return global.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  }
+  function registrar(echarts) {
+    echarts.registerTheme("marca-claro", TEMAS.claro);
+    echarts.registerTheme("marca-oscuro", TEMAS.oscuro);
+  }
+  function nombreTema(oscuro) {
+    return oscuro ? "marca-oscuro" : "marca-claro";
+  }
+  function opciones(base) {
+    var resultado = Object.assign({}, base);
+    if (reducirMovimiento()) {
+      resultado.animation = false;
+    } else {
+      resultado.animationDelay = function (indice) {
+        return indice * TEMA.animacion.escalonado;
+      };
+    }
+    return resultado;
+  }
+  global.MarcaGraficos = {
+    tema: TEMA, temas: TEMAS, registrar: registrar,
+    nombreTema: nombreTema, opciones: opciones
+  };
+})(window);
+</script>
+<script>
+const datos = JSON.parse(document.getElementById('datos').textContent);
+const raiz = document.documentElement;
+const formato = new Intl.NumberFormat('es', { useGrouping: 'always' });
+const reducir = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const hayGraficos = typeof echarts !== 'undefined';
+if (hayGraficos) MarcaGraficos.registrar(echarts);
+const graficos = new Map();
+let sinAnimar = false;
+
+function fijarModo(oscuro) {
+  raiz.classList.toggle('dark', oscuro);
+  raiz.setAttribute('data-theme', oscuro ? 'dark' : 'light');
+  graficos.forEach((creador, id) => dibujar(id, creador));
+}
+document.getElementById('modo').addEventListener('click', () => fijarModo(!raiz.classList.contains('dark')));
+fijarModo(location.hash === '#oscuro' || (location.hash !== '#claro' && matchMedia('(prefers-color-scheme: dark)').matches));
+
+function opcionBarras(modo, clave = 'escala') {
+  const margen = MarcaGraficos.tema.margenes;
+  const { categorias, valores, resaltar } = datos[clave];
+  return {
+    grid: { top: 8, right: margen.derecha * 1.5, bottom: 8, left: 8, containLabel: true },
+    xAxis: { type: 'value', show: false, splitLine: { show: false } },
+    yAxis: { type: 'category', inverse: true, data: categorias, axisLine: { show: false }, axisLabel: { color: modo.texto, fontSize: 14 } },
+    series: [{ type: 'bar', barWidth: '58%', itemStyle: { borderRadius: [0, MarcaGraficos.tema.trazo.radioBarra, MarcaGraficos.tema.trazo.radioBarra, 0] }, data: valores.map((valor, i) => ({ value: valor, itemStyle: { color: resaltar.includes(i) ? modo.resalte : modo.apagado } })),
+      label: { show: true, position: 'right', color: modo.texto, fontFamily: MarcaGraficos.tema.tipografia.familia.mono, formatter: p => formato.format(p.value) } }],
+    tooltip: { trigger: 'item', formatter: p => `${p.name}: <b>${formato.format(p.value)}</b>` }
+  };
+}
+
+function dibujar(id, creador) {
+  if (!hayGraficos) return;
+  const nodo = document.getElementById(id);
+  if (graficos.get(id) && graficos.get(id).instancia) graficos.get(id).instancia.dispose();
+  const oscuro = raiz.classList.contains('dark');
+  const instancia = echarts.init(nodo, MarcaGraficos.nombreTema(oscuro), { renderer: 'svg' });
+  const opciones = MarcaGraficos.opciones(creador(MarcaGraficos.tema.modos[oscuro ? 'oscuro' : 'claro']));
+  if (sinAnimar) opciones.animation = false;
+  instancia.setOption(opciones);
+  graficos.set(id, creador);
+  graficos.get(id).instancia = instancia;
+}
+const CREADORES = { 'fig-escala': opcionBarras };
+
+document.getElementById('tabla-escala').innerHTML = '<thead><tr><th>Mes</th><th>Cambios diarios</th></tr></thead><tbody>' +
+  datos.escala.categorias.map((c, i) => `<tr><td>${c}</td><td>${formato.format(datos.escala.valores[i])}</td></tr>`).join('') + '</tbody>';
+
+document.querySelectorAll('section.h > *:not(figure)').forEach(nodo => nodo.classList.add('rev'));
+const vigilante = new IntersectionObserver(entradas => entradas.forEach(entrada => {
+  if (!entrada.isIntersecting) return;
+  entrada.target.classList.add('in'); vigilante.unobserve(entrada.target);
+  entrada.target.querySelectorAll('.n[data-hasta]').forEach(contar);
+}), { threshold: .15, rootMargin: '0px 0px -15% 0px' });
+document.querySelectorAll('.rev').forEach(nodo => vigilante.observe(nodo));
+const vigilanteGraficos = new IntersectionObserver(entradas => entradas.forEach(entrada => {
+  if (!entrada.isIntersecting) return;
+  vigilanteGraficos.unobserve(entrada.target); dibujar(entrada.target.id, CREADORES[entrada.target.id]);
+}), { threshold: .85, rootMargin: '0px 0px -8% 0px' });
+document.querySelectorAll('.lienzo').forEach(lienzo => vigilanteGraficos.observe(lienzo));
+if (!hayGraficos) document.querySelectorAll('details.tabla').forEach(detalle => { detalle.open = true; });
+
+function contar(nodo) {
+  const hasta = +nodo.dataset.hasta; const pre = nodo.dataset.prefijo || ''; const suf = nodo.dataset.sufijo || '';
+  if (reducir) { nodo.textContent = pre + formato.format(hasta) + suf; return; }
+  const duracion = MarcaGraficos.tema.animacion.entrada; const inicio = performance.now();
+  const paso = ahora => { const avance = Math.min(Math.max((ahora - inicio) / duracion, 0), 1);
+    nodo.textContent = pre + formato.format(Math.round(hasta * (1 - Math.pow(1 - avance, 4)))) + suf; if (avance < 1) requestAnimationFrame(paso); };
+  requestAnimationFrame(paso);
+}
+
+let modoPrevio = null;
+addEventListener('beforeprint', () => {
+  modoPrevio = raiz.classList.contains('dark'); sinAnimar = true;
+  document.querySelectorAll('.rev').forEach(nodo => nodo.classList.add('in'));
+  document.querySelectorAll('.lienzo').forEach(lienzo => { if (!graficos.has(lienzo.id)) dibujar(lienzo.id, CREADORES[lienzo.id]); });
+  document.querySelectorAll('details.tabla').forEach(d => { d.open = true; });
+  fijarModo(false);
+});
+addEventListener('afterprint', () => { sinAnimar = false; if (modoPrevio) fijarModo(true); });
+addEventListener('resize', () => graficos.forEach(creador => creador.instancia && creador.instancia.resize()));
+</script>
+<script>
+(function () {
+  /* ↓ → recorre la sección por pantallas y, al ver su final, salta a la siguiente. ↑ ← hace lo inverso. */
+  var puntos = Array.prototype.slice.call(document.querySelectorAll('header.fondo, .kpis, section.h'));
+  if (!puntos.length) return;
+  var cuenta = document.getElementById('sec-cuenta');
+  var reducir = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var suavidad = reducir ? 'auto' : 'smooth';
+  var MARGEN = 16, PASO = 0.85;
+  function actual() {
+    var umbral = window.innerHeight * 0.35, indice = 0;
+    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) return puntos.length - 1;
+    puntos.forEach(function (nodo, i) { if (nodo.getBoundingClientRect().top <= umbral) indice = i; });
+    return indice;
+  }
+  function pintar() { cuenta.textContent = (actual() + 1) + ' / ' + puntos.length; }
+  function bajar() {
+    var vh = window.innerHeight, i = actual(), caja = puntos[i].getBoundingClientRect();
+    if (caja.bottom > vh + 24) {
+      window.scrollBy({ top: Math.min(vh * PASO, caja.bottom - vh + MARGEN), behavior: suavidad });
+      return;
+    }
+    var siguiente = puntos[i + 1];
+    if (siguiente) siguiente.scrollIntoView({ behavior: suavidad, block: 'start' });
+    else window.scrollTo({ top: document.documentElement.scrollHeight, behavior: suavidad });
+  }
+  function subir() {
+    var vh = window.innerHeight, i = actual(), caja = puntos[i].getBoundingClientRect();
+    if (caja.top < -12) {
+      window.scrollBy({ top: -Math.min(vh * PASO, -caja.top), behavior: suavidad });
+      return;
+    }
+    var previo = puntos[i - 1];
+    if (!previo) { window.scrollTo({ top: 0, behavior: suavidad }); return; }
+    var cajaPrevia = previo.getBoundingClientRect();
+    if (cajaPrevia.height > vh * 0.9) window.scrollBy({ top: cajaPrevia.bottom - vh + MARGEN, behavior: suavidad });
+    else previo.scrollIntoView({ behavior: suavidad, block: 'start' });
+  }
+  document.addEventListener('keydown', function (evento) {
+    if (evento.defaultPrevented || evento.altKey || evento.ctrlKey || evento.metaKey || evento.shiftKey) return;
+    var foco = evento.target;
+    if (foco && foco.closest && foco.closest('input, textarea, select, pre, [contenteditable]')) return;
+    if (evento.key === 'ArrowDown' || evento.key === 'ArrowRight') { evento.preventDefault(); bajar(); }
+    else if (evento.key === 'ArrowUp' || evento.key === 'ArrowLeft') { evento.preventDefault(); subir(); }
+  });
+  document.getElementById('sec-sig').addEventListener('click', bajar);
+  document.getElementById('sec-ant').addEventListener('click', subir);
+  var pendiente = false;
+  addEventListener('scroll', function () { if (!pendiente) { pendiente = true; requestAnimationFrame(function () { pendiente = false; pintar(); }); } }, { passive: true });
+  addEventListener('resize', pintar);
+  pintar();
+})();
+</script>
+<script>
+(function () {
+  document.querySelectorAll('figure.fig > svg.dg').forEach(function (svg) {
+    var envoltura = document.createElement('div');
+    envoltura.className = 'desliza';
+    var aviso = document.createElement('div');
+    aviso.className = 'desliza-aviso';
+    aviso.textContent = 'Desliza el diagrama →';
+    svg.parentNode.insertBefore(aviso, svg);
+    svg.parentNode.insertBefore(envoltura, svg);
+    envoltura.appendChild(svg);
+    envoltura.addEventListener('scroll', function () { aviso.classList.add('oculto'); }, { passive: true, once: true });
+  });
+})();
+</script>
+</body>
+</html>

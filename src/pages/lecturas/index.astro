@@ -1,0 +1,94 @@
+---
+import { getCollection } from "astro:content";
+import PageLayout from "../../layouts/PageLayout.astro";
+import SectionHero from "../../components/SectionHero.astro";
+import TagPills from "../../components/TagPills.astro";
+
+const lecturas = (await getCollection("lecturas"))
+  .filter((lectura) => !lectura.data.draft)
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
+
+const formatDate = (date: string) =>
+  new Date(date).toLocaleDateString("es-ES", { year: "numeric", month: "long", day: "numeric", timeZone: "UTC" });
+---
+
+<PageLayout
+  title="Lecturas"
+  description="Informes y síntesis de lecturas que me parecieron valiosas, listos para consultar y compartir."
+>
+  <SectionHero eyebrow="Biblioteca" title="Lecturas" width="3xl">
+    Síntesis de artículos y textos que vale la pena releer. Cada informe se abre solo y trae su PDF.
+  </SectionHero>
+
+  <div class="mx-auto max-w-3xl px-6 pb-16">
+    {lecturas.length === 0 ? (
+      <p class="text-texto-secundario">Próximamente...</p>
+    ) : (
+      <ol class="flex flex-col">
+        {lecturas.map((lectura) => (
+          <li class="lectura-item">
+            <TagPills tags={lectura.data.tags} />
+            <h2 class="lectura-title font-titulares text-texto-principal">
+              <a href={`/lecturas/${lectura.id}/`}>{lectura.data.title}</a>
+            </h2>
+            <p class="lectura-desc text-texto-secundario">{lectura.data.description}</p>
+            <p class="lectura-meta text-texto-secundario">
+              <time datetime={lectura.data.date}>{formatDate(lectura.data.date)}</time>
+              {lectura.data.reading_minutes && <span>· {lectura.data.reading_minutes} min de lectura</span>}
+              <span>·
+                <a href={lectura.data.source_url} target="_blank" rel="noopener">{lectura.data.source_title}</a>
+              </span>
+              {lectura.data.pdf && (
+                <span>· <a href={`/lecturas/${lectura.id}/${lectura.id}.pdf`}>PDF</a></span>
+              )}
+            </p>
+          </li>
+        ))}
+      </ol>
+    )}
+  </div>
+</PageLayout>
+
+<style>
+  .lectura-item {
+    padding-top: 2.5rem;
+    margin-top: 2.5rem;
+    border-top: 1px solid var(--marca-borde-suave);
+  }
+  .lectura-item:first-child {
+    padding-top: 0;
+    margin-top: 0;
+    border-top: 0;
+  }
+  .lectura-title {
+    margin-top: 0.6rem;
+    font-size: 1.35rem;
+    font-weight: 700;
+    line-height: 1.25;
+  }
+  .lectura-title a { text-decoration: none; }
+  .lectura-title a:hover { text-decoration: underline; text-underline-offset: 4px; }
+  .lectura-title a:focus-visible,
+  .lectura-meta a:focus-visible {
+    outline: 2px solid var(--marca-foco-anillo);
+    outline-offset: 3px;
+    border-radius: 0.25rem;
+  }
+  .lectura-desc {
+    margin-top: 0.4rem;
+    font-size: 0.95rem;
+    line-height: 1.55;
+  }
+  .lectura-meta {
+    margin-top: 0.75rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+  }
+  .lectura-meta a {
+    color: var(--marca-marca-texto);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+</style>
