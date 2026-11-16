@@ -59,6 +59,7 @@ const informe = `/lecturas/${lectura.id}/informe.html`;
     display: block;
     width: 100%;
     min-height: 100vh;
+    margin-top: -5rem;
     border: 0;
   }
 </style>
@@ -87,6 +88,11 @@ const informe = `/lecturas/${lectura.id}/informe.html`;
     const estilo = doc.createElement("style");
     estilo.textContent = "#modo { display: none !important; }";
     doc.head.appendChild(estilo);
+
+    const encabezado = doc.querySelector<HTMLElement>("header.fondo");
+    if (encabezado) {
+      encabezado.style.paddingTop = `calc(${getComputedStyle(encabezado).paddingTop} + 5rem)`;
+    }
 
     sincronizarTema(doc);
     ajustarAltura(doc);
