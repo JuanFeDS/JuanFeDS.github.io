@@ -66,9 +66,12 @@ const informe = `/lecturas/${lectura.id}/informe.html`;
     frame.style.height = `${doc.documentElement.scrollHeight}px`;
   }
 
-  frame.addEventListener("load", () => {
+  let iniciado: Document | null = null;
+
+  function iniciar() {
     const doc = frame.contentDocument;
-    if (!doc) return;
+    if (!doc || doc.readyState !== "complete" || iniciado === doc) return;
+    iniciado = doc;
 
     const estilo = doc.createElement("style");
     estilo.textContent = "#modo { display: none !important; }";
@@ -82,5 +85,8 @@ const informe = `/lecturas/${lectura.id}/informe.html`;
       attributes: true,
       attributeFilter: ["class"],
     });
-  });
+  }
+
+  frame.addEventListener("load", iniciar);
+  iniciar();
 </script>
