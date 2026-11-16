@@ -1,7 +1,7 @@
 {
   "name": "portafolio",
   "type": "module",
-  "version": "1.4.1",
+  "version": "1.5.0",
   "engines": {
     "node": ">=22.12.0"
   },
@@ -10,6 +10,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
+    "lecturas:sync": "node scripts/sync-lecturas.mjs",
     "astro": "astro"
   },
   "dependencies": {

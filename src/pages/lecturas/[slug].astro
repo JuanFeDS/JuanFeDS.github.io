@@ -1,0 +1,109 @@
+---
+import { getCollection } from "astro:content";
+import PageLayout from "../../layouts/PageLayout.astro";
+
+export async function getStaticPaths() {
+  const lecturas = (await getCollection("lecturas")).filter((lectura) => !lectura.data.draft);
+  return lecturas.map((lectura) => ({ params: { slug: lectura.id }, props: { lectura } }));
+}
+
+const { lectura } = Astro.props;
+const { title, description, pdf } = lectura.data;
+const informe = `/lecturas/${lectura.id}/informe.html`;
+---
+
+<PageLayout title={title} description={description}>
+  {pdf && (
+    <div class="flotante">
+      <a href={`/lecturas/${lectura.id}/${lectura.id}.pdf`} class="pill" download>Descargar PDF</a>
+    </div>
+  )}
+
+  <iframe id="informe" src={informe} title={title} class="informe-frame" scrolling="no"></iframe>
+</PageLayout>
+
+<style>
+  .flotante {
+    position: sticky;
+    top: 5.5rem;
+    z-index: 10;
+    height: 0;
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 1.5rem;
+    pointer-events: none;
+  }
+  .pill {
+    pointer-events: auto;
+    align-self: flex-start;
+    padding: 0.4rem 1rem;
+    border-radius: 9999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    border: 1px solid var(--marca-borde-suave);
+    background: var(--marca-fondo-elevado);
+    color: var(--marca-texto-secundario);
+    text-decoration: none;
+    box-shadow: 0 2px 10px rgb(0 0 0 / 0.12);
+    transition: all 0.15s;
+  }
+  .pill:hover {
+    border-color: var(--marca-marca-texto);
+    color: var(--marca-marca-texto);
+  }
+  .pill:focus-visible {
+    outline: 2px solid var(--marca-foco-anillo);
+    outline-offset: 3px;
+  }
+  .informe-frame {
+    display: block;
+    width: 100%;
+    min-height: 100vh;
+    margin-top: -5rem;
+    border: 0;
+  }
+</style>
+
+<script>
+  const frame = document.getElementById("informe") as HTMLIFrameElement;
+  const raiz = document.documentElement;
+
+  function sincronizarTema(doc: Document) {
+    const oscuroSitio = raiz.classList.contains("dark");
+    const oscuroInforme = doc.documentElement.classList.contains("dark");
+    if (oscuroSitio !== oscuroInforme) doc.getElementById("modo")?.click();
+  }
+
+  function ajustarAltura(doc: Document) {
+    frame.style.height = `${doc.documentElement.scrollHeight}px`;
+  }
+
+  let iniciado: Document | null = null;
+
+  function iniciar() {
+    const doc = frame.contentDocument;
+    if (!doc || doc.readyState !== "complete" || iniciado === doc) return;
+    iniciado = doc;
+
+    const estilo = doc.createElement("style");
+    estilo.textContent = "#modo { display: none !important; }";
+    doc.head.appendChild(estilo);
+
+    const encabezado = doc.querySelector<HTMLElement>("header.fondo");
+    if (encabezado) {
+      encabezado.style.paddingTop = `calc(${getComputedStyle(encabezado).paddingTop} + 5rem)`;
+    }
+
+    sincronizarTema(doc);
+    ajustarAltura(doc);
+
+    new ResizeObserver(() => ajustarAltura(doc)).observe(doc.body);
+    new MutationObserver(() => sincronizarTema(doc)).observe(raiz, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+  }
+
+  frame.addEventListener("load", iniciar);
+  iniciar();
+</script>
