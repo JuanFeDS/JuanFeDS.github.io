@@ -8,32 +8,43 @@ export async function getStaticPaths() {
 }
 
 const { lectura } = Astro.props;
-const { title, description, source_title, source_url, pdf } = lectura.data;
+const { title, description, pdf } = lectura.data;
 const informe = `/lecturas/${lectura.id}/informe.html`;
 ---
 
 <PageLayout title={title} description={description}>
-  <div class="barra mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-3 px-6 py-4">
-    <a href="/lecturas/" class="pill">← Lecturas</a>
-    <div class="flex flex-wrap items-center gap-2">
-      <a href={source_url} target="_blank" rel="noopener" class="pill" title={source_title}>Fuente original ↗</a>
-      {pdf && <a href={`/lecturas/${lectura.id}/${lectura.id}.pdf`} class="pill">Descargar PDF</a>}
-      <a href={informe} class="pill">Abrir solo</a>
+  {pdf && (
+    <div class="flotante">
+      <a href={`/lecturas/${lectura.id}/${lectura.id}.pdf`} class="pill" download>Descargar PDF</a>
     </div>
-  </div>
+  )}
 
   <iframe id="informe" src={informe} title={title} class="informe-frame" scrolling="no"></iframe>
 </PageLayout>
 
 <style>
+  .flotante {
+    position: sticky;
+    top: 5.5rem;
+    z-index: 10;
+    height: 0;
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 1.5rem;
+    pointer-events: none;
+  }
   .pill {
-    padding: 0.3rem 0.9rem;
+    pointer-events: auto;
+    align-self: flex-start;
+    padding: 0.4rem 1rem;
     border-radius: 9999px;
-    font-size: 0.78rem;
-    font-weight: 500;
+    font-size: 0.8rem;
+    font-weight: 600;
     border: 1px solid var(--marca-borde-suave);
+    background: var(--marca-fondo-elevado);
     color: var(--marca-texto-secundario);
     text-decoration: none;
+    box-shadow: 0 2px 10px rgb(0 0 0 / 0.12);
     transition: all 0.15s;
   }
   .pill:hover {
